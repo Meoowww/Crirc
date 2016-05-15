@@ -3,18 +3,25 @@ require "./client/*"
 module CrystalIrc
 
   class Client
-    include CrystalIrc::Client::Connect
-    include CrystalIrc::Client::Ping
-    include CrystalIrc::Client::Command::Chan
-    include CrystalIrc::Client::Command::User
-    include CrystalIrc::Client::Command::Talk
 
-    @nick : String
-    @ip   : String
-    @port : UInt16
-    @ssl  : Bool
+    @nick   : String
+    @ip     : String
+    @port   : UInt16
+    @ssl    : Bool
+    @socket : TCPSocket?
+
+    getter nick, ip, port, ssl, socket
 
     def initialize(@nick, @ip, @port, @ssl = true)
+    end
+
+    def connect
+      @socket = CrystalIrc::Client::Connect.start(nick: @nick, ip: @ip, port: @port, ssl: @ssl)
+    end
+
+    def send(to, message)
+      raise NoConnection.new "Socket is not set. Use connect(...) before." unless @socket
+      socket.puts("#{to} #{message}")
     end
   end
 

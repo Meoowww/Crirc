@@ -1,5 +1,8 @@
+require "socket"
 require "./CrystalIrc/*"
 
 module CrystalIrc
-  class NotImplemented < Exception; end
+  class IrcError < Exception; end
+  class NotImplemented < IrcError; end
+  class NoConnection < IrcError; end
 end
