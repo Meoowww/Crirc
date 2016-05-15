@@ -3,14 +3,10 @@ module CrystalIrc
   class User
 
     @name   : String
-    @client : CrystalIrc::Client
 
-    def initialize(@name, @client)
+    def initialize(@name)
     end
 
-    def send(message : String)
-      @client.puts(@name, message)
-    end
   end
 
 end

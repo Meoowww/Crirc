@@ -30,11 +30,15 @@ module CrystalIrc
       @irc_server ||= "*"
     end
 
+    # The client has to call connect() before using socket.
+    # If the socket is not setup, it will rase a NoConnection error
     def socket : TCPSocket
       raise NoConnection.new "Socket is not set. Use connect(...) before." unless @socket
       @socket as TCPSocket
     end
 
+    # Send a raw message to the socket. It should be a valid command
+    # TODO: handle too large messages
     def send_raw(raw : String)
       socket.puts raw
     end
