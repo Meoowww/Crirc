@@ -23,7 +23,11 @@ module CrystalIrc
 
     getter nick, ip, port, ssl, user, realname, domain, pass, irc_server
 
-    def initialize(@nick, @ip, @port, @ssl = true)
+    def initialize(@nick, @ip, @port, @ssl = true, @user = nil, @realname = nil, @domain = nil, @pass = nil, @irc_server = nil)
+      @user ||= nick
+      @realname ||= nick
+      @domain ||= "0"
+      @irc_server ||= "*"
     end
 
     def socket : TCPSocket

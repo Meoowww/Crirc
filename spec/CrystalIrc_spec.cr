@@ -12,5 +12,7 @@ describe CrystalIrc do
     cli.should be_a(CrystalIrc::Client)
     s = cli.connect
     s.should be_a(TCPSocket)
+    s.read_timeout = 1
+    10.times {s.gets}
   end
 end
