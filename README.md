@@ -1,6 +1,6 @@
 # CrystalIrc
 
-A crystal lib for irc connection
+A crystal lib for irc client
 
 ## Installation
 
