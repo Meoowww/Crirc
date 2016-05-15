@@ -7,6 +7,7 @@ module CrystalIrc
     include CrystalIrc::Client::Ping
     include CrystalIrc::Client::Command::Chan
     include CrystalIrc::Client::Command::User
+    include CrystalIrc::Client::Command::Talk
 
     @nick : String
     @ip   : String
