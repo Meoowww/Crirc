@@ -3,14 +3,11 @@ module CrystalIrc
     module Command
 
       module Chan
+        # Format the chans to join: #chan1,#chan2
         def format_chans(chans : Array(Chan))
-          # Format the chans to join: #chan1,#chan2
-          formatted = ""
-          chans.each do |c|
-            formatted += c.name + ","
-          end
-          formatted = formatted.chomp(",")
-          formatted
+          chans do |c|
+            c.name
+          end.to_a.join(",")
         end
 
         def join(chans : Array(Chan), passwords : Array(String) = [""])
