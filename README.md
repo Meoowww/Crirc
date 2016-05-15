@@ -4,13 +4,14 @@ A crystal lib for irc client
 
 ## Installation
 
+![travis](https://travis-ci.org/Meoowww/CrystalIrc.svg)
 
 Add this to your application's `shard.yml`:
 
 ```yaml
 dependencies:
   CrystalIrc:
-    github: Nephos/CrystalIrc
+    github: Meoowww/CrystalIrc
 ```
 
 
@@ -38,4 +39,4 @@ TODO: Write development instructions here
 
 ## Contributors
 
-- [pouleta](https://github.com/Nephos) Arthur Poulet - creator, maintainer
+- [Nephos](https://github.com/Nephos) Arthur Poulet - creator, maintainer
