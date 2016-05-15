@@ -3,13 +3,16 @@ module CrystalIrc
     module Command
 
       module User
-        def whois
+        def whois(target : User)
+          send_raw "WHOIS #{target.name}"
         end
 
-        def whowas
+        def whowas(target : User)
+          send_raw "WHOWAS #{target.name}"
         end
 
-        def mode
+        def mode(target : User, flag : String)
+          send_raw "MODE #{target.name} #{flag}"
         end
       end
 

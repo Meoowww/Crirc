@@ -3,10 +3,12 @@ module CrystalIrc
     module Command
 
       module Talk
-        def notice
+        def notice(target : User, msg : String)
+          send_raw "NOTICE #{target.name} :#{msg}"
         end
 
-        def privmsg
+        def privmsg(target : User, msg : String)
+          send_raw "PRIVMSG #{target.name} :#{msg}"
         end
       end
 
