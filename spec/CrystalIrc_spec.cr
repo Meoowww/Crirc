@@ -21,7 +21,9 @@ describe CrystalIrc do
       end
     end
     sleep 1
-    cli.join([CrystalIrc::Chan.new("#nyupatate")])
+    chan = CrystalIrc::Chan.new("#nyupatate")
+    cli.join([chan])
+    cli.privmsg(target: chan, msg: "I'm a dwarf and I'm digging a hole. Diggy diggy hole.")
     sleep 1
   end
 end
