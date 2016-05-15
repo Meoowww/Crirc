@@ -4,7 +4,7 @@ module CrystalIrc
 
       module Chan
         # Formats the chans to join: #chan1,#chan2
-        def format_chans(chans : Array(Chan))
+        def format_chans(chans : Array(CrystalIrc::Chan))
           chans.map do |c|
             c.name
           end.uniq.join(",")
@@ -12,14 +12,16 @@ module CrystalIrc
 
         # Requests to join the chan(s) chans, with password(s) passwords.
         # The passwords may be ignored if not needed.
-        def join(chans : Array(Chan), passwords : Array(String) = [""])
+        def join(chans : Array(CrystalIrc::Chan), passwords : Array(String) = [""])
           to_join = format_chans(chans)
-          passes = format_chans(passwords)
+
+          passes = passwords.uniq.join(",")
+
           send_raw "JOIN #{to_join} #{passes}"
         end
 
         # Requests to leave the channel(s) chans, with an optional part message msg.
-        def part(chans : Array(Chan), msg : String?)
+        def part(chans : Array(CrystalIrc::Chan), msg : String?)
           to_leave = format_chans(chans)
           msg = ":#{msg}" if msg
           send_raw "PART #{to_leave} #{msg}"
@@ -27,14 +29,14 @@ module CrystalIrc
 
         # Requests to change the mode of the given channel.
         # If the mode is to be applied to an user, precise it.
-        def mode(chan : Chan, flags : String, user : User?)
+        def mode(chan : CrystalIrc::Chan, flags : String, user : CrystalIrc::User?)
           target = user ? user.name : ""
           send_raw "MODE #{chan.name} #{flags} #{target}"
         end
 
         # Requests to change the topic of the given channel.
         # If no topic is given, requests the topic of the given channel.
-        def topic(chan : Chan, topic : String?)
+        def topic(chan : CrystalIrc::Chan, topic : String?)
           topic = ":#{topic}" if topic
           send_raw "TOPIC #{chan.name} #{topic}"
         end
@@ -42,28 +44,32 @@ module CrystalIrc
         # Requests the names of the users in the given channel(s).
         # If no channel is given, requests the names of the users in every
         # known channel.
-        def names(chans : Array(Chan)?)
+        def names(chans : Array(CrystalIrc::Chan)?)
           target = chans ? format_chans(chans) : ""
           send_raw "NAMES #{target}"
         end
 
         # Lists the channels and their topics.
         # If the chans parameter is given, lists the status of the given chans.
-        def list(chans : Array(Chan)?)
+        def list(chans : Array(CrystalIrc::Chan)?)
           target = chans ? format_chans(chans) : ""
           send_raw "LIST #{target}"
         end
 
         # Invites the user user to the channel chan.
-        def invite(chan : Chan, user : User)
+        def invite(chan : CrystalIrc::Chan, user : CrystalIrc::User)
           send_raw "INVITE #{user.name} #{chan.name}"
         end
 
         # Kicks the user(s) users from the channel(s) chans.
         # The reason of the kick will be displayed if given as a parameter.
-        def kick(chans : Array(Chan), users : Array(User), reason : String?)
+        def kick(chans : Array(CrystalIrc::Chan), users : Array(CrystalIrc::User), reason : String?)
           chan = format_chans(chans)
-          targets = format_chans(users)
+
+          targets = users.map do |u|
+            u.name
+          end.uniq.join(",")
+
           reason = ":#{reason}" if reason
           send_raw "KICK #{chan} #{targets} #{reason}"
         end
