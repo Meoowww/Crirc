@@ -19,9 +19,9 @@ module CrystalIrc
         end
 
         # Requests to leave the channel(s) chans, with an optional part message msg.
-        def part(chans : Array(Chan), msg : String = "")
+        def part(chans : Array(Chan), msg : String?)
           to_leave = format_chans(chans)
-          msg = msg.length > 0 ? ":" + msg : msg
+          msg = ":#{msg}" if msg
           send_raw "PART #{to_leave} #{msg}"
         end
 
@@ -34,8 +34,8 @@ module CrystalIrc
 
         # Requests to change the topic of the given channel.
         # If no topic is given, requests the topic of the given channel.
-        def topic(chan : Chan, topic : String = "")
-          topic = topic.length > 0 ? ":" + topic : ""
+        def topic(chan : Chan, topic : String?)
+          topic = ":#{topic}" if topic
           send_raw "TOPIC #{chan.name} #{topic}"
         end
 
@@ -43,14 +43,14 @@ module CrystalIrc
         # If no channel is given, requests the names of the users in every
         # known channel.
         def names(chans : Array(Chan)?)
-          target = chans == Nil ? "" : format_chans(chans)
+          target = chans ? format_chans(chans) : ""
           send_raw "NAMES #{target}"
         end
 
         # Lists the channels and their topics.
         # If the chans parameter is given, lists the status of the given chans.
         def list(chans : Array(Chan)?)
-          target = chans == Nil ? "" : format_chans(chans)
+          target = chans ? format_chans(chans) : ""
           send_raw "LIST #{target}"
         end
 
@@ -61,10 +61,10 @@ module CrystalIrc
 
         # Kicks the user(s) users from the channel(s) chans.
         # The reason of the kick will be displayed if given as a parameter.
-        def kick(chans : Array(Chan), users : Array(User), reason : String = "")
+        def kick(chans : Array(Chan), users : Array(User), reason : String?)
           chan = format_chans(chans)
           targets = format_chans(users)
-          reason = reason > 0 ? ":" + reason : reason
+          reason = ":#{reason}" if reason
           send_raw "KICK #{chan} #{targets} #{reason}"
         end
       end
