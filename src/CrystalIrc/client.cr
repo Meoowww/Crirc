@@ -4,6 +4,9 @@ module CrystalIrc
 
   class Client
     include CrystalIrc::Client::Connect
+    include CrystalIrc::Client::Ping
+    include CrystalIrc::Client::Command::Chan
+    include CrystalIrc::Client::Command::User
 
     @nick : String
     @ip   : String
