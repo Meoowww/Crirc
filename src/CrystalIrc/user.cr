@@ -4,6 +4,8 @@ module CrystalIrc
 
     @name   : String
 
+    getter name
+
     def initialize(@name)
     end
 

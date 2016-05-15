@@ -8,11 +8,20 @@ describe CrystalIrc do
   end
 
   it "Test with irc.mozilla.net" do
-    cli = CrystalIrc::Client.new ip: "irc.mozilla.org", port: 6667_u16, ssl: false, nick: "CrystalBotSpecs"
+    cli = CrystalIrc::Client.new ip: "irc.mozilla.org", port: 6667_u16, ssl: false, nick: "CrystalBotSpecS_#{rand 100..999}"
     cli.should be_a(CrystalIrc::Client)
     s = cli.connect
     s.should be_a(TCPSocket)
     s.read_timeout = 1
-    10.times {s.gets}
+    spawn do
+      begin
+        loop { puts s.gets }
+      rescue
+        puts "end"
+      end
+    end
+    sleep 1
+    cli.join([CrystalIrc::Chan.new("#nyupatate")])
+    sleep 1
   end
 end
