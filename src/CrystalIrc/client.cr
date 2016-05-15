@@ -17,21 +17,22 @@ module CrystalIrc
     @socket     : TCPSocket?
     @user       : String?
     @realname   : String?
+    @domain     : String?
     @pass       : String?
     @irc_server : String?
 
-    getter nick, ip, port, ssl, socket, user, realname, pass, irc_server
+    getter nick, ip, port, ssl, user, realname, domain, pass, irc_server
 
     def initialize(@nick, @ip, @port, @ssl = true)
     end
 
-    def send_raw(raw : String)
-      raise NoConnection.new "Socket is not set. Use connect(...) before." unless socket
-      socket.puts raw
+    def socket : TCPSocket
+      raise NoConnection.new "Socket is not set. Use connect(...) before." unless @socket
+      @socket as TCPSocket
     end
 
-    def connect
-      connect
+    def send_raw(raw : String)
+      socket.puts raw
     end
   end
 

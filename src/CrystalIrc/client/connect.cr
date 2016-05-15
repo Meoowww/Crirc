@@ -2,9 +2,8 @@ module CrystalIrc
   class Client
 
     module Connect
-      extend self
-      # domain and irc_server are not used
-      def connect
+
+      def connect : TCPSocket
         raise NotImplemented.new "SSL is not ready yet" if ssl
         @socket = TCPSocket.new ip, port
         send_login
