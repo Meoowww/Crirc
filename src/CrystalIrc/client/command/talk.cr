@@ -8,7 +8,6 @@ module CrystalIrc
 
         def privmsg
         end
-
       end
 
     end

@@ -6,9 +6,6 @@ module CrystalIrc
         def whois
         end
 
-        def whois
-        end
-
         def whowas
         end
 
