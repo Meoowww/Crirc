@@ -1,4 +1,5 @@
 require "./spec_helper"
+require "./CrystalIrc/*"
 
 def test_cli(cli : CrystalIrc::Client)
   s = cli.connect
