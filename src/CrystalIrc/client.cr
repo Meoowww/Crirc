@@ -10,13 +10,13 @@ module CrystalIrc
     include CrystalIrc::Client::Command::Talk
     include CrystalIrc::Client::Command::User
 
-    @nick           : String
+    @nick           : Nick
     @ip             : String
     @port           : UInt16
     @ssl            : Bool
     @socket         : IrcSocket?
-    @user           : String?
-    @realname       : String?
+    @user           : Nick?
+    @realname       : Nick?
     @domain         : String?
     @pass           : String?
     @irc_server     : String?
@@ -27,11 +27,12 @@ module CrystalIrc
     getter nick, ip, port, ssl, user, realname, domain, pass, irc_server, read_timeout, write_timeout, keepalive
 
     # default port is 6667 or 6697 if ssl is true
-    def initialize(@nick, @ip, @port = nil, @ssl = true, @user = nil, @realname = nil, @domain = nil, @pass = nil, @irc_server = nil,
+    def initialize(nick : String, @ip, @port = nil, @ssl = true, @user = nil, @realname = nil, @domain = nil, @pass = nil, @irc_server = nil,
       @read_timeout = 120_u16, @write_timeout = 5_u16, @keepalive = true)
+      @nick = CrystalIrc::Client::Nick.new(nick)
       @port ||= (ssl ? 6697_u16 : 6667_u16)
-      @user ||= nick
-      @realname ||= nick
+      @user ||= @nick
+      @realname ||= @nick
       @domain ||= "0"
       @irc_server ||= "*"
     end

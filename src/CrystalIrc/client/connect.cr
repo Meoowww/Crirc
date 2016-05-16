@@ -23,8 +23,8 @@ module CrystalIrc
       # It does not handle the errors.
       def send_login
         send_raw "PASS #{pass}" if pass
-        send_raw "NICK #{nick}"
-        send_raw "USER #{user} \"#{domain}\" \"#{irc_server}\" :#{realname}"
+        send_raw "NICK #{nick.to_s}"
+        send_raw "USER #{user.to_s} \"#{domain}\" \"#{irc_server}\" :#{realname.to_s}"
       end
     end
 
