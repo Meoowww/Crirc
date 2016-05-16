@@ -20,10 +20,12 @@ dependencies:
 
 ```crystal
 require "CrystalIrc"
+
+cli = CrystalIrc::Client.new ip: "irc.mozilla.org", nick: "PonyBot"
+cli.connect
+cli.join([CrystalIrc::Chan.new("#ponytown")])
 ```
 
-
-TODO: Write usage instructions here
 
 ## Development
 
