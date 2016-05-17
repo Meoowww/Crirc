@@ -18,8 +18,8 @@ module CrystalIrc
         socket
       end
 
-      # send the connecttion sequence (PASS, NICK, USER). The password
-      # is optionnal.
+      # Sends the connecttion sequence (PASS, NICK, USER).
+      # The password is sent only if specified.
       # It does not handle the errors.
       def send_login
         send_raw "PASS #{pass}" if pass
