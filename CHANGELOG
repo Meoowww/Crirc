@@ -1,0 +1,7 @@
+v0.1.0
+    * Initialize the project
+    * Classes Chan and User to handle the one <-> one and one <-> many
+    * Class Client to handle the connection
+    * Modules for basics commands for the protocol
+      (join, part, quit, privmsg, mode, ...)
+    * Specs to test the classes and the protocol implementation
