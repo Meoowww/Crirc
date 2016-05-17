@@ -9,5 +9,6 @@ module CrystalIrc
   class InvalidName < CrystalIrc::IrcError; end
   class InvalidChanName < CrystalIrc::InvalidName; end
   class InvalidUserName < CrystalIrc::InvalidName; end
+  class InvalidNick < CrystalIrc::InvalidName; end
 
 end

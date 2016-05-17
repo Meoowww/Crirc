@@ -8,17 +8,19 @@ module CrystalIrc
 
       getter base
 
-      def initialize(@base)
+      def initialize(base)
+        @base = "*"
+        self.base = base
       end
 
-      def reset!
-        @base = ""
-        @suffixed = nil
+      def reset
+        @suffix = nil
         self
       end
 
       def base=(v) : String
-        reset!
+        reset
+        raise InvalidNick.new "The User name must contains at most 50 valid characters" if !v.match(/\A(?!.{51,})(([a-zA-Z])([a-zA-Z0-9_\-\[\]\\\`\^\{\}]+))\Z/)
         @base = v
       end
 

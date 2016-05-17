@@ -11,13 +11,7 @@ def test_cli(cli : CrystalIrc::Client)
   sleep 1
 end
 
-describe CrystalIrc do
-
-  it "Nick behavior" do
-    n = CrystalIrc::Client::Nick.new "toto"
-    n.to_s.should eq("toto")
-    5.times { |i| n.next; n.to_s.should eq("toto_#{i+1}") }
-  end
+describe CrystalIrc::Client do
 
   it "Instance without network" do
     cli = CrystalIrc::Client.new ip: "localhost", port: 6667_u16, ssl: false, nick: "CrystalBot"
