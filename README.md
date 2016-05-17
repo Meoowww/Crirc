@@ -4,7 +4,7 @@ A crystal lib for irc client
 
 ## Installation
 
-![travis](https://travis-ci.org/Meoowww/CrystalIrc.svg)
+[![travis](https://travis-ci.org/Meoowww/CrystalIrc.svg)](https://travis-ci.org/Meoowww/CrystalIrc)
 
 Add this to your application's `shard.yml`:
 
