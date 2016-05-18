@@ -3,7 +3,7 @@ require "./client"
 module CrystalIrc
   class Bot < Client
 
-    alias Hook = (String, String) -> Bool
+    alias Hook = (CrystalIrc::Bot, String, String) -> Bool
 
     @hooks : Hash(String, Array(Hook))
 
@@ -24,7 +24,7 @@ module CrystalIrc
       m = msg.match(/\A\:(?<source>[^[:space:]]+) (?<cmd>[A-Z]+)(?<args>.*)/)
       raise InvalidMessage.new(msg) if m.nil?
       @hooks.fetch(m["cmd"]){ Array(Hook).new }.each do |hook|
-        hook.call(m["source"], m["args"].strip)
+        hook.call(self, m["source"], m["args"].strip)
       end
       self
     end
