@@ -19,23 +19,7 @@ dependencies:
 
 ## Usage
 
-
-```crystal
-require "CrystalIrc"
-
-cli = CrystalIrc::Bot.new ip: "irc.mozilla.org", nick: "PonyBot"
-chan = CrystalIrc::Chan.new("#ponytown")
-
-cli.on("JOIN") do |irc, msg|
-  name = msg.from.split("!").first
-  irc.privmsg(chan, "Welcome every ponies #{name} :)")
-end
-
-cli.connect
-cli.join([chan])
-```
-":niark JOIN :#ponytown"
-
+see ``src/dash.cr``
 
 ## Development
 

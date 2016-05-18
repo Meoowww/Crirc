@@ -3,26 +3,27 @@ require "./client"
 module CrystalIrc
   class Bot < Client
 
+    alias HookRule = String | Regex | Nil
     alias Hook = (CrystalIrc::Bot, CrystalIrc::Message) ->
 
-    @hooks : Hash(String, Array(Hook))
+    @hooks : Hash(CrystalIrc::HookRules, Array(Hook))
 
     def initialize(**opts)
       super(**opts)
-      @hooks = Hash(String, Array(Hook)).new
+      @hooks = Hash(CrystalIrc::HookRules, Array(Hook)).new
     end
 
-    # Register a hook on a command name (JOIN, PRIVMSG, ...)
-    def on(msg : String, &hook : Hook) : CrystalIrc::Bot
-      @hooks.fetch(msg) { @hooks[msg] = Array(Hook).new }
-      @hooks[msg] << hook
+    # Register a hook on a command name (JOIN, PRIVMSG, ...) and other rules
+    def on(command : String, source : HookRule = nil, arguments : HookRule = nil, &hook : Hook) : CrystalIrc::Bot
+      rule = CrystalIrc::HookRules.new(command, source, arguments)
+      @hooks.fetch(rule) { @hooks[rule] = Array(Hook).new }
+      @hooks[rule] << hook
       self
     end
 
     def handle(msg : CrystalIrc::Message) : CrystalIrc::Bot
-      @hooks.fetch(msg.command){ Array(Hook).new }.each do |hook|
-        hook.call(self, msg)
-      end
+      @hooks.select{|rule, hooks| rule.test(msg)}.each{|_, hooks| hooks.each{|hook| hook.call(self, msg)} }
+      @hooks.fetch(msg.command){ Array(Hook).new }
       self
     end
 
