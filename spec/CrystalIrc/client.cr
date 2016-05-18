@@ -14,8 +14,8 @@ end
 describe CrystalIrc::Client do
 
   it "Instance without network" do
-    cli = CrystalIrc::Client.new ip: "localhost", port: 6667_u16, ssl: false, nick: "CrystalBot"
-    cli.should be_a(CrystalIrc::Client)
+    CrystalIrc::Client.new(ip: "localhost", port: 6667_u16, ssl: false, nick: "CrystalBot").should be_a(CrystalIrc::Client)
+    CrystalIrc::Client.new(ip: "localhost", nick: "CrystalBot").should be_a(CrystalIrc::Client)
   end
 
   it "Test with irc.mozilla.net" do
