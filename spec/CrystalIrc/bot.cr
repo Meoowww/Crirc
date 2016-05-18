@@ -21,7 +21,8 @@ describe CrystalIrc::Bot do
     bot.on("TOTO") { |irc, msg| msg.arguments.should eq(""); $counter_toto += 1 }.should be(bot)
     bot.handle(":from TOTO")
     $counter_toto.should eq(10)
-    #except_raise(CrystalIrc::InvalidMessage){ bot.handle("violation") }
+    expect_raises(CrystalIrc::InvalidMessage) { bot.handle("violation") }
+    expect_raises(CrystalIrc::InvalidMessage) { bot.handle(":from bad") }
   end
 
 end
