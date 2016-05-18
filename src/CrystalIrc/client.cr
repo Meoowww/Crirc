@@ -4,8 +4,8 @@ module CrystalIrc
 
   class Client
     include CrystalIrc::Client::Connect
-    include CrystalIrc::Client::Ping
     include CrystalIrc::Client::Command
+    include CrystalIrc::Client::Command::Ping
     include CrystalIrc::Client::Command::Chan
     include CrystalIrc::Client::Command::Talk
     include CrystalIrc::Client::Command::User
