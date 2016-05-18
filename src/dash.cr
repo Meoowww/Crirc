@@ -5,8 +5,10 @@ def start
   chan = CrystalIrc::Chan.new("#ponytown")
 
   bot.on("JOIN") do |irc, msg|
-    name = msg.source.split("!").first
+    name = msg.source.to_s.split("!").first
     irc.privmsg(chan, "Welcome everypony, what's up #{name} ? :)") unless name == bot.nick.to_s
+  end.on("PING") do |irc, msg|
+    irc.pong(msg.arguments.to_s)
   end
 
   bot.connect
