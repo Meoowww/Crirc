@@ -1,6 +1,6 @@
 describe CrystalIrc::Client::Nick do
 
-  it "instanciation" do
+  it "Basic instanciation" do
     e = CrystalIrc::User.new "test-works"
     e.name.should eq("test-works")
     # RFC ? ahahah get out the way
@@ -16,5 +16,13 @@ describe CrystalIrc::Client::Nick do
     expect_raises(CrystalIrc::InvalidUserName) { CrystalIrc::User.new("spaces in the name") }
   end
 
+  it "Whois" do
+    e = CrystalIrc::User.new("Dash", "here@1.1.1.1")
+    e.name.should eq("Dash")
+    e.whois.should eq("here@1.1.1.1")
+    e = CrystalIrc::User.parse("Dash!here@1.1.1.1")
+    e.name.should eq("Dash")
+    e.whois.should eq("here@1.1.1.1")
+  end
 
 end
