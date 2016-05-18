@@ -3,12 +3,13 @@ describe CrystalIrc::Bot do
   it "Instance and basic hooking" do
     bot = CrystalIrc::Bot.new ip: "localhost", nick: "DashieLove"
     bot.should be_a(CrystalIrc::Bot)
-    bot.on("toto", ->(e : String) { e.should eq("toto"); true }).should be(bot)
-    bot.on("toto", ->(e : String) { e.should eq("toto"); true })
-      .on("toto", ->(e : String) { e.should eq("toto"); true })
-      .on("tata", ->(e : String) { e.should eq("tata is true"); true })
-    bot.handle("toto").should be(bot)
-    bot.handle("tata is true").handle("rape")
+    bot.on("TOTO", ->(source : String, args : String) { args.should eq(""); true }).should be(bot)
+    bot.on("TOTO", ->(source : String, args : String) { args.should eq(""); true })
+      .on("TOTO",  ->(source : String, args : String) { args.should eq(""); true })
+      .on("TATA",  ->(source : String, args : String) { args.should eq("is true"); true })
+    bot.handle(":from TOTO").should be(bot)
+    bot.handle(":from TATA is true").handle(":from TITI")
+    #except_raise(CrystalIrc::InvalidMessage){ bot.handle("violation") }
   end
 
 end

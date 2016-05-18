@@ -1,6 +1,8 @@
 # CrystalIrc
 
-A crystal lib for irc client
+A crystal lib for irc client.
+
+Works for crystal v0.17.
 
 ## Installation
 
@@ -21,13 +23,18 @@ dependencies:
 ```crystal
 require "CrystalIrc"
 
-cli = CrystalIrc::Client.new ip: "irc.mozilla.org", nick: "PonyBot"
-cli.connect
-cli.join([CrystalIrc::Chan.new("#ponytown")])
-cli.gets do |msg|
-  puts msg
+cli = CrystalIrc::Bot.new ip: "irc.mozilla.org", nick: "PonyBot"
+chan = CrystalIrc::Chan.new("#ponytown")
+
+cli.on("JOIN") do |from, args|
+  name = from.split("!").first
+  irc.privmsg(chan, "Welcome every ponies #{name} :)")
 end
+
+cli.connect
+cli.join([chan])
 ```
+":niark JOIN :#ponytown"
 
 
 ## Development
