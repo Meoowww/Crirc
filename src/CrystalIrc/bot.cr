@@ -19,12 +19,15 @@ module CrystalIrc
       self
     end
 
-    # TODO: use look ahead assert to check the " " without rm <args> and without .strip
-    def handle(msg : CrystalIrc::Message)
+    def handle(msg : CrystalIrc::Message) : CrystalIrc::Bot
       @hooks.fetch(msg.command){ Array(Hook).new }.each do |hook|
         hook.call(self, msg)
       end
       self
+    end
+
+    def handle(msg : String) : CrystalIrc::Bot
+      handle(CrystalIrc::Message.new msg, self)
     end
 
   end
