@@ -9,11 +9,10 @@ def start
     irc.privmsg(chan, "Welcome everypony, what's up #{name} ? :)") unless name == bot.nick.to_s
   end.on("PING") do |irc, msg|
     irc.pong(msg.arguments.to_s)
-  end.on("PRIVMSG", arguments: /^\#\w+ :(hi|hello)/) do |irc, msg|
-    puts "> Hi"
+  end.on("PRIVMSG", message: /^(hi|hello)/) do |irc, msg|
     name = msg.source.to_s.split("!").first
-    puts "> Hi #{name}"
-    irc.privmsg(chan, "Hi #{name} :)")
+    curr_chan = CrystalIrc::Chan.new(msg.arguments as String)
+    irc.privmsg(curr_chan , "Hi #{name} :)")
   end
 
   bot.connect
