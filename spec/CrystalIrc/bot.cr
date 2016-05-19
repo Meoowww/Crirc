@@ -31,12 +31,13 @@ describe CrystalIrc::Bot do
     bot = CrystalIrc::Bot.new ip: "localhost", nick: "DashieLove"
     bot
       .on("TOTO") { |irc, msg| $counter_toto += 1 }
-      .on("TOTO", arguments: /^what/) { |irc, msg| msg.arguments.should eq("what is love"); $counter_toto += 1 }
+      .on("TOTO", message: /^what/) { |irc, msg|
+        msg.message.should eq("what is love"); $counter_toto += 1 }
     bot.handle(":s TOTO")
     $counter_toto.should eq(1)
-    bot.handle(":s TOTO what is love")
+    bot.handle(":s TOTO arg :what is love")
     $counter_toto.should eq(3)
-    bot.handle(":s TOTO this is love")
+    bot.handle(":s TOTO arg :this is love")
     $counter_toto.should eq(4)
   end
 

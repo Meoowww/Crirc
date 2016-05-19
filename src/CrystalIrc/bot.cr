@@ -14,8 +14,8 @@ module CrystalIrc
     end
 
     # Register a hook on a command name (JOIN, PRIVMSG, ...) and other rules
-    def on(command : String, source : HookRule = nil, arguments : HookRule = nil, &hook : Hook) : CrystalIrc::Bot
-      rule = CrystalIrc::HookRules.new(command, source, arguments)
+    def on(command : String, source : HookRule = nil, arguments : HookRule = nil, message : HookRule = nil, &hook : Hook) : CrystalIrc::Bot
+      rule = CrystalIrc::HookRules.new(command, source, arguments, message)
       @hooks.fetch(rule) { @hooks[rule] = Array(Hook).new }
       @hooks[rule] << hook
       self
