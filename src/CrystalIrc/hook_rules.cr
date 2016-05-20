@@ -5,13 +5,17 @@ module CrystalIrc
   class HookRules
 
     @source     : String | Regex | Nil
-    @command    : String
+    @command    : String | Regex
     @arguments  : String | Regex | Nil
     @message    : String | Regex | Nil
 
     getter source, command, arguments, message
 
-    def initialize(@command, @source, @arguments, @message)
+    # @param command is by default "PRIVMSG", and must be a UPPERCASE irc command (JOIN, PRIVMSG, ...)
+    # @param source is optional. It represents the sender.
+    # @param arguments is optional. It represents the parameters (without the last argument if prefixed with ":", like in JOIN).
+    # @param source is optional. It represents the last argument when prefixed with ":".
+    def initialize(@command = "PRIVMSG", @source = nil, @arguments = nil, @message = nil)
     end
 
     def test(msg : CrystalIrc::Message)
@@ -19,7 +23,7 @@ module CrystalIrc
     end
 
     private def test_command(msg : CrystalIrc::Message)
-      msg.command == command
+      command.is_a?(Regex) ? msg.command.to_s.match command as Regex : msg.command == command
     end
 
     # TODO: macro de defines theses methods
@@ -32,7 +36,7 @@ module CrystalIrc
     private def test_arguments(msg : CrystalIrc::Message)
       return true if arguments.nil?
       return false if msg.arguments.nil?
-      arguments.is_a?(Regex) ? msg.arguments.to_s.match arguments as Regex : msg.arguments == arguments
+      arguments.is_a?(Regex) ? msg.arguments_raw.to_s.match arguments as Regex : msg.arguments_raw == arguments
     end
 
     private def test_message(msg : CrystalIrc::Message)

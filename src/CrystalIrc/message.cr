@@ -9,7 +9,17 @@ module CrystalIrc
     @message    : String?
     @client     : CrystalIrc::Client
 
-    getter source, command, arguments, message
+    getter source, command, message
+
+    # @return an Array of Arguments, including the message (last argument with the prefix :)
+    def arguments : Array(String)
+      (@arguments ? @arguments.to_s.split(" ") + [ @message ] : [ @message ]).compact
+    end
+
+    # @return the arguments value (litteral string or nil with space to separate arguments, wich not includes the message)
+    def arguments_raw : String?
+      @arguments
+    end
 
     def initialize(raw : String, @client)
       m = raw.match(/\A(\:(?<source>[^[:space:]]+) )?(?<cmd>[A-Z]+)(?: (?<args>[^\:]*))?(?: \:(?<msg>.+))?\Z/)
