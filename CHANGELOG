@@ -1,9 +1,21 @@
 v0.1.0
     * Initialize the project
-    * Classes Chan and User to handle the one <-> one and one <-> many
-    * Class Client to handle the connection
-    * Class Bot to handle hooks and rules to trigger a hook
-    * Modules for basics commands for the protocol
-      (join, part, quit, privmsg, mode, ...)
-    * Specs to test the classes and the protocol implementation
-    * Example (dash)
+    * IRC API
+      * User
+        * Handles one <-> one messages
+      * Chan
+        * Handles one <-> many messages
+      * Client
+        * Handles the connection and IO
+        * Masques
+        * Nick (availability, ...)
+        * Use Commands (Talk, Chan, User)
+          * JOIN, PRIVSG, NOTICE, MODE, ...
+          * OP, DEOP, BAN, ...
+    * Bot Framework
+      * Set hooks and rules to trigger actions
+      * Manage connected Users and Channels
+    * Robust testing and documentation
+      * Specs on the complete API and protocol
+      * Specs on the Framwork with basic and advanced use-cases
+      * Real bot samples
