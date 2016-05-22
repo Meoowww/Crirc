@@ -5,8 +5,8 @@ module CrystalIrc
     @name   : String
     @whois  : String?
 
-    getter name, whois
-    setter whois
+    getter name
+    property whois
 
     def initialize(@name, @whois = nil)
       raise InvalidUserName.new "The User name must not be empty" if @name.empty?
