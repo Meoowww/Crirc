@@ -1,5 +1,10 @@
-all:
+all: build
+
+build:
 	crystal build -s src/CrystalIrc.cr
+
+release:
+		crystal build --release src/CrystalIrc.cr
 
 doc:
 	crystal docs
@@ -7,7 +12,15 @@ doc:
 test:
 	crystal spec
 
-clean:
-	rm -fv CrystalIrc
+# useless, no dependancies
+deps:
+	shards
 
-.PHONY: all doc test clean
+# useless, no dependancies
+deps_opt:
+	[ -d libs/ ] || make deps
+
+clean:
+	rm -v CrystalIrc
+
+.PHONY: all doc test clean build release deps deps_opt
