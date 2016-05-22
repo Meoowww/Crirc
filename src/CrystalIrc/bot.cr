@@ -6,16 +6,16 @@ module CrystalIrc
     alias HookRule = String | Regex | Nil
     alias Hook = (CrystalIrc::Bot, CrystalIrc::Message) ->
 
-    @hooks : Hash(CrystalIrc::HookRules, Array(Hook))
+    @hooks : Hash(CrystalIrc::Bot::HookRules, Array(Hook))
 
     def initialize(**opts)
       super(**opts)
-      @hooks = Hash(CrystalIrc::HookRules, Array(Hook)).new
+      @hooks = Hash(CrystalIrc::Bot::HookRules, Array(Hook)).new
     end
 
     # Register a hook on a command name (JOIN, PRIVMSG, ...) and other rules
     def on(command : String, source : HookRule = nil, arguments : HookRule = nil, message : HookRule = nil, &hook : Hook) : CrystalIrc::Bot
-      rule = CrystalIrc::HookRules.new(command, source, arguments, message)
+      rule = CrystalIrc::Bot::HookRules.new(command, source, arguments, message)
       @hooks.fetch(rule) { @hooks[rule] = Array(Hook).new }
       @hooks[rule] << hook
       self
@@ -33,3 +33,5 @@ module CrystalIrc
 
   end
 end
+
+require "./bot/*"
