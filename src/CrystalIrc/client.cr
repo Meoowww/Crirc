@@ -37,8 +37,14 @@ module CrystalIrc
       @irc_server ||= "*"
     end
 
-    def gets(&block)
+    delegate "close", socket
+    delegate "closed?", socket
+
+    def gets
       yield socket.gets
+    end
+    def gets : String
+      socket.gets
     end
 
     # The client has to call connect() before using socket.

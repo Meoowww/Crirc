@@ -9,11 +9,12 @@ module CrystalIrc
 
     getter host, port, socket
 
-    def initialize(@host = "127.0.0.1", @port = 6668_16, @ssl = true)
+    # TODO: add ssl socket
+    def initialize(@host = "127.0.0.1", @port = 6697_16, @ssl = true)
       @socket = TCPServer.new(@host, @port)
     end
 
-    def self.open(host = "127.0.0.1", port = 6668_u16, ssl = true)
+    def self.open(host = "127.0.0.1", port = 6697_u16, ssl = true)
       s = new host, port, ssl
       begin
         yield s
