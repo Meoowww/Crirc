@@ -14,13 +14,14 @@ describe CrystalIrc::Server do
     spawn do
       s.accept do |cli|
         cli.should be_a(CrystalIrc::Server::Client)
-         cli.puts "ok"
+         cli.puts ":0 NOTICE Auth :***You are connected***"
        end
     end
     TCPSocket.open("127.0.0.1", 6667) do |socket|
       got = socket.gets
-      got.should eq("ok\n")
+      got.should eq(":0 NOTICE Auth :***You are connected***\n")
     end
+    s.close
   end
 
 end

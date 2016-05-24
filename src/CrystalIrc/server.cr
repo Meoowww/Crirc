@@ -13,6 +13,7 @@ module CrystalIrc
 
     getter host, port, socket, chans, users
 
+    # TODO: maybe new should be protected
     # TODO: add ssl socket
     def initialize(@host = "127.0.0.1", @port = 6697_16, @ssl = true)
       @socket = TCPServer.new(@host, @port)
