@@ -1,5 +1,3 @@
-require "../message"
-
 module CrystalIrc
   class Bot
 

@@ -1,5 +1,3 @@
-require "./client"
-
 module CrystalIrc
   class Message
 

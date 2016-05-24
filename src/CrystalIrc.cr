@@ -1,5 +1,7 @@
 require "socket"
 require "./CrystalIrc/*"
+require "./CrystalIrc/utils/*"
+require "./CrystalIrc/protocol/*"
 
 module CrystalIrc
 
