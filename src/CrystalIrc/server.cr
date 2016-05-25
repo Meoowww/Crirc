@@ -19,6 +19,7 @@ module CrystalIrc
       @socket = TCPServer.new(@host, @port)
       @chans = Hash(String, Chan).new
       @users = Hash(String, User).new
+      super()
     end
 
     def self.open(host = "127.0.0.1", port = 6697_u16, ssl = true)
@@ -36,6 +37,9 @@ module CrystalIrc
 
     delegate "close", socket
     delegate "closed?", socket
+
+    include CrystalIrc::Handler
+
   end
 
 end

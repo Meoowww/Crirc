@@ -1,5 +1,5 @@
 module CrystalIrc
-  class Bot
+  module Handler
 
     class HookRules
 

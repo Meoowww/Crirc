@@ -1,7 +1,4 @@
 require "socket"
-require "./CrystalIrc/*"
-require "./CrystalIrc/utils/*"
-require "./CrystalIrc/protocol/*"
 
 module CrystalIrc
 
@@ -17,3 +14,7 @@ module CrystalIrc
   class InvalidNick < CrystalIrc::InvalidName; end
 
 end
+
+require "./CrystalIrc/utils/*"
+require "./CrystalIrc/protocol/*"
+require "./CrystalIrc/*"
