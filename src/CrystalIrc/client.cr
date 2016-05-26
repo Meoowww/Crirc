@@ -1,3 +1,9 @@
+require "./has_socket"
+module CrystalIrc
+  class Client < CrystalIrc::HasSocket
+  end
+end
+
 require "./client/*"
 
 module CrystalIrc
@@ -39,6 +45,7 @@ module CrystalIrc
 
     delegate "close", socket
     delegate "closed?", socket
+    delegate "puts", socket
 
     def gets
       yield socket.gets
@@ -55,7 +62,7 @@ module CrystalIrc
     end
 
     # Send a raw message to the socket. It should be a valid command
-    # TODO: handle too large messages
+    # TODO: handle too large messages for IRC
     protected def send_raw(raw : String)
       socket.puts raw
     end

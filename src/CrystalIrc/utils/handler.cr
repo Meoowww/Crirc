@@ -12,7 +12,7 @@ module CrystalIrc
     end
 
     alias HookRule = String | Regex | Nil
-    alias Hook = (CrystalIrc::Bot, CrystalIrc::Message) ->
+    alias Hook = (CrystalIrc::HasSocket, CrystalIrc::Message) ->
 
     # Register a hook on a command name (JOIN, PRIVMSG, ...) and other rules
     def on(command : String, source : HookRule = nil, arguments : HookRule = nil, message : HookRule = nil, &hook : Hook)

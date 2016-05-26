@@ -1,6 +1,8 @@
+require "../has_socket"
+
 module CrystalIrc
   class Server
-    class Client
+    class Client < CrystalIrc::HasSocket
 
       @socket : TCPSocket
 
