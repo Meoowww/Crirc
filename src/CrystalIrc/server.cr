@@ -10,10 +10,6 @@ module CrystalIrc
   class Server
     include CrystalIrc::Handler
 
-    def handle(msg : String, cli : CrystalIrc::Server::Client)
-      handle(CrystalIrc::Message.new(msg, cli))
-    end
-
     @host     : String
     @port     : UInt16
     @socket   : TCPServer

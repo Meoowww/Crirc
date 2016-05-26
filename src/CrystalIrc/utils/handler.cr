@@ -28,6 +28,10 @@ module CrystalIrc
       self
     end
 
+    def handle(msg : String, cli : CrystalIrc::HasSocket)
+      handle(CrystalIrc::Message.new(msg, cli))
+    end
+
     def handle(msg : String)
       handle(CrystalIrc::Message.new msg, self)
     end
