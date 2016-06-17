@@ -19,7 +19,7 @@ describe CrystalIrc::Client do
   end
 
   it "Test with irc.mozilla.net" do
-    ENV.fetch("OFFLINE") { |e, v|
+    ENV.fetch("OFFLINE") { |v|
       next if v == "true"
       cli = CrystalIrc::Client.new ip: "irc.mozilla.org", port: 6667_u16, ssl: false, nick: "CrystalBotSpecS_#{rand 100..999}"
       cli.should be_a(CrystalIrc::Client)
@@ -28,7 +28,7 @@ describe CrystalIrc::Client do
   end
 
   it "Test with irc.mozilla.net with ssl" do
-    ENV.fetch("OFFLINE") { |e, v|
+    ENV.fetch("OFFLINE") { |v|
       next if v == "true"
       cli = CrystalIrc::Client.new ip: "irc.mozilla.org", port: 6697_u16, ssl: true, nick: "CrystalBotSpecS_#{rand 100..999}"
       cli.should be_a(CrystalIrc::Client)

@@ -61,7 +61,7 @@ module CrystalIrc
     def puts(e); socket.puts(e); end
 
     def gets; yield socket.gets; end
-    def gets : String; socket.gets; end
+    def gets; socket.gets; end
 
   end
 end

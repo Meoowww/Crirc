@@ -12,7 +12,7 @@ module CrystalIrc
         tmp_socket.write_timeout = write_timeout
         tmp_socket.keepalive     = keepalive
         @socket = tmp_socket
-        @socket = OpenSSL::SSL::Socket.new(tmp_socket) if ssl
+        @socket = OpenSSL::SSL::Socket::Client.new(tmp_socket) if ssl
         send_login
         # handle answer
         socket
