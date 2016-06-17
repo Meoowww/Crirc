@@ -2,17 +2,21 @@ require "./CrystalIrc"
 
 def start
   bot = CrystalIrc::Bot.new ip: "irc.mozilla.org", nick: "Dash", read_timeout: 30_u16
-  chan = CrystalIrc::Chan.new("#ponytown")
+  chan = CrystalIrc::Chan.new("#equilibre")
 
   bot.on("JOIN") do |irc, msg|
     name = msg.source.to_s.split("!").first
-    irc.privmsg(chan, "Welcome everypony, what's up #{name} ? :)") unless name == bot.nick.to_s
+    (irc as CrystalIrc::Client).privmsg(chan, "Welcome everypony, what's up #{name} ? :)") unless name == bot.nick.to_s
   end.on("PING") do |irc, msg|
-    irc.pong(msg.arguments.to_s)
-  end.on("PRIVMSG", message: /^(hi|hello)/) do |irc, msg|
+    (irc as CrystalIrc::Client).pong(msg.arguments.to_s)
+  end.on("PRIVMSG", message: /^(hi|hello|heil|y(o|u)(p?)|salut)/i) do |irc, msg|
     name = msg.source.to_s.split("!").first
-    curr_chan = CrystalIrc::Chan.new(msg.arguments as String)
-    irc.privmsg(curr_chan , "Hi #{name} :)")
+    curr_chan = CrystalIrc::Chan.new(msg.arguments_raw as String)
+    (irc as CrystalIrc::Client).privmsg(curr_chan , "Hi #{name} :)")
+  end.on("PRIVMSG", message: /^!ping/) do |irc, msg|
+    name = msg.source.to_s.split("!").first
+    curr_chan = CrystalIrc::Chan.new(msg.arguments_raw as String)
+    (irc as CrystalIrc::Client).privmsg(curr_chan , "pong #{name}")
   end
 
   bot.connect
