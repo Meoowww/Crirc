@@ -2,7 +2,7 @@
 
 A crystal lib for irc client.
 
-Works for crystal v0.17.
+Works for crystal v0.18.
 
 ## Installation
 
