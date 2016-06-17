@@ -9,10 +9,11 @@ module CrystalIrc
       def initialize(@socket)
       end
 
-      delegate "close", @socket
-      delegate "closed?", @socket
-      delegate "gets", @socket
-      delegate "puts", @socket
+      def close; @socket.close; end
+      def closed?; @socket.closed?; end
+      def gets : String; @socket.gets; end
+      def gets; yield @socket.gets; end
+      def puts(e); @socket.puts(e); end
 
     end
   end

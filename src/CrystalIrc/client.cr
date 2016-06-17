@@ -7,8 +7,8 @@ end
 require "./client/*"
 
 module CrystalIrc
-
   class Client
+
     include CrystalIrc::Client::Connect
     include CrystalIrc::Client::Command
     include CrystalIrc::Client::Command::Ping
@@ -43,17 +43,6 @@ module CrystalIrc
       @irc_server ||= "*"
     end
 
-    delegate "close", socket
-    delegate "closed?", socket
-    delegate "puts", socket
-
-    def gets
-      yield socket.gets
-    end
-    def gets : String
-      socket.gets
-    end
-
     # The client has to call connect() before using socket.
     # If the socket is not setup, it will rase a NoConnection error
     protected def socket : IrcSocket
@@ -66,6 +55,13 @@ module CrystalIrc
     protected def send_raw(raw : String)
       socket.puts raw
     end
-  end
 
+    def close; socket.close; end
+    def closed?; socket.closed?; end
+    def puts(e); socket.puts(e); end
+
+    def gets; yield socket.gets; end
+    def gets : String; socket.gets; end
+
+  end
 end

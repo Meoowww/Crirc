@@ -3,6 +3,6 @@ module CrystalIrc
     abstract def close
     abstract def closed?
     abstract def gets
-    abstract def puts
+    abstract def puts(e)
   end
 end

@@ -3,6 +3,7 @@ module CrystalIrc
   class Server < CrystalIrc::HasSocket
   end
 end
+
 require "./server/*"
 
 module CrystalIrc
@@ -62,9 +63,10 @@ module CrystalIrc
       @socket.close
     end
 
-    delegate "closed?", socket
-    delegate "gets", socket
-    delegate "puts", socket
+    def closed?; @socket.closed?; end
+    def gets : String; @socket.gets; end
+    def gets; yield @socket.gets; end
+    def puts(e); @socket.puts(e) end
 
   end
 
