@@ -2,7 +2,7 @@ def process_client(s, cli)
   cli.puts ":0 NOTICE Auth :***You are connected***"
   loop do
     begin
-      s.handle cli.gets.to_s, cli
+      s.handle cli.gets.to_s
     rescue e
       puts e
     end
@@ -37,7 +37,7 @@ describe CrystalIrc::Server do
 
   it "Server binding" do
     s = CrystalIrc::Server.new(host: "127.0.0.1", port: 6667_u16, ssl: false)
-    s.on("JOIN") do |_, msg|
+    s.on("JOIN") do |msg|
       chan_name = msg.message.to_s.split(" ").first
       msg.command.should eq("JOIN")
       msg.arguments_raw.should eq("#toto")
