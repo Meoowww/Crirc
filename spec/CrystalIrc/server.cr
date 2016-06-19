@@ -41,7 +41,7 @@ describe CrystalIrc::Server do
       chan_name = msg.message.to_s.split(" ").first
       msg.command.should eq("JOIN")
       msg.arguments_raw.should eq("#toto")
-      msg.client.puts ":0 NOTICE JOIN :#{chan_name}"
+      msg.sender.puts ":0 NOTICE JOIN :#{chan_name}"
     end
 
     spawn do

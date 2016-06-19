@@ -2,7 +2,6 @@ require "openssl"
 
 module CrystalIrc
   class Client
-    alias IrcSocket = (TCPSocket | OpenSSL::SSL::Socket)
 
     module Connect
 

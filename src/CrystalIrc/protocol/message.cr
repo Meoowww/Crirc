@@ -5,9 +5,9 @@ module CrystalIrc
     @command    : String
     @arguments  : String?
     @message    : String?
-    @client     : CrystalIrc::HasSocket
+    @sender     : CrystalIrc::IrcSender
 
-    getter source, command, message, client
+    getter source, command, message, sender
 
     # @return an Array of Arguments, including the message (last argument with the prefix :)
     def arguments : Array(String)
@@ -19,7 +19,7 @@ module CrystalIrc
       @arguments
     end
 
-    def initialize(raw : String, @client)
+    def initialize(raw : String, @sender)
       m = raw.strip.match(/\A(\:(?<source>[^[:space:]]+) )?(?<cmd>[A-Z]+)(?: (?<args>[^\:]*))?(?: \:(?<msg>.+))?\Z/)
       raise InvalidMessage.new("Cannot parse the message \"#{raw}\"") if m.nil?
       @source = m["source"]?

@@ -1,6 +1,7 @@
 require "socket"
 
 module CrystalIrc
+  alias IrcSocket = (TCPSocket | OpenSSL::SSL::Socket)
 
   class IrcError < Exception; end
   class NotImplemented < IrcError; end

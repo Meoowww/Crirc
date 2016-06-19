@@ -1,6 +1,6 @@
-require "./has_socket"
+require "./irc_sender"
 module CrystalIrc
-  class Client < CrystalIrc::HasSocket
+  class Client < CrystalIrc::IrcSender
   end
 end
 
@@ -10,11 +10,7 @@ module CrystalIrc
   class Client
 
     include CrystalIrc::Client::Connect
-    include CrystalIrc::Client::Command
-    include CrystalIrc::Client::Command::Ping
-    include CrystalIrc::Client::Command::Chan
-    include CrystalIrc::Client::Command::Talk
-    include CrystalIrc::Client::Command::User
+    include CrystalIrc::Handler
 
     @nick           : Nick
     @ip             : String
@@ -41,6 +37,7 @@ module CrystalIrc
       @realname ||= @nick
       @domain ||= "0"
       @irc_server ||= "*"
+      super()
     end
 
     # The client has to call connect() before using socket.
@@ -49,19 +46,6 @@ module CrystalIrc
       raise NoConnection.new "Socket is not set. Use connect(...) before." unless @socket
       @socket as IrcSocket
     end
-
-    # Send a raw message to the socket. It should be a valid command
-    # TODO: handle too large messages for IRC
-    protected def send_raw(raw : String)
-      socket.puts raw
-    end
-
-    def close; socket.close; end
-    def closed?; socket.closed?; end
-    def puts(e); socket.puts(e); end
-
-    def gets; yield socket.gets; end
-    def gets; socket.gets; end
 
   end
 end

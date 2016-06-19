@@ -1,19 +1,17 @@
-require "../has_socket"
+require "../irc_sender"
 
 module CrystalIrc
   class Server
-    class Client < CrystalIrc::HasSocket
+    class Client < CrystalIrc::IrcSender
 
       @socket : TCPSocket
 
       def initialize(@socket)
       end
 
-      def close; @socket.close; end
-      def closed?; @socket.closed?; end
-      def gets; @socket.gets; end
-      def gets; yield @socket.gets; end
-      def puts(e); @socket.puts(e); end
+      protected def socket
+        @socket
+      end
 
     end
   end

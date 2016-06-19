@@ -1,6 +1,6 @@
-require "./has_socket"
+require "./irc_sender"
 module CrystalIrc
-  class Server < CrystalIrc::HasSocket
+  class Server < CrystalIrc::IrcSender
   end
 end
 
@@ -50,6 +50,7 @@ module CrystalIrc
         end
       end
     end
+
     def accept
       cli = CrystalIrc::Server::Client.new @socket.accept
       @clients << cli
@@ -63,10 +64,9 @@ module CrystalIrc
       @socket.close
     end
 
-    def closed?; @socket.closed?; end
-    def gets; @socket.gets; end
-    def gets; yield @socket.gets; end
-    def puts(e); @socket.puts(e) end
+    protected def socket
+      @socket
+    end
 
   end
 

@@ -1,6 +1,6 @@
 def test_cli(cli : CrystalIrc::Client)
   s = cli.connect
-  s.should be_a(CrystalIrc::Client::IrcSocket)
+  s.should be_a(CrystalIrc::IrcSocket)
   spawn do
     loop { cli.gets {|msg| puts "> #{msg}"} }
   end
