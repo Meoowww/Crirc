@@ -1,4 +1,4 @@
-describe CrystalIrc::Client::Nick do
+describe CrystalIrc::User do
 
   it "Basic instanciation" do
     e = CrystalIrc::User.new "test-works"

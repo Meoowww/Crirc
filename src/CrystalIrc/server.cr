@@ -18,7 +18,7 @@ module CrystalIrc
     @chans    : Hash(String, Hash(CrystalIrc::Chan, Array(CrystalIrc::User)))
     @clients  : Array(CrystalIrc::Server::Client)
 
-    getter host, port, socket, chans, users
+    getter host, port, socket, chans, clients
 
     # TODO: maybe new should be protected
     # TODO: add ssl socket

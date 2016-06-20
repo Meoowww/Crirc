@@ -1,12 +1,23 @@
-def process_client(s, cli)
+$verbose : Bool?
+
+def server_process_client(s, cli)
   cli.puts ":0 NOTICE Auth :***You are connected***"
-  loop do
-    begin
-      s.handle cli.gets.to_s
-    rescue e
-      puts e
+  begin
+    loop do
+      cli.gets do |str|
+        puts "server->cli.gets: #{str}" if $verbose == true
+        return if str.nil?
+        s.handle str
+      end
     end
+  rescue e
+    return if e.message == "Error writing file: Broken pipe"
+    STDERR.puts "Error during client proccess: #{e}"
   end
+end
+
+def client_fetch(cli, str)
+  puts "fetch: #{str}" if $verbose == true
 end
 
 describe CrystalIrc::Server do
@@ -38,19 +49,24 @@ describe CrystalIrc::Server do
   it "Server binding" do
     s = CrystalIrc::Server.new(host: "127.0.0.1", port: 6667_u16, ssl: false)
     s.on("JOIN") do |msg|
-      chan_name = msg.message.to_s.split(" ").first
+      chan_name = msg.arguments_raw
       msg.command.should eq("JOIN")
-      msg.arguments_raw.should eq("#toto")
-      msg.sender.puts ":0 NOTICE JOIN :#{chan_name}"
+      msg.arguments_raw.should eq("#toto") # chan_name
+      s.clients.first.puts ":0 NOTICE JOIN :#{chan_name}"
+      #msg.sender.puts ":0 NOTICE JOIN :#{chan_name}"
     end
 
-    spawn do
-      spawn process_client(s, s.accept)
-    end
+    spawn { spawn server_process_client(s, s.accept) }
     cli = CrystalIrc::Client.new(nick: "nick", ip: "127.0.0.1", port: 6667_u16, ssl: false)
     cli.connect
+    client_fetch cli, cli.gets
+    cli.send_login
+    sleep 0.5
     cli.join([CrystalIrc::Chan.new "#toto"])
     sleep 0.5
+    msg = cli.gets.to_s.chomp
+    client_fetch cli, msg
+    msg.should eq(":0 NOTICE JOIN :#toto")
     s.close
   end
 

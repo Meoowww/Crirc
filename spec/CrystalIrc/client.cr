@@ -1,14 +1,15 @@
 def test_cli(cli : CrystalIrc::Client)
-  s = cli.connect
-  s.should be_a(CrystalIrc::IrcSocket)
-  spawn do
-    loop { cli.gets {|msg| puts "> #{msg}"} }
+  cli.connect do |s|
+    s.should be_a(CrystalIrc::IrcSocket)
+    spawn do
+      loop { cli.gets {|msg| puts "> #{msg}"} }
+    end
+    sleep 1
+    chan = CrystalIrc::Chan.new("#nyupatate")
+    cli.join([chan])
+    cli.privmsg(target: chan, msg: "I'm a dwarf and I'm digging a hole. Diggy diggy hole.")
+    sleep 1
   end
-  sleep 1
-  chan = CrystalIrc::Chan.new("#nyupatate")
-  cli.join([chan])
-  cli.privmsg(target: chan, msg: "I'm a dwarf and I'm digging a hole. Diggy diggy hole.")
-  sleep 1
 end
 
 describe CrystalIrc::Client do
@@ -40,11 +41,12 @@ describe CrystalIrc::Client do
   it "Test close with server" do
     CrystalIrc::Server.open(ssl: false, port: 6666_u16) do |server|
       cli = CrystalIrc::Client.new ip: "localhost", port: 6666_u16, ssl: false, nick: "CrystalBotSpecS_#{rand 100..999}"
-      cli.connect
-      cli.closed?.should eq(false)
-      cli.close
-      cli.closed?.should eq(true)
-      expect_raises { cli.gets {} }
+      cli.connect do |_|
+        cli.closed?.should eq(false)
+        cli.close
+        cli.closed?.should eq(true)
+        expect_raises { cli.gets {} }
+      end
     end
   end
 
