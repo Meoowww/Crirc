@@ -1,13 +1,13 @@
 $verbose : Bool?
 
 def server_process_client(s, cli)
-  cli.puts ":0 NOTICE Auth :***You are connected***"
+  cli.send_raw ":0 NOTICE Auth :***You are connected***"
   begin
     loop do
       cli.gets do |str|
-        puts "server->cli.gets: #{str}" if $verbose == true
+        STDERR.puts "server->cli.gets: #{str}" if $verbose == true
         return if str.nil?
-        s.handle str
+        s.handle str, cli
       end
     end
   rescue e
@@ -17,7 +17,7 @@ def server_process_client(s, cli)
 end
 
 def client_fetch(cli, str)
-  puts "fetch: #{str}" if $verbose == true
+  STDERR.puts "fetch: #{str}" if $verbose == true
 end
 
 describe CrystalIrc::Server do
@@ -36,7 +36,7 @@ describe CrystalIrc::Server do
     spawn do
       s.accept do |cli|
         cli.should be_a(CrystalIrc::Server::Client)
-        cli.puts ":0 NOTICE Auth :***You are connected***"
+        cli.send_raw ":0 NOTICE Auth :***You are connected***"
       end
     end
     TCPSocket.open("127.0.0.1", 6667) do |socket|
@@ -52,8 +52,8 @@ describe CrystalIrc::Server do
       chan_name = msg.arguments_raw
       msg.command.should eq("JOIN")
       msg.arguments_raw.should eq("#toto") # chan_name
-      s.clients.first.puts ":0 NOTICE JOIN :#{chan_name}"
-      #msg.sender.puts ":0 NOTICE JOIN :#{chan_name}"
+      msg.sender.send_raw ":0 NOTICE JOIN :#{chan_name}"
+      #msg.reply "Yolo"
     end
 
     spawn { spawn server_process_client(s, s.accept) }

@@ -11,6 +11,7 @@ module CrystalIrc
       def privmsg(target : CrystalIrc::User, msg : String)
         send_raw "PRIVMSG #{target.name} :#{msg}"
       end
+
     end
 
   end

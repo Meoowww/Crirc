@@ -7,7 +7,7 @@ module CrystalIrc
 
     # Send a raw message to the socket. It should be a valid command
     # TODO: handle too large messages for IRC
-    protected def send_raw(raw : String)
+    def send_raw(raw : String)
       begin
         socket.puts raw
         STDERR.puts "#{socket}.send_raw(#{raw.inspect}): ok" if $verbose == true
@@ -19,7 +19,7 @@ module CrystalIrc
 
     def close; socket.close; end
     def closed?; socket.closed?; end
-    def puts(e); socket.puts(e); end
+    protected def puts(e); socket.puts(e); end
     def gets; yield socket.gets; end
     def gets
       r = socket.gets

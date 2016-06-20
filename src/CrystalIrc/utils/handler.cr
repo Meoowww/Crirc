@@ -28,8 +28,8 @@ module CrystalIrc
       self
     end
 
-    def handle(msg : String)
-      handle(CrystalIrc::Message.new msg, self)
+    def handle(msg : String, sender = self)
+      handle(CrystalIrc::Message.new msg, sender)
     end
 
   end
