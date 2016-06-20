@@ -1,11 +1,11 @@
-def test_cli(cli : CrystalIrc::Client)
+def test_cli(cli : CrystalIrc::Client, chan = "#nyupatate")
   cli.connect do |s|
     s.should be_a(CrystalIrc::IrcSender)
     spawn do
       loop { cli.gets {|msg| puts "> #{msg}"} }
     end
     sleep 1
-    chan = CrystalIrc::Chan.new("#nyupatate")
+    chan = CrystalIrc::Chan.new(chan as String)
     cli.join([chan])
     cli.privmsg(target: chan, msg: "I'm a dwarf and I'm digging a hole. Diggy diggy hole.")
     sleep 1
@@ -17,6 +17,7 @@ describe CrystalIrc::Client do
   it "Instance without network" do
     CrystalIrc::Client.new(ip: "localhost", port: 6667_u16, ssl: false, nick: "CrystalBot").should be_a(CrystalIrc::Client)
     CrystalIrc::Client.new(ip: "localhost", nick: "CrystalBot").should be_a(CrystalIrc::Client)
+    sleep 0.5
   end
 
   it "Test with irc.mozilla.net" do
@@ -26,6 +27,14 @@ describe CrystalIrc::Client do
       cli.should be_a(CrystalIrc::Client)
       test_cli cli
     }
+    sleep 0.5
+  end
+
+  it "Instance and simple connexion with ssl" do
+    cli = CrystalIrc::Client.new ip: "irc.mozilla.org", port: 6697_u16, ssl: true, nick: "CrystalBotSpecS"
+    cli.connect
+    cli.close
+    sleep 0.5
   end
 
   it "Test with irc.mozilla.net with ssl" do
@@ -36,6 +45,7 @@ describe CrystalIrc::Client do
       test_cli cli
       cli.close
     }
+    sleep 0.5
   end
 
   it "Test close with server" do
@@ -48,6 +58,7 @@ describe CrystalIrc::Client do
         expect_raises { cli.gets {} }
       end
     end
+    sleep 0.5
   end
 
 end
