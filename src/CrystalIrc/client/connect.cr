@@ -12,6 +12,7 @@ module CrystalIrc
         tmp_socket.keepalive     = keepalive
         @socket = tmp_socket
         @socket = OpenSSL::SSL::Socket::Client.new(tmp_socket) if ssl
+        send_login
         # handle answer
         self
       end

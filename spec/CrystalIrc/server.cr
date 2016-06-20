@@ -60,7 +60,7 @@ describe CrystalIrc::Server do
     cli = CrystalIrc::Client.new(nick: "nick", ip: "127.0.0.1", port: 6667_u16, ssl: false)
     cli.connect
     client_fetch cli, cli.gets
-    cli.send_login
+    #cli.send_login
     sleep 0.5
     cli.join([CrystalIrc::Chan.new "#toto"])
     sleep 0.5
