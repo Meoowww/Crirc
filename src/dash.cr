@@ -6,7 +6,11 @@ def start
 
   bot.on("JOIN") do |msg|
     name = msg.source.to_s.split("!").first
-    bot.privmsg(chan, "Welcome everypony, what's up #{name} ? :)") unless name == bot.nick.to_s
+    if name == bot.nick.to_s
+      bot.privmsg(chan, "Welcome everypony, what's up ? :)")
+    else
+      bot.privmsg(chan, "Welcome everypony, what's up #{name} ? :)")
+    end
   end.on("PING") do |msg|
     bot.pong(msg.arguments.to_s)
   end.on("PRIVMSG", message: /^(hi|hello|heil|y(o|u)(p?)|salut)/i) do |msg|
