@@ -12,7 +12,8 @@ def start
       bot.privmsg(chan, "Welcome everypony, what's up #{name} ? :)")
     end
   end.on("PING") do |msg|
-    bot.pong(msg.arguments.to_s)
+    STDERR.puts "PONG :#{msg.message}"
+    bot.pong(msg.message)
   end.on("PRIVMSG", message: /^(hi|hello|heil|y(o|u)(p?)|salut)/i) do |msg|
     name = msg.source.to_s.split("!").first
     curr_chan = CrystalIrc::Chan.new(msg.arguments_raw as String)
