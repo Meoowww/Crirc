@@ -52,8 +52,8 @@ describe CrystalIrc::Server do
       chan_name = msg.arguments_raw
       msg.command.should eq("JOIN")
       msg.arguments_raw.should eq("#toto") # chan_name
-      msg.sender.send_raw ":0 NOTICE JOIN :#{chan_name}"
-      #msg.reply "Yolo"
+      # note: this message is already sent
+      #msg.sender.send_raw ":0 NOTICE JOIN :#{chan_name}"
     end
 
     spawn { spawn server_process_client(s, s.accept) }
@@ -66,7 +66,7 @@ describe CrystalIrc::Server do
     sleep 0.5
     msg = cli.gets.to_s.chomp
     client_fetch cli, msg
-    msg.should eq(":0 NOTICE JOIN :#toto")
+    msg.should eq(":0 NOTICE user :JOINED #toto")
     s.close
   end
 

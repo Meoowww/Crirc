@@ -10,6 +10,7 @@ module CrystalIrc
 
   class Server
     include CrystalIrc::Handler
+    #include CrystalIrc::Server::Binding
 
     @host     : String
     @port     : UInt16
@@ -27,6 +28,7 @@ module CrystalIrc
       @chans = Hash(String, Hash(CrystalIrc::Chan, Array(CrystalIrc::User))).new
       @clients = Array(CrystalIrc::Server::Client).new
       super()
+      CrystalIrc::Server::Binding.attach(self)
     end
 
     def self.open(host = "127.0.0.1", port = 6697_u16, ssl = true)
@@ -57,15 +59,19 @@ module CrystalIrc
       cli
     end
 
+    protected def socket
+      @socket
+    end
+
     def close
       @clients.each{|c| c.close}
       @clients.clear
       @chans.clear
-      @socket.close
+      super
     end
 
-    protected def socket
-      @socket
+    def from
+      "0"
     end
 
   end

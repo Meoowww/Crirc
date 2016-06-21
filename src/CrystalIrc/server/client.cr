@@ -13,6 +13,10 @@ module CrystalIrc
         @socket
       end
 
+      def from
+        "0" # TODO: find the client through the Server.users
+      end
+
     end
   end
 end

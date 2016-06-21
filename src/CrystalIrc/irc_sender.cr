@@ -7,5 +7,12 @@ module CrystalIrc
     include CrystalIrc::Command::Chan
     include CrystalIrc::Command::Talk
     include CrystalIrc::Command::User
+
+    abstract def from : String
+
+    def answer_raw(raw : String)
+      send_raw(":#{from} #{raw}")
+    end
+
   end
 end

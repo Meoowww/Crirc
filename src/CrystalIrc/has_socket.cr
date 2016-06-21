@@ -17,6 +17,10 @@ module CrystalIrc
       end
     end
 
+    def answer_raw(from : String, raw : String)
+      send_raw(":#{from} #{raw}")
+    end
+
     def close; socket.close; end
     def closed?; socket.closed?; end
     protected def puts(e); socket.puts(e); end

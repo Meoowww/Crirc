@@ -47,5 +47,9 @@ module CrystalIrc
       @socket as IrcSocket
     end
 
+    def from
+      nick.to_s
+    end
+
   end
 end
