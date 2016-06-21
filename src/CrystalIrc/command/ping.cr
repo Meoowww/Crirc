@@ -3,11 +3,11 @@ module CrystalIrc
 
     module Ping
       def ping(message = "0")
-        send_raw "PING #{message}"
+        send_raw "PING :#{message}"
       end
 
       def pong(message = "0")
-        send_raw "PONG #{message}"
+        send_raw "PONG :#{message}"
       end
     end
 

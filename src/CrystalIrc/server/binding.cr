@@ -9,6 +9,8 @@ module CrystalIrc
           # TODO: send to the chans
           # TODO: use something like msg.sender.user instead of "user"
           chans.each { |chan| msg.sender.notice CrystalIrc::User.new("user"), "JOINED #{chan.name}" }
+        end.on("PING") do |msg|
+          msg.sender.pong(msg.message)
         end
       end
     end

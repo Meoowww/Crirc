@@ -67,6 +67,10 @@ describe CrystalIrc::Server do
     msg = cli.gets.to_s.chomp
     client_fetch cli, msg
     msg.should eq(":0 NOTICE user :JOINED #toto")
+    cli.ping
+    cli.gets.to_s.chomp.should eq("PONG :0")
+    cli.ping "azerty 42"
+    cli.gets.to_s.chomp.should eq("PONG :azerty 42")
     s.close
   end
 
