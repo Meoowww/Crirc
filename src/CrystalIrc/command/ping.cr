@@ -7,7 +7,7 @@ module CrystalIrc
       end
 
       def pong(message = "0")
-        send_raw "PONG :#{message}"
+        send_raw (message.nil? || message.empty?) ? "PONG" : "PONG :#{message}"
       end
 
     end
