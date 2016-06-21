@@ -1,6 +1,5 @@
 module CrystalIrc
   module Handler
-
     class HookRules
 
       @source     : String | Regex | Nil
@@ -43,7 +42,7 @@ module CrystalIrc
         return false if msg.message.nil?
         message.is_a?(Regex) ? msg.message.to_s.match message as Regex : msg.message == message
       end
-    end
 
+    end
   end
 end

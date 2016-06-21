@@ -1,5 +1,4 @@
 module CrystalIrc
-
   class User
 
     @name   : String
@@ -19,5 +18,4 @@ module CrystalIrc
     end
 
   end
-
 end

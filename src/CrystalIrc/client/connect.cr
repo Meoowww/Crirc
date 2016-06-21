@@ -2,7 +2,6 @@ require "openssl"
 
 module CrystalIrc
   class Client
-
     module Connect
 
       def connect
@@ -31,6 +30,5 @@ module CrystalIrc
         send_raw "USER #{user.to_s} \"#{domain}\" \"#{irc_server}\" :#{realname.to_s}"
       end
     end
-
   end
 end

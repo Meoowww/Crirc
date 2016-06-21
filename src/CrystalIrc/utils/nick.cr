@@ -37,5 +37,4 @@ module CrystalIrc
     end
 
   end
-
 end

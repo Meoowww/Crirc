@@ -7,8 +7,8 @@ end
 require "./server/*"
 
 module CrystalIrc
-
   class Server
+
     include CrystalIrc::Handler
     #include CrystalIrc::Server::Binding
 
@@ -75,5 +75,4 @@ module CrystalIrc
     end
 
   end
-
 end

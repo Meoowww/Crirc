@@ -1,6 +1,7 @@
 module CrystalIrc
   class Server
     module Binding
+
       def self.attach(obj)
         obj.on("JOIN") do |msg|
           chans = msg.arguments_raw.to_s.split(",").map{|e| CrystalIrc::Chan.new e.strip }
@@ -13,6 +14,7 @@ module CrystalIrc
           msg.sender.pong(msg.message)
         end
       end
+
     end
   end
 end

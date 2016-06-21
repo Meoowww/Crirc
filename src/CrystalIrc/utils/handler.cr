@@ -1,5 +1,6 @@
 module CrystalIrc
   module Handler
+
     @hooks : Hash(CrystalIrc::Handler::HookRules, Array(CrystalIrc::Handler::Hook))
 
     def initialize(**opts)
