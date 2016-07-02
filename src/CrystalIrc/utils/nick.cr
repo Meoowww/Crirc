@@ -1,7 +1,6 @@
 module CrystalIrc
   class Nick
-
-    @base   : String
+    @base : String
     @suffix : UInt16?
 
     getter base
@@ -24,7 +23,7 @@ module CrystalIrc
 
     def next : String
       @suffix ||= 0_u16
-      @suffix = (@suffix as UInt16) + 1_u16
+      @suffix = (@suffix.as(UInt16)) + 1_u16
       to_s
     end
 
@@ -35,6 +34,5 @@ module CrystalIrc
     def to_s : String
       base + suffix
     end
-
   end
 end

@@ -1,7 +1,6 @@
 module CrystalIrc
   module Command
     module Chan
-
       # Formats the chans to join: #chan1,#chan2 (works with users by the same way)
       def format_list(chans : Array(CrystalIrc::Chan))
         chans.map do |c|
@@ -66,7 +65,6 @@ module CrystalIrc
         reason = ":#{reason}" if reason
         send_raw "KICK #{chan} #{targets} #{reason}"
       end
-
     end
   end
 end

@@ -1,6 +1,5 @@
 module CrystalIrc
   module Handler
-
     @hooks : Hash(CrystalIrc::Handler::HookRules, Array(CrystalIrc::Handler::Hook))
 
     def initialize(**opts)
@@ -24,14 +23,13 @@ module CrystalIrc
     end
 
     def handle(msg : CrystalIrc::Message)
-      self.hooks.select{|rule, hooks| rule.test(msg)}.each{|_, hooks| hooks.each{|hook| hook.call(msg)} }
-      self.hooks.fetch(msg.command){ Array(Hook).new }
+      self.hooks.select { |rule, hooks| rule.test(msg) }.each { |_, hooks| hooks.each { |hook| hook.call(msg) } }
+      self.hooks.fetch(msg.command) { Array(Hook).new }
       self
     end
 
     def handle(msg : String, sender = self)
       handle(CrystalIrc::Message.new msg, sender)
     end
-
   end
 end

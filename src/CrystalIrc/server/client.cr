@@ -3,7 +3,6 @@ require "../irc_sender"
 module CrystalIrc
   class Server
     class Client < CrystalIrc::IrcSender
-
       @socket : TCPSocket
 
       def initialize(@socket)
@@ -14,9 +13,8 @@ module CrystalIrc
       end
 
       def from
-        "0" # TODO: find the client through the Server.users
+        "0" #  TODO: find the client through the Server.users
       end
-
     end
   end
 end

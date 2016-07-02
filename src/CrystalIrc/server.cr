@@ -1,4 +1,5 @@
 require "./irc_sender"
+
 module CrystalIrc
   class Server < CrystalIrc::IrcSender
   end
@@ -8,16 +9,15 @@ require "./server/*"
 
 module CrystalIrc
   class Server
-
     include CrystalIrc::Handler
-    #include CrystalIrc::Server::Binding
+    # include CrystalIrc::Server::Binding
 
-    @host     : String
-    @port     : UInt16
-    @socket   : TCPServer
-    @ssl      : Bool
-    @chans    : Hash(String, Hash(CrystalIrc::Chan, Array(CrystalIrc::User)))
-    @clients  : Array(CrystalIrc::Server::Client)
+    @host : String
+    @port : UInt16
+    @socket : TCPServer
+    @ssl : Bool
+    @chans : Hash(String, Hash(CrystalIrc::Chan, Array(CrystalIrc::User)))
+    @clients : Array(CrystalIrc::Server::Client)
 
     getter host, port, socket, chans, clients
 
@@ -64,7 +64,7 @@ module CrystalIrc
     end
 
     def close
-      @clients.each{|c| c.close}
+      @clients.each { |c| c.close }
       @clients.clear
       @chans.clear
       super
@@ -73,6 +73,5 @@ module CrystalIrc
     def from
       "0"
     end
-
   end
 end

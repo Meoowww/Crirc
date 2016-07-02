@@ -16,12 +16,12 @@ def start
     bot.pong(msg.message)
   end.on("PRIVMSG", message: /^(hi|hello|heil|y(o|u)(p?)|salut)/i) do |msg|
     name = msg.source.to_s.split("!").first
-    curr_chan = CrystalIrc::Chan.new(msg.arguments_raw as String)
-    bot.privmsg(curr_chan , "Hi #{name} :)")
+    curr_chan = CrystalIrc::Chan.new(msg.arguments_raw.as(String))
+    bot.privmsg(curr_chan, "Hi #{name} :)")
   end.on("PRIVMSG", message: /^!ping/) do |msg|
     name = msg.source.to_s.split("!").first
-    curr_chan = CrystalIrc::Chan.new(msg.arguments_raw as String)
-    bot.privmsg(curr_chan , "pong #{name}")
+    curr_chan = CrystalIrc::Chan.new(msg.arguments_raw.as(String))
+    bot.privmsg(curr_chan, "pong #{name}")
   end
 
   bot.connect
@@ -33,7 +33,7 @@ def start
       bot.gets do |m|
         break if m.nil?
         puts m
-        spawn { bot.handle(m as String) }
+        spawn { bot.handle(m.as(String)) }
       end
     rescue IO::Timeout
       puts "Nothing happened..."

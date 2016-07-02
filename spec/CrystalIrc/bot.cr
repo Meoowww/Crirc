@@ -1,7 +1,6 @@
 $counter_toto = 0
 
 describe CrystalIrc::Bot do
-
   it "Instance and basic hooking" do
     $counter_toto = 0
     bot = CrystalIrc::Bot.new ip: "localhost", nick: "DashieLove"
@@ -32,7 +31,8 @@ describe CrystalIrc::Bot do
     bot
       .on("TOTO") { |msg| $counter_toto += 1 }
       .on("TOTO", message: /^what/) { |msg|
-        msg.message.should eq("what is love"); $counter_toto += 1 }
+      msg.message.should eq("what is love"); $counter_toto += 1
+    }
     bot.handle(":s TOTO")
     $counter_toto.should eq(1)
     bot.handle(":s TOTO arg :what is love")
@@ -40,5 +40,4 @@ describe CrystalIrc::Bot do
     bot.handle(":s TOTO arg :this is love")
     $counter_toto.should eq(4)
   end
-
 end

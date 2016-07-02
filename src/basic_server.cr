@@ -1,5 +1,5 @@
-
 require "./CrystalIrc"
+
 def server_process_client(s, cli)
   cli.send_raw ":0 NOTICE Auth :***You are connected***"
   begin

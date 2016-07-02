@@ -1,11 +1,10 @@
 module CrystalIrc
   module Handler
     class HookRules
-
-      @source     : String | Regex | Nil
-      @command    : String | Regex
-      @arguments  : String | Regex | Nil
-      @message    : String | Regex | Nil
+      @source : String | Regex | Nil
+      @command : String | Regex
+      @arguments : String | Regex | Nil
+      @message : String | Regex | Nil
 
       getter source, command, arguments, message
 
@@ -21,28 +20,27 @@ module CrystalIrc
       end
 
       private def test_command(msg : CrystalIrc::Message)
-        command.is_a?(Regex) ? msg.command.to_s.match command as Regex : msg.command == command
+        command.is_a?(Regex) ? msg.command.to_s.match command.as(Regex) : msg.command == command
       end
 
-      # TODO: macro de defines theses methods
+      #  TODO: macro de defines theses methods
       private def test_source(msg : CrystalIrc::Message)
         return true if source.nil?
         return false if msg.source.nil?
-        source.is_a?(Regex) ? msg.source.to_s.match source as Regex : msg.source == source
+        source.is_a?(Regex) ? msg.source.to_s.match source.as(Regex) : msg.source == source
       end
 
       private def test_arguments(msg : CrystalIrc::Message)
         return true if arguments.nil?
         return false if msg.arguments.nil?
-        arguments.is_a?(Regex) ? msg.arguments_raw.to_s.match arguments as Regex : msg.arguments_raw == arguments
+        arguments.is_a?(Regex) ? msg.arguments_raw.to_s.match arguments.as(Regex) : msg.arguments_raw == arguments
       end
 
       private def test_message(msg : CrystalIrc::Message)
         return true if message.nil?
         return false if msg.message.nil?
-        message.is_a?(Regex) ? msg.message.to_s.match message as Regex : msg.message == message
+        message.is_a?(Regex) ? msg.message.to_s.match message.as(Regex) : msg.message == message
       end
-
     end
   end
 end

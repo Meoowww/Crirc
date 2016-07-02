@@ -1,5 +1,4 @@
 describe CrystalIrc::Server do
-
   it "Instance" do
     s = CrystalIrc::Server.new(host: "127.0.0.1", port: 6667_u16, ssl: false)
     s.should be_a(CrystalIrc::Server)
@@ -23,5 +22,4 @@ describe CrystalIrc::Server do
     end
     s.close
   end
-
 end

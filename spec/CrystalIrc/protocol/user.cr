@@ -1,9 +1,8 @@
 describe CrystalIrc::User do
-
   it "Basic instanciation" do
     e = CrystalIrc::User.new "test-works"
     e.name.should eq("test-works")
-    # RFC ? ahahah get out the way
+    # RFC ? ahahah get out the way
     e = CrystalIrc::User.new "test_works"
     e.name.should eq("test_works")
     e = CrystalIrc::User.new "#test-works"
@@ -24,5 +23,4 @@ describe CrystalIrc::User do
     e.name.should eq("Dash")
     e.whois.should eq("here@1.1.1.1")
   end
-
 end

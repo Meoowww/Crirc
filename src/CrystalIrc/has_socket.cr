@@ -2,7 +2,6 @@ $verbose : Bool?
 
 module CrystalIrc
   abstract class HasSocket
-
     abstract def socket : IrcSocket
 
     # Send a raw message to the socket. It should be a valid command
@@ -21,10 +20,22 @@ module CrystalIrc
       send_raw(":#{from} #{raw}")
     end
 
-    def close; socket.close; end
-    def closed?; socket.closed?; end
-    protected def puts(e); socket.puts(e); end
-    def gets; yield socket.gets; end
+    def close
+      socket.close
+    end
+
+    def closed?
+      socket.closed?
+    end
+
+    protected def puts(e)
+      socket.puts(e)
+    end
+
+    def gets
+      yield socket.gets
+    end
+
     def gets
       r = socket.gets
       STDERR.puts "#{socket}.gets() => #{r.inspect}: ok" if $verbose == true

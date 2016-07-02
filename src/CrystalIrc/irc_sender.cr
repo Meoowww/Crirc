@@ -13,6 +13,5 @@ module CrystalIrc
     def answer_raw(raw : String)
       send_raw(":#{from} #{raw}")
     end
-
   end
 end
