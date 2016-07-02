@@ -1,11 +1,16 @@
+# $verbose = true
+
 def test_cli(cli : CrystalIrc::Client, chan = "#nyupatate")
   cli.connect do |s|
     s.should be_a(CrystalIrc::IrcSender)
     spawn do
-      loop { cli.gets {|msg| puts "> #{msg}"} }
+      loop do
+        break if cli.closed?
+        cli.gets { |msg| puts "> #{msg}" } rescue nil
+      end
     end
     sleep 1
-    chan = CrystalIrc::Chan.new(chan as String)
+    chan = CrystalIrc::Chan.new(chan.as(String))
     cli.join([chan])
     cli.privmsg(target: chan, msg: "I'm a dwarf and I'm digging a hole. Diggy diggy hole.")
     sleep 1
@@ -13,7 +18,6 @@ def test_cli(cli : CrystalIrc::Client, chan = "#nyupatate")
 end
 
 describe CrystalIrc::Client do
-
   it "Instance without network" do
     CrystalIrc::Client.new(ip: "localhost", port: 6667_u16, ssl: false, nick: "CrystalBot").should be_a(CrystalIrc::Client)
     CrystalIrc::Client.new(ip: "localhost", nick: "CrystalBot").should be_a(CrystalIrc::Client)
@@ -26,6 +30,7 @@ describe CrystalIrc::Client do
       cli = CrystalIrc::Client.new ip: "irc.mozilla.org", port: 6667_u16, ssl: false, nick: "CrystalBotSpecS_#{rand 100..999}"
       cli.should be_a(CrystalIrc::Client)
       test_cli cli
+      cli.close
       sleep 0.5
     }
   end
@@ -57,10 +62,9 @@ describe CrystalIrc::Client do
         cli.closed?.should eq(false)
         cli.close
         cli.closed?.should eq(true)
-        expect_raises { cli.gets {} }
+        expect_raises { cli.gets { } }
       end
     end
     sleep 0.5
   end
-
 end
