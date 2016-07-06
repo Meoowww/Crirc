@@ -1,6 +1,7 @@
 require "./user"
 
 module CrystalIrc
+  # Represent a channel, with a name, ...
   class Chan < User
     def initialize(@name)
       raise ParsingError.new @name, "The Chan name must not be empty" if @name.empty?

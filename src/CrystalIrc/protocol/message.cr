@@ -1,4 +1,7 @@
 module CrystalIrc
+  # Represent a message.
+  # It has a sender, a command (or a code).
+  # Optionaly, it may have a source, arguments, and message.
   class Message
     @source : String?
     @command : String
@@ -8,12 +11,15 @@ module CrystalIrc
 
     getter source, command, message, sender
 
-    # @return an Array of Arguments, including the message (last argument with the prefix :)
+    # Return an Array of Arguments, including the message.
     def arguments : Array(String)
       (@arguments ? @arguments.to_s.split(" ") + [@message] : [@message]).compact
     end
 
-    # @return the arguments value (litteral string or nil with space to separate arguments, wich not includes the message)
+    # Return the arguments value
+    # This is a litteral string or nil.
+    # Each arguments are separated with space
+    # It does not include the message.
     def raw_arguments : String?
       @arguments
     end

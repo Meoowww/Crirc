@@ -1,4 +1,5 @@
 module CrystalIrc
+  # Register hooks to handle the behavior of a system based on a message.
   module Handler
     @hooks : Hash(CrystalIrc::Handler::HookRules, Array(CrystalIrc::Handler::Hook))
 

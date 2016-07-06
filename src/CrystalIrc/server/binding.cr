@@ -1,5 +1,7 @@
 module CrystalIrc
   class Server
+    # Default binding on the server.
+    # Handles the classic behavior of a server.
     module Binding
       def self.attach(obj)
         obj.on("JOIN") do |msg|

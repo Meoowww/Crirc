@@ -1,4 +1,5 @@
 module CrystalIrc
+  # Represent an user, with a name, and an optional whois
   class User
     @name : String
     @whois : String?

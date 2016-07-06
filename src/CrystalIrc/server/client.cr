@@ -2,6 +2,7 @@ require "../irc_sender"
 
 module CrystalIrc
   class Server
+    # Represent a client, from the point of view of the server.
     class Client < CrystalIrc::IrcSender
       @socket : TCPSocket
 

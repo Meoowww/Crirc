@@ -1,4 +1,5 @@
 module CrystalIrc
+  # Represent a Nick for Irc Clients
   class Nick
     @base : String
     @suffix : UInt16?

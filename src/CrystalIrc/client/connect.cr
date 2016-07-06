@@ -3,6 +3,8 @@ require "openssl"
 module CrystalIrc
   class Client
     module Connect
+      # Connect the client to the server.
+      # It does send the login informations.
       def connect
         tmp_socket = TCPSocket.new ip, port
         tmp_socket.read_timeout = read_timeout

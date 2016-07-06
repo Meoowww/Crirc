@@ -1,5 +1,7 @@
 module CrystalIrc
   module Handler
+    # The `HookRules` define a set of rules.
+    # Theses rules can test an event (message) to "match" with.
     class HookRules
       @source : String | Regex | Nil
       @command : String | Regex
@@ -8,10 +10,10 @@ module CrystalIrc
 
       getter source, command, arguments, message
 
-      # @param command is by default "PRIVMSG", and must be a UPPERCASE irc command (JOIN, PRIVMSG, ...)
-      # @param source is optional. It represents the sender.
-      # @param arguments is optional. It represents the parameters (without the last argument if prefixed with ":", like in JOIN).
-      # @param source is optional. It represents the last argument when prefixed with ":".
+      # - "command" is by default "PRIVMSG", and must be a UPPERCASE irc command (JOIN, PRIVMSG, ...)
+      # - "source" is optional. It represents the sender.
+      # - "arguments" is optional. It represents the parameters (without the last argument if prefixed with ":", like in JOIN).
+      # - "message" is optional. It represents the last argument when prefixed with ":".
       def initialize(@command = "PRIVMSG", @source = nil, @arguments = nil, @message = nil)
       end
 
