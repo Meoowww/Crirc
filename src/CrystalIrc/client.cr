@@ -43,7 +43,7 @@ module CrystalIrc
     # The client has to call connect() before using socket.
     # If the socket is not setup, it will rase a NoConnection error
     protected def socket : IrcSocket
-      raise NoConnection.new "Socket is not set. Use connect(...) before." unless @socket
+      raise NetworkError.new "Socket is not set. Use connect(...) before." unless @socket
       @socket.as(IrcSocket)
     end
 

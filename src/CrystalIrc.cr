@@ -6,21 +6,15 @@ module CrystalIrc
 
   class IrcError < Exception; end
 
-  class NotImplemented < IrcError; end
+  class NotImplementedError < IrcError; end
 
-  class NoConnection < IrcError; end
+  class NetworkError < IrcError; end
 
-  class InvalidMessage < IrcError; end
-
-  class InvalidName < CrystalIrc::IrcError; end
-
-  class InvalidChanName < CrystalIrc::InvalidName; end
-
-  class InvalidUserName < CrystalIrc::InvalidName; end
-
-  class InvalidUserSource < CrystalIrc::InvalidName; end
-
-  class InvalidNick < CrystalIrc::InvalidName; end
+  class ParsingError < IrcError
+    def initialize(str : String, msg : String? = nil)
+      super("Cannot parse \"#{str}\"" + (msg ? " #{msg}" : "" ))
+    end
+  end
 end
 
 require "./CrystalIrc/utils/*"

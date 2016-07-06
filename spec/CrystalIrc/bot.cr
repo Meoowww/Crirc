@@ -21,8 +21,8 @@ describe CrystalIrc::Bot do
     bot.on("TOTO") { |msg| msg.raw_arguments.should eq(nil); $counter_toto += 1 }.should be(bot)
     bot.handle(":from TOTO")
     $counter_toto.should eq(10)
-    expect_raises(CrystalIrc::InvalidMessage) { bot.handle("violation") }
-    expect_raises(CrystalIrc::InvalidMessage) { bot.handle(":from bad") }
+    expect_raises(CrystalIrc::ParsingError) { bot.handle("violation") }
+    expect_raises(CrystalIrc::ParsingError) { bot.handle(":from bad") }
   end
 
   it "Hooking with advanced rules" do

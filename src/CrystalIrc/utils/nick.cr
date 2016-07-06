@@ -17,7 +17,7 @@ module CrystalIrc
 
     def base=(v) : String
       reset
-      raise InvalidNick.new "The User name must contains at most 50 valid characters" if !v.match(/\A(?!.{51,})(([a-zA-Z])([a-zA-Z0-9_\-\[\]\\\`\^\{\}]*))\Z/)
+      raise ParsingError.new "user name must contains at most 50 valid characters" if !v.match(/\A(?!.{51,})(([a-zA-Z])([a-zA-Z0-9_\-\[\]\\\`\^\{\}]*))\Z/)
       @base = v
     end
 
