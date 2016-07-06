@@ -19,8 +19,8 @@ module CrystalIrc
     end
 
     R_SOURCE = "(\\:(?<source>[^[:space:]]+) )"
-    R_CMD = "(?<cmd>[A-Z0-9-]+)"
-    R_ARGS = "(?: (?<args>[^\:]*))"
+    R_CMD = "(?<cmd>[A-Z]+|\\d{3})"
+    R_ARGS = "(?: (?<args>[^\\:]*))"
     R_MSG = "(?: \\:(?<msg>.+))"
     def initialize(raw : String, @sender)
       m = raw.strip.match(/\A#{R_SOURCE}?#{R_CMD}#{R_ARGS}?#{R_MSG}?\Z/)
