@@ -12,7 +12,7 @@ module CrystalIrc
 
   class ParsingError < IrcError
     def initialize(str : String, msg : String? = nil)
-      super("Cannot parse \"#{str}\"" + (msg ? " #{msg}" : "" ))
+      super("Cannot parse \"#{str}\"" + (msg ? " #{msg}" : ""))
     end
   end
 end
