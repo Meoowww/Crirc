@@ -25,24 +25,13 @@ module CrystalIrc
         command.is_a?(Regex) ? msg.command.to_s.match command.as(Regex) : msg.command == command
       end
 
-      #  TODO: macro de defines theses methods
-      private def test_source(msg : CrystalIrc::Message)
-        return true if source.nil?
-        return false if msg.source.nil?
-        source.is_a?(Regex) ? msg.source.to_s.match source.as(Regex) : msg.source == source
+      {% for ft in ["source", "arguments", "message"] %}
+      private def {{ ("test_" + ft).id }}(msg : CrystalIrc::Message)
+        return true if {{ ft.id }}.nil?
+        return false if msg.{{ ft.id }}.nil?
+        {{ ft.id }}.is_a?(Regex) ? msg.{{ ft.id }}.to_s.match {{ ft.id }}.as(Regex) : msg.{{ ft.id }} == {{ ft.id }}
       end
-
-      private def test_arguments(msg : CrystalIrc::Message)
-        return true if arguments.nil?
-        return false if msg.arguments.nil?
-        arguments.is_a?(Regex) ? msg.raw_arguments.to_s.match arguments.as(Regex) : msg.raw_arguments == arguments
-      end
-
-      private def test_message(msg : CrystalIrc::Message)
-        return true if message.nil?
-        return false if msg.message.nil?
-        message.is_a?(Regex) ? msg.message.to_s.match message.as(Regex) : msg.message == message
-      end
+      {% end %}
     end
   end
 end
