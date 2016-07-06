@@ -18,17 +18,17 @@ module CrystalIrc
       @arguments
     end
 
-    R_SOURCE = "(\\:(?<source>[^[:space:]]+) )"
+    R_SRC = "(\\:(?<src>[^[:space:]]+) )"
     R_CMD = "(?<cmd>[A-Z]+|\\d{3})"
-    R_ARGS_ONE = "(?:[^: ][^ ]*)"
-    R_ARGS = "(?: (?<args>#{R_ARGS_ONE}(?: #{R_ARGS_ONE})*))"
+    R_ARG_ONE = "(?:[^: ][^ ]*)"
+    R_ARG = "(?: (?<arg>#{R_ARG_ONE}(?: #{R_ARG_ONE})*))"
     R_MSG = "(?: \\:(?<msg>.+))"
     def initialize(raw : String, @sender)
-      m = raw.strip.match(/\A#{R_SOURCE}?#{R_CMD}#{R_ARGS}?#{R_MSG}?\Z/)
+      m = raw.strip.match(/\A#{R_SRC}?#{R_CMD}#{R_ARG}?#{R_MSG}?\Z/)
       raise ParsingError.new(raw, "message invalid") if m.nil?
-      @source = m["source"]?
+      @source = m["src"]?
       @command = m["cmd"] # ? || raise InvalidMessage.new("No command to parse in \"#{raw}\"")
-      @arguments = m["args"]?
+      @arguments = m["arg"]?
       @message = m["msg"]?
     end
   end
