@@ -14,7 +14,7 @@ module CrystalIrc
     end
 
     # @return the arguments value (litteral string or nil with space to separate arguments, wich not includes the message)
-    def arguments_raw : String?
+    def raw_arguments : String?
       @arguments
     end
 

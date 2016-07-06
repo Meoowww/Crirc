@@ -22,9 +22,9 @@ describe CrystalIrc::Server::Binding do
   it "Server binding" do
     s = CrystalIrc::Server.new(host: "127.0.0.1", port: 6667_u16, ssl: false)
     s.on("JOIN") do |msg|
-      chan_name = msg.arguments_raw
+      chan_name = msg.raw_arguments
       msg.command.should eq("JOIN")
-      msg.arguments_raw.should eq("#toto") # chan_name
+      msg.raw_arguments.should eq("#toto") # chan_name
       # note: this message is already sent
       # msg.sender.send_raw ":0 NOTICE JOIN :#{chan_name}"
     end

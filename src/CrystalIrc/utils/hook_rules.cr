@@ -33,7 +33,7 @@ module CrystalIrc
       private def test_arguments(msg : CrystalIrc::Message)
         return true if arguments.nil?
         return false if msg.arguments.nil?
-        arguments.is_a?(Regex) ? msg.arguments_raw.to_s.match arguments.as(Regex) : msg.arguments_raw == arguments
+        arguments.is_a?(Regex) ? msg.raw_arguments.to_s.match arguments.as(Regex) : msg.raw_arguments == arguments
       end
 
       private def test_message(msg : CrystalIrc::Message)

@@ -1,8 +1,8 @@
 require "./CrystalIrc"
 
 def start
-  bot = CrystalIrc::Bot.new ip: "irc.mozilla.org", nick: "Dash", read_timeout: 30_u16
-  chan = CrystalIrc::Chan.new("#equilibre")
+  bot = CrystalIrc::Bot.new ip: "irc.mozilla.org", nick: "Dashy", read_timeout: 30_u16
+  chan = CrystalIrc::Chan.new("#equilibre2")
 
   bot.on("JOIN") do |msg|
     name = msg.source.to_s.split("!").first
@@ -16,11 +16,11 @@ def start
     bot.pong(msg.message)
   end.on("PRIVMSG", message: /^(hi|hello|heil|y(o|u)(p?)|salut)/i) do |msg|
     name = msg.source.to_s.split("!").first
-    curr_chan = CrystalIrc::Chan.new(msg.arguments_raw.as(String))
+    curr_chan = CrystalIrc::Chan.new(msg.raw_arguments.as(String))
     bot.privmsg(curr_chan, "Hi #{name} :)")
   end.on("PRIVMSG", message: /^!ping/) do |msg|
     name = msg.source.to_s.split("!").first
-    curr_chan = CrystalIrc::Chan.new(msg.arguments_raw.as(String))
+    curr_chan = CrystalIrc::Chan.new(msg.raw_arguments.as(String))
     bot.privmsg(curr_chan, "pong #{name}")
   end
 

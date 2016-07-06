@@ -3,7 +3,7 @@ module CrystalIrc
     module Binding
       def self.attach(obj)
         obj.on("JOIN") do |msg|
-          chans = msg.arguments_raw.to_s.split(",").map { |e| CrystalIrc::Chan.new e.strip }
+          chans = msg.raw_arguments.to_s.split(",").map { |e| CrystalIrc::Chan.new e.strip }
           # TODO: create the chan if needed
           #  TODO: add the user the the chans
           # TODO: send to the chans
