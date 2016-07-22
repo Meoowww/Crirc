@@ -9,9 +9,9 @@ module CrystalIrc
     def send_raw(raw : String)
       begin
         socket.puts raw
-        STDERR.puts "#{socket}.send_raw(#{raw.inspect}): ok" if $verbose == true
+        STDERR.puts "[#{Time.now}] #{socket}.send_raw(#{raw.inspect}): ok" if $verbose == true
       rescue e
-        STDERR.puts "#{socket}.send_raw(#{raw.inspect}): #{e}" if $verbose == true
+        STDERR.puts "[#{Time.now}] #{socket}.send_raw(#{raw.inspect}): #{e}" if $verbose == true
         raise e
       end
     end
@@ -38,7 +38,7 @@ module CrystalIrc
 
     def gets
       r = socket.gets
-      STDERR.puts "#{socket}.gets() => #{r.inspect}: ok" if $verbose == true
+      STDERR.puts "[#{Time.now}] #{socket}.gets() => #{r.inspect}: ok" if $verbose == true
       r
     end
   end
