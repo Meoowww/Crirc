@@ -7,9 +7,9 @@ def start
   bot.on("JOIN") do |msg|
     name = msg.source.to_s.split("!").first
     if name == bot.nick.to_s
-      bot.privmsg(chan, "Welcome everypony, what's up ? :)")
+      bot.privmsg(chan, "Hi everypony, what's up ? :)")
     else
-      bot.privmsg(chan, "Welcome everypony, what's up #{name} ? :)")
+      bot.privmsg(chan, "Welcome #{name}, what's up ? :)")
     end
   end.on("PING") do |msg|
     STDERR.puts "PONG :#{msg.message}"
