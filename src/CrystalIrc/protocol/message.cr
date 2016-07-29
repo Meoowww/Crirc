@@ -11,17 +11,22 @@ module CrystalIrc
 
     getter source, command, message, sender
 
-    # Return an Array of Arguments, including the message.
-    def arguments : Array(String)
-      (@arguments ? @arguments.to_s.split(" ") + [@message] : [@message]).compact
+    # Return the arguments value
+    # This is a litteral `String`.
+    # Each arguments are separated with space (the last may contain spaces, but
+    # in this case, the last argument follows a ':')
+    def raw_arguments : String?
+      return nil if @arguments.nil? && @message.nil?
+      return @arguments if @message.nil?
+      return ":#{@message}" if @arguments.nil?
+      return "#{@arguments} :#{@message}"
     end
 
-    # Return the arguments value
-    # This is a litteral string or nil.
-    # Each arguments are separated with space
-    # It does not include the message.
-    def raw_arguments : String?
-      @arguments
+    def arguments : Array(String)?
+      return nil if @arguments.nil? && @message.nil?
+      return (@arguments.as(String)).split(" ") if @message.nil?
+      return [@message.as(String)] if @arguments.nil?
+      return (@arguments.as(String)).split(" ") << (@message.as(String))
     end
 
     R_SRC     = "(\\:(?<src>[^[:space:]]+) )"

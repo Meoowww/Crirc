@@ -7,7 +7,7 @@ describe CrystalIrc::Message do
     m = CrystalIrc::Message.new(":source CMD arg1 arg2 :message", cli)
     m.source.should eq("source")
     m.command.should eq("CMD")
-    m.raw_arguments.should eq("arg1 arg2")
+    m.raw_arguments.should eq("arg1 arg2 :message")
     m.arguments.should eq(%w(arg1 arg2 message))
     m.message.should eq("message")
   end
@@ -25,7 +25,7 @@ describe CrystalIrc::Message do
     m = CrystalIrc::Message.new(":source CMD :message", cli)
     m.source.should eq("source")
     m.command.should eq("CMD")
-    m.raw_arguments.should eq(nil)
+    m.raw_arguments.should eq(":message")
     m.arguments.should eq(%w(message))
     m.message.should eq("message")
   end
@@ -34,7 +34,7 @@ describe CrystalIrc::Message do
     m = CrystalIrc::Message.new("CMD arg1 arg2 :message", cli)
     m.source.should eq(nil)
     m.command.should eq("CMD")
-    m.raw_arguments.should eq("arg1 arg2")
+    m.raw_arguments.should eq("arg1 arg2 :message")
     m.arguments.should eq(%w(arg1 arg2 message))
     m.message.should eq("message")
   end

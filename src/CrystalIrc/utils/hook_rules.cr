@@ -10,6 +10,10 @@ module CrystalIrc
 
       getter source, command, arguments, message
 
+      def raw_arguments
+        @arguments
+      end
+
       # - "command" is by default "PRIVMSG", and must be a UPPERCASE irc command (JOIN, PRIVMSG, ...)
       # - "source" is optional. It represents the sender.
       # - "arguments" is optional. It represents the parameters (without the last argument if prefixed with ":", like in JOIN).
@@ -18,14 +22,14 @@ module CrystalIrc
       end
 
       def test(msg : CrystalIrc::Message)
-        test_command(msg) && test_source(msg) && test_arguments(msg) && test_message(msg)
+        test_command(msg) && test_source(msg) && test_raw_arguments(msg) && test_message(msg)
       end
 
       private def test_command(msg : CrystalIrc::Message)
         command.is_a?(Regex) ? msg.command.to_s.match command.as(Regex) : msg.command == command
       end
 
-      {% for ft in ["source", "arguments", "message"] %}
+      {% for ft in ["source", "raw_arguments", "message"] %}
       private def {{ ("test_" + ft).id }}(msg : CrystalIrc::Message)
         return true if {{ ft.id }}.nil?
         return false if msg.{{ ft.id }}.nil?
