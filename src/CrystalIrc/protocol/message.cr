@@ -3,13 +3,14 @@ module CrystalIrc
   # It has a sender, a command (or a code).
   # Optionaly, it may have a source, arguments, and message.
   class Message
+    @raw : String
     @source : String?
     @command : String
     @arguments : String?
     @message : String?
     @sender : CrystalIrc::IrcSender
 
-    getter source, command, message, sender
+    getter raw, source, command, message, sender
 
     # Return the arguments value
     # This is a litteral `String`.
@@ -35,13 +36,23 @@ module CrystalIrc
     R_ARG     = "(?: (?<arg>#{R_ARG_ONE}(?: #{R_ARG_ONE})*))"
     R_MSG     = "(?: \\:(?<msg>.+))"
 
-    def initialize(raw : String, @sender)
+    def initialize(@raw, @sender)
       m = raw.strip.match(/\A#{R_SRC}?#{R_CMD}#{R_ARG}?#{R_MSG}?\Z/)
       raise ParsingError.new(raw, "message invalid") if m.nil?
       @source = m["src"]?
       @command = m["cmd"] # ? || raise InvalidMessage.new("No command to parse in \"#{raw}\"")
       @arguments = m["arg"]?
       @message = m["msg"]?
+    end
+
+    # TODO: if a chan is associated (eg: message emit in a chan)
+    def chan : Protocol::Chan?
+      nil
+    end
+
+    # TODO: if an user is associated (eg: privmsg, ...)
+    def user : Protocol::User?
+      nil
     end
   end
 end
