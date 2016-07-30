@@ -16,15 +16,15 @@ module CrystalIrc
     # This is a litteral `String`.
     # Each arguments are separated with space (the last may contain spaces, but
     # in this case, the last argument follows a ':')
-    def raw_arguments : String?
-      return nil if @arguments.nil? && @message.nil?
-      return @arguments if @message.nil?
+    def raw_arguments : String
+      return "" if @arguments.nil? && @message.nil?
+      return @arguments.as(String) if @message.nil?
       return ":#{@message}" if @arguments.nil?
       return "#{@arguments} :#{@message}"
     end
 
-    def arguments : Array(String)?
-      return nil if @arguments.nil? && @message.nil?
+    def arguments : Array(String)
+      return Array(String).new if @arguments.nil? && @message.nil?
       return (@arguments.as(String)).split(" ") if @message.nil?
       return [@message.as(String)] if @arguments.nil?
       return (@arguments.as(String)).split(" ") << (@message.as(String))
@@ -46,12 +46,16 @@ module CrystalIrc
     end
 
     # TODO: if a chan is associated (eg: message emit in a chan)
-    def chan : Protocol::Chan?
-      nil
+    def chan : Chan?
+      if @command == "PRIVMSG" && !arguments.nil? && !arguments.empty? && arguments[0][0] == '#'
+        Chan.new arguments[0]
+      else
+        nil
+      end
     end
 
     # TODO: if an user is associated (eg: privmsg, ...)
-    def user : Protocol::User?
+    def user : User?
       nil
     end
   end

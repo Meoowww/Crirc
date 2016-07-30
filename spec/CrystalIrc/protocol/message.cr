@@ -38,4 +38,10 @@ describe CrystalIrc::Message do
     m.arguments.should eq(%w(arg1 arg2 message))
     m.message.should eq("message")
   end
+
+  it "PRIVMSG" do
+    m = CrystalIrc::Message.new(":nik!usr@whois PRIVMSG #chan :cut my ***", cli)
+    m.chan.should be_a(CrystalIrc::Chan)
+    m.chan.as(CrystalIrc::Chan).name.should eq("#chan")
+  end
 end

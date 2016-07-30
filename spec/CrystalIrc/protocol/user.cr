@@ -16,11 +16,13 @@ describe CrystalIrc::User do
   end
 
   it "Whois" do
-    e = CrystalIrc::User.new("Dash", "here@1.1.1.1")
-    e.name.should eq("Dash")
-    e.whois.should eq("here@1.1.1.1")
+    e = CrystalIrc::User.new("Dash", "here", "1.1.1.1")
+    e.nick.should eq("Dash")
+    e.id.should eq("here")
+    e.whois.should eq("1.1.1.1")
     e = CrystalIrc::User.parse("Dash!here@1.1.1.1")
     e.name.should eq("Dash")
-    e.whois.should eq("here@1.1.1.1")
+    e.id.should eq("here")
+    e.whois.should eq("1.1.1.1")
   end
 end

@@ -1,8 +1,12 @@
-require "./user"
+require "./target"
 
 module CrystalIrc
   # Represent a channel, with a name, ...
-  class Chan < User
+  class Chan < Target
+    @name : String
+
+    getter name
+
     def initialize(@name)
       raise ParsingError.new @name, "The Chan name must not be empty" if @name.empty?
       raise ParsingError.new @name, "The Chan name must begin with a \"#\"" if !@name.match(/\A\#.+\Z/)
