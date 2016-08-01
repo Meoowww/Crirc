@@ -46,11 +46,11 @@ module CrystalIrc
     end
 
     # TODO: if a chan is associated (eg: message emit in a chan)
-    def chan : Chan?
+    def chan : Chan
       if @command == "PRIVMSG" && !arguments.nil? && !arguments.empty? && arguments[0][0] == '#'
         Chan.new arguments[0]
       else
-        nil
+        raise NotImplementedError.new "No chan avaliable"
       end
     end
 
