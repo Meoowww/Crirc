@@ -10,6 +10,7 @@ describe CrystalIrc::Message do
     m.raw_arguments.should eq("arg1 arg2 :message")
     m.arguments.should eq(%w(arg1 arg2 message))
     m.message.should eq("message")
+    m.hl.should eq("source")
   end
 
   it "Instance with no message" do
@@ -19,6 +20,7 @@ describe CrystalIrc::Message do
     m.raw_arguments.should eq("arg1 arg2")
     m.arguments.should eq(%w(arg1 arg2))
     m.message.should eq(nil)
+    m.hl.should eq("source")
   end
 
   it "Instance wit no arguments" do
@@ -28,6 +30,7 @@ describe CrystalIrc::Message do
     m.raw_arguments.should eq(":message")
     m.arguments.should eq(%w(message))
     m.message.should eq("message")
+    m.hl.should eq("source")
   end
 
   it "Instance with no source" do
@@ -37,11 +40,13 @@ describe CrystalIrc::Message do
     m.raw_arguments.should eq("arg1 arg2 :message")
     m.arguments.should eq(%w(arg1 arg2 message))
     m.message.should eq("message")
+    m.hl.should eq("")
   end
 
   it "PRIVMSG" do
     m = CrystalIrc::Message.new(":nik!usr@whois PRIVMSG #chan :cut my ***", cli)
     m.chan.should be_a(CrystalIrc::Chan)
     m.chan.as(CrystalIrc::Chan).name.should eq("#chan")
+    m.hl.should eq("nik")
   end
 end

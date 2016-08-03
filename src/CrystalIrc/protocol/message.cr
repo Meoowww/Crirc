@@ -45,6 +45,10 @@ module CrystalIrc
       @message = m["msg"]?
     end
 
+    def hl
+      @source.to_s.split("!")[0].to_s
+    end
+
     CHAN_COMMANDS = ["PRIVMSG", "JOIN", "NOTICE"]
     # TODO: if a chan is associated (eg: message emit in a chan)
     def chan : Chan
