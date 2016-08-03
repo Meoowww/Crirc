@@ -16,12 +16,14 @@ def start
     bot.pong(msg.message)
   end.on("PRIVMSG", message: /^(hi|hello|heil|y(o|u)(p?)|salut)/i) do |msg|
     name = msg.source.to_s.split("!").first
-    curr_chan = CrystalIrc::Chan.new(msg.raw_arguments.as(String))
-    bot.privmsg(curr_chan, "Hi #{name} :)")
+    #curr_chan = CrystalIrc::Chan.new(msg.raw_arguments.as(String))
+    #bot.privmsg(curr_chan, "Hi #{name} :)")
+    msg.reply "Hi #{name}"
   end.on("PRIVMSG", message: /^!ping/) do |msg|
     name = msg.source.to_s.split("!").first
-    curr_chan = CrystalIrc::Chan.new(msg.raw_arguments.as(String))
-    bot.privmsg(curr_chan, "pong #{name}")
+    #curr_chan = CrystalIrc::Chan.new(msg.raw_arguments.as(String))
+    #bot.privmsg(curr_chan, "pong #{name}")
+    msg.reply "pong #{name}"
   end
 
   bot.connect

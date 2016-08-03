@@ -50,13 +50,22 @@ module CrystalIrc
       if @command == "PRIVMSG" && !arguments.nil? && !arguments.empty? && arguments[0][0] == '#'
         Chan.new arguments[0]
       else
-        raise NotImplementedError.new "No chan avaliable"
+        raise NotImplementedError.new "No chan availiable"
       end
     end
 
     # TODO: if an user is associated (eg: privmsg, ...)
-    def user : User?
-      nil
+    def user : User
+      if @command == "PRIVMSG" && !arguments.nil? && !arguments.empty? && arguments[0][0] != '#'
+        User.new arguments[0]
+      else
+        raise NotImplementedError.new "No user availiable"
+      end
+    end
+
+    def reply(msg : String)
+      target = user rescue chan rescue raise NotImplementedError.new "No chan nor user availiable"
+      @sender.privmsg(target, msg)
     end
   end
 end
