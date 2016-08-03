@@ -45,18 +45,20 @@ module CrystalIrc
       @message = m["msg"]?
     end
 
+    CHAN_COMMANDS = ["PRIVMSG", "JOIN", "NOTICE"]
     # TODO: if a chan is associated (eg: message emit in a chan)
     def chan : Chan
-      if @command == "PRIVMSG" && !arguments.nil? && !arguments.empty? && arguments[0][0] == '#'
+      if CHAN_COMMANDS.includes?(@command) && !arguments.nil? && !arguments.empty? && arguments[0][0] == '#'
         Chan.new arguments[0]
       else
         raise NotImplementedError.new "No chan availiable"
       end
     end
 
+    USER_COMMANDS = ["PRIVMSG", "NOTICE"]
     # TODO: if an user is associated (eg: privmsg, ...)
     def user : User
-      if @command == "PRIVMSG" && !arguments.nil? && !arguments.empty? && arguments[0][0] != '#'
+      if USER_COMMANDS.includes?(@command) && !arguments.nil? && !arguments.empty? && arguments[0][0] != '#'
         User.new arguments[0]
       else
         raise NotImplementedError.new "No user availiable"
