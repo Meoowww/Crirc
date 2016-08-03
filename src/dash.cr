@@ -1,46 +1,40 @@
 require "./CrystalIrc"
 
-def start
-  bot = CrystalIrc::Bot.new ip: "irc.mozilla.org", nick: "Dashy", read_timeout: 30_u16
-  chan = CrystalIrc::Chan.new("#equilibre2")
+module DashBot
+  def start
+    bot = CrystalIrc::Bot.new ip: "irc.mozilla.org", nick: "Dasshy", read_timeout: 300_u16
 
-  bot.on("JOIN") do |msg|
-    name = msg.source.to_s.split("!").first
-    if name == bot.nick.to_s
-      bot.privmsg(chan, "Hi everypony, what's up ? :)")
-    else
-      bot.privmsg(chan, "Welcome #{name}, what's up ? :)")
-    end
-  end.on("PING") do |msg|
-    STDERR.puts "PONG :#{msg.message}"
-    bot.pong(msg.message)
-  end.on("PRIVMSG", message: /^(hi|hello|heil|y(o|u)(p?)|salut)/i) do |msg|
-    name = msg.source.to_s.split("!").first
-    #curr_chan = CrystalIrc::Chan.new(msg.raw_arguments.as(String))
-    #bot.privmsg(curr_chan, "Hi #{name} :)")
-    msg.reply "Hi #{name}"
-  end.on("PRIVMSG", message: /^!ping/) do |msg|
-    name = msg.source.to_s.split("!").first
-    #curr_chan = CrystalIrc::Chan.new(msg.raw_arguments.as(String))
-    #bot.privmsg(curr_chan, "pong #{name}")
-    msg.reply "pong #{name}"
-  end
-
-  bot.connect
-  sleep 1
-  bot.join([chan])
-
-  loop do
-    begin
-      bot.gets do |m|
-        break if m.nil?
-        puts m
-        spawn { bot.handle(m.as(String)) }
+    bot.on("JOIN") do |msg|
+      if msg.hl == bot.nick.to_s
+        msg.reply "Welcome everypony, what's up ? :)"
+      else
+        STDERR.puts "[#{Time.now}] #{msg.hl} joined the chan"
       end
-    rescue IO::Timeout
-      puts "Nothing happened..."
+    end.on("PING") do |msg|
+      STDERR.puts "[#{Time.now}] PONG :#{msg.message}"
+      bot.pong(msg.message)
+    end.on("PRIVMSG", message: /^!ping/) do |msg|
+      msg.reply "pong #{msg.hl}"
+    end
+
+    bot.connect
+    sleep 1.5
+    bot.join([CrystalIrc::Chan.new("#equilibre2")])
+
+    loop do
+      begin
+        bot.gets do |m|
+          break if m.nil?
+          STDERR.puts "[#{Time.now}] #{m}"
+          spawn { bot.handle(m.as(String)) }
+        end
+      rescue IO::Timeout
+        puts "Nothing happened..."
+      end
     end
   end
+
+  extend self
 end
 
-start
+DashBot.start

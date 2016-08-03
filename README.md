@@ -19,7 +19,7 @@ dependencies:
 
 ## Usage
 
-see ``src/dash.cr``
+see ``src/dash.cr`` or [on the gist](https://gist.github.com/Nephos/6a5d6b1369d890aa089cc8bc9df7e854)
 
 ## Development
 
