@@ -2,7 +2,7 @@ require "./CrystalIrc"
 
 module DashBot
   def start
-    bot = CrystalIrc::Bot.new ip: "irc.mozilla.org", nick: "Dasshy", read_timeout: 300_u16
+    bot = CrystalIrc::Bot.new ip: "irc.mozilla.org", nick: "Dasshy2", read_timeout: 300_u16
 
     bot.on("JOIN") do |msg|
       if msg.hl == bot.nick.to_s
@@ -14,7 +14,7 @@ module DashBot
       STDERR.puts "[#{Time.now}] PONG :#{msg.message}"
       bot.pong(msg.message)
     end.on("PRIVMSG", message: /^!ping/) do |msg|
-      msg.reply "pong #{msg.hl}"
+      msg.reply "pong #{msg.hl} (#{msg.source.to_s.source_id})"
     end
 
     bot.connect
