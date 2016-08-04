@@ -52,6 +52,7 @@ module CrystalIrc
     end
 
     CHAN_COMMANDS = ["PRIVMSG", "JOIN", "NOTICE"]
+
     # TODO: if a chan is associated (eg: message emit in a chan)
     def chan : Chan
       if CHAN_COMMANDS.includes?(@command) && !arguments.nil? && !arguments.empty? && arguments[0][0] == '#'
@@ -62,6 +63,7 @@ module CrystalIrc
     end
 
     USER_COMMANDS = ["PRIVMSG", "NOTICE"]
+
     # TODO: if an user is associated (eg: privmsg, ...)
     def user : User
       if USER_COMMANDS.includes?(@command) && !arguments.nil? && !arguments.empty? && arguments[0][0] != '#'

@@ -30,7 +30,8 @@ describe CrystalIrc::Bot do
     bot = CrystalIrc::Bot.new ip: "localhost", nick: "DashieLove"
     bot
       .on("TOTO") { |msg| $counter_toto += 1 }
-      .on("TOTO", message: /^what/) { |msg|
+      .on("TOTO", message: /^what(?<first>.*)/) { |msg, match|
+      (match.as(Regex::MatchData))["first"] == " is love" if msg.message.to_s.size > 4
       msg.message.should eq("what is love"); $counter_toto += 1
     }
     bot.handle(":s TOTO")
