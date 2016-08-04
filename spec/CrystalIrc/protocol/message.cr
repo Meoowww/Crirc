@@ -44,9 +44,12 @@ describe CrystalIrc::Message do
   end
 
   it "PRIVMSG" do
-    m = CrystalIrc::Message.new(":nik!usr@whois PRIVMSG #chan :cut my ***", cli)
+    m = CrystalIrc::Message.new(":nik!usr@whos PRIVMSG #chan :cut my ***", cli)
     m.chan.should be_a(CrystalIrc::Chan)
     m.chan.as(CrystalIrc::Chan).name.should eq("#chan")
     m.hl.should eq("nik")
+    m.source.to_s.source_nick.should eq("nik")
+    m.source.to_s.source_id.should eq("usr")
+    m.source.to_s.source_whois.should eq("whos")
   end
 end

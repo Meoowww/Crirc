@@ -1,3 +1,5 @@
+require "./source"
+
 module CrystalIrc
   # Represent a message.
   # It has a sender, a command (or a code).
@@ -45,8 +47,8 @@ module CrystalIrc
       @message = m["msg"]?
     end
 
-    def hl
-      @source.to_s.split("!")[0].to_s
+    def hl : String
+      @source.to_s.source_nick
     end
 
     CHAN_COMMANDS = ["PRIVMSG", "JOIN", "NOTICE"]
