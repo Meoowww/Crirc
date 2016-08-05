@@ -25,7 +25,7 @@ Then, run ``crystal deps install`` to fetch the lib.
 ## Usage
 
 - ``src/dash.cr``
-- [Dasshy bot](https://gist.github.com/Nephos/6a5d6b1369d890aa089cc8bc9df7e854) (requires [crystal_rollable](https://github.com/Nephos/crystal_rollable))
+- [Dasshy bot](https://github.com/Meoowww/DashBot)
 
 
 ## Development
