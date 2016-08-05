@@ -2,7 +2,7 @@ module CrystalIrc
   module Command
     module Chan
       # Formats the chans to join: #chan1,#chan2 (works with users by the same way)
-      def format_list(chans : Array(CrystalIrc::Chan))
+      def format_list(chans : Array(CrystalIrc::Target))
         chans.map do |c|
           c.name
         end.uniq.join(",")
