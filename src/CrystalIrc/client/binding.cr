@@ -13,6 +13,7 @@ module CrystalIrc
           else
             STDERR.puts "No one entered the chan"
           end
+
           if name == obj.nick # First case: the client joined the chan
             chan = Chan.new(msg.arguments.first)
             obj.chans << chan
@@ -25,7 +26,41 @@ module CrystalIrc
               obj.chans << chan
             end
           end
+
         end.on("PART") do |msg|
+          name = ""
+          if msg.source
+            name = msg.source.as(String).split("!")[0]
+          else
+            STDERR.puts "No one left the chan"
+          end
+          chan = obj.chans.bsearch{|e| e.name == msg.arguments.first }
+          if !chan
+            STDERR.puts "Chan not registered"
+            next # raise?
+          end
+
+          if name == obj.nick # First case: the client left the chan
+            obj.chans.delete(chan)
+          else # Second case: another user left the chan
+            user = chan.as(Chan).users.bsearch{|e| e.name == name}
+            chan.as(Chan).users.delete(user)
+          end
+
+        end.on("KICK") do |msg|
+          name = msg.arguments[1]
+          chan = obj.chans.bsearch{|e| e.name == msg.arguments.first }
+          if !chan
+            STDERR.puts "Chan not registered"
+            next # raise?
+          end
+
+          if name == obj.nick # We just got kicked
+            obj.chans.delete(chan)
+          else # Second case: another user was kicked from the chan
+            user = chan.as(Chan).users.bsearch{|e| e.name == name}
+            chan.as(Chan).users.delete(user)
+          end
 
         end.on("PING") do |msg|
           msg.sender.pong(msg.message)
