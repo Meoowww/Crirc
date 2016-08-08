@@ -1,7 +1,6 @@
 # $verbose = true
 
 describe CrystalIrc::Client do
-
   it "Test with irc.mozilla.net" do
     ENV.fetch("OFFLINE") { |v|
       next if v == "true"
@@ -20,7 +19,7 @@ describe CrystalIrc::Client do
         cli.chans.size.should eq 0
         sleep 1
         cli.join([chan])
-        sleep 10
+        sleep 1
         cli.chans.size.should eq 1
         cli.chans[0].users.size.should eq 2
         sleep 1
@@ -29,5 +28,4 @@ describe CrystalIrc::Client do
       sleep 0.5
     }
   end
-
 end

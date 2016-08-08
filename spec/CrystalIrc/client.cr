@@ -23,7 +23,6 @@ describe CrystalIrc::Client do
     CrystalIrc::Client.new(ip: "localhost", nick: "CrystalBot").should be_a(CrystalIrc::Client)
     sleep 0.5
   end
-  
   it "Test close with server" do
     CrystalIrc::Server.open(ssl: false, port: 6666_u16) do |server|
       cli = CrystalIrc::Client.new ip: "localhost", port: 6666_u16, ssl: false, nick: "CrystalBotSpecS_#{rand 100..999}"
