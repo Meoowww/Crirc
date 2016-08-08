@@ -1,4 +1,4 @@
-require "./source"
+require "./message/*"
 
 module CrystalIrc
   # Represent a message.
@@ -6,7 +6,7 @@ module CrystalIrc
   # Optionaly, it may have a source, arguments, and message.
   class Message
     @raw : String
-    @source : String?
+    @source : String
     @command : String
     @arguments : String?
     @message : String?
@@ -41,15 +41,19 @@ module CrystalIrc
     def initialize(@raw, @sender)
       m = raw.strip.match(/\A#{R_SRC}?#{R_CMD}#{R_ARG}?#{R_MSG}?\Z/)
       raise ParsingError.new(raw, "message invalid") if m.nil?
-      @source = m["src"]?
+      @source = m["src"]? || "0"
       @command = m["cmd"] # ? || raise InvalidMessage.new("No command to parse in \"#{raw}\"")
       @arguments = m["arg"]?
       @message = m["msg"]?
     end
 
     def hl : String
-      @source.to_s.source_nick
+      source_nick
     end
+
+    delegate source_nick, to: source
+    delegate source_id, to: source
+    delegate source_whois, to: source
 
     CHAN_COMMANDS = ["PRIVMSG", "JOIN", "NOTICE"]
 
