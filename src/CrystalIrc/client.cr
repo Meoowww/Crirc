@@ -25,8 +25,9 @@ module CrystalIrc
     @read_timeout : UInt16
     @write_timeout : UInt16
     @keepalive : Bool
+    @chans : Array(Chan)
 
-    getter nick, ip, port, ssl, user, realname, domain, pass, irc_server, read_timeout, write_timeout, keepalive
+    getter nick, ip, port, ssl, user, realname, domain, pass, irc_server, read_timeout, write_timeout, keepalive, chans
 
     # default port is 6667 or 6697 if ssl is true
     def initialize(nick : String, @ip, port = nil.as(UInt16?), @ssl = true, @user = nil, @realname = nil, @domain = nil, @pass = nil, @irc_server = nil,
@@ -37,7 +38,9 @@ module CrystalIrc
       @realname ||= @nick
       @domain ||= "0"
       @irc_server ||= "*"
+      @chans = [] of Chan
       super()
+      CrystalIrc::Client::Binding.attach(self)
     end
 
     # The client has to call connect() before using socket.
