@@ -20,9 +20,9 @@ describe CrystalIrc::Client do
         cli.chans.size.should eq 0
         sleep 1
         cli.join([chan])
-        sleep 1.5
+        sleep 10
         cli.chans.size.should eq 1
-        cli.chans[0].users.size.should eq 1
+        cli.chans[0].users.size.should eq 2
         sleep 1
       end
       cli.close
