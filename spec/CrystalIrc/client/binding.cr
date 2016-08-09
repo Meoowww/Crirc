@@ -17,12 +17,12 @@ describe CrystalIrc::Client do
         end
         chan = CrystalIrc::Chan.new("#nyupatate")
         cli.chans.size.should eq 0
-        sleep 1
+        sleep 1.5
         cli.join([chan])
-        sleep 1
+        sleep 1.5
         cli.chans.size.should eq 1
         (cli.chans[0].users.size > 0).should eq true
-        sleep 1
+        sleep 1.5
       end
       sleep 0.5
     }

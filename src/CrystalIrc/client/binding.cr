@@ -10,16 +10,16 @@ module CrystalIrc
       end
 
       def self.attach_chans(obj)
+        # Two cases: the client joins a chan or another user joins a chan
         obj.on("JOIN") do |msg|
-          # Two cases: the client joins a chan or another user joins a chan
           if msg.source_nick == obj.nick # the client joined
             chan = Chan.new(msg.arguments.first)
             obj.chans << chan
           else # someone else joined
-            chan = obj.chans.bsearch { |e| e.name == msg.arguments.first }
-            if chan
+            begin
+              chan = obj.chan msg.arguments.first
               chan.as(Chan).users << User.new name
-            else
+            rescue
               chan = Chan.new(msg.arguments.first)
               obj.chans << chan
             end
@@ -27,11 +27,7 @@ module CrystalIrc
         end
 
         obj.on("PART") do |msg|
-          chan = obj.chans.bsearch { |e| e.name == msg.arguments.first }
-          if !chan
-            STDERR.puts "Chan not registered"
-            next # raise?
-          end
+          chan = obj.chan msg.arguments.first
           if msg.source_nick == obj.nick # the client left
             obj.chans.delete(chan)
           else # someone else left
@@ -42,11 +38,7 @@ module CrystalIrc
 
         obj.on("KICK") do |msg|
           name = msg.arguments[1]
-          chan = obj.chans.bsearch { |e| e.name == msg.arguments.first }
-          if !chan
-            STDERR.puts "Chan not registered"
-            next # raise?
-          end
+          chan = obj.chan msg.arguments.first
           if name == obj.nick # the client just got kicked
             obj.chans.delete(chan)
           else # someone else has been kicked
@@ -64,15 +56,9 @@ module CrystalIrc
         end
 
         obj.on("353") do |msg|
-          name = msg.arguments[2]
-          chan = obj.chans.bsearch { |e| e.name == name }
-          if chan.nil?
-            STDERR.puts "\"#{name}\" is not a valid chan"
-            next # TODO : raise ?
-          else
-            chan.users = msg.arguments.last.split(" ").map do |name|
-              User.new name.delete("@+")
-            end
+          chan = obj.chan msg.arguments[2]
+          chan.users = msg.arguments.last.split(" ").map do |name|
+            User.new name.delete("@+")
           end
         end
 
