@@ -1,6 +1,6 @@
 # $verbose = true
 
-def test_cli(cli : CrystalIrc::Client, chan = "#nyupatate")
+def test_cli1(cli : CrystalIrc::Client, chan = "#nyupatate")
   cli.connect do |s|
     s.should be_a(CrystalIrc::IrcSender)
     spawn do
@@ -23,38 +23,6 @@ describe CrystalIrc::Client do
     CrystalIrc::Client.new(ip: "localhost", nick: "CrystalBot").should be_a(CrystalIrc::Client)
     sleep 0.5
   end
-
-  it "Test with irc.mozilla.net" do
-    ENV.fetch("OFFLINE") { |v|
-      next if v == "true"
-      cli = CrystalIrc::Client.new ip: "irc.mozilla.org", port: 6667_u16, ssl: false, nick: "CrystalBotSpecS_#{rand 100..999}"
-      cli.should be_a(CrystalIrc::Client)
-      test_cli cli
-      cli.close
-      sleep 0.5
-    }
-  end
-
-  it "Instance and simple connexion with ssl" do
-    ENV.fetch("OFFLINE") { |v|
-      cli = CrystalIrc::Client.new ip: "irc.mozilla.org", port: 6697_u16, ssl: true, nick: "CrystalBotSpecS_#{rand 100..999}"
-      cli.connect
-      cli.close
-      sleep 0.5
-    }
-  end
-
-  it "Test with irc.mozilla.net with ssl" do
-    ENV.fetch("OFFLINE") { |v|
-      next if v == "true"
-      cli = CrystalIrc::Client.new ip: "irc.mozilla.org", port: 6697_u16, ssl: true, nick: "CrystalBotSpecS_#{rand 100..999}"
-      cli.should be_a(CrystalIrc::Client)
-      test_cli cli
-      cli.close
-      sleep 0.5
-    }
-  end
-
   it "Test close with server" do
     CrystalIrc::Server.open(ssl: false, port: 6666_u16) do |server|
       cli = CrystalIrc::Client.new ip: "localhost", port: 6666_u16, ssl: false, nick: "CrystalBotSpecS_#{rand 100..999}"

@@ -35,12 +35,12 @@ describe CrystalIrc::Message do
 
   it "Instance with no source" do
     m = CrystalIrc::Message.new("CMD arg1 arg2 :message", cli)
-    m.source.should eq(nil)
+    m.source.should eq("0")
     m.command.should eq("CMD")
     m.raw_arguments.should eq("arg1 arg2 :message")
     m.arguments.should eq(%w(arg1 arg2 message))
     m.message.should eq("message")
-    m.hl.should eq("")
+    m.hl.should eq("0")
   end
 
   it "PRIVMSG" do
@@ -48,8 +48,8 @@ describe CrystalIrc::Message do
     m.chan.should be_a(CrystalIrc::Chan)
     m.chan.as(CrystalIrc::Chan).name.should eq("#chan")
     m.hl.should eq("nik")
-    m.source.to_s.source_nick.should eq("nik")
-    m.source.to_s.source_id.should eq("usr")
-    m.source.to_s.source_whois.should eq("whos")
+    m.source_nick.should eq("nik")
+    m.source_id.should eq("usr")
+    m.source_whois.should eq("whos")
   end
 end
