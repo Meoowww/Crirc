@@ -20,6 +20,7 @@ module CrystalIrc
       def connect
         yield connect()
         close()
+        self
       end
 
       # Sends the connecttion sequence (PASS, NICK, USER).
