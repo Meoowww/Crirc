@@ -50,7 +50,7 @@ module CrystalIrc
       @socket.as(IrcSocket)
     end
 
-    def from
+    def from : String
       nick.to_s
     end
 

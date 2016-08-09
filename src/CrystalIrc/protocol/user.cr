@@ -21,7 +21,7 @@ module CrystalIrc
       CrystalIrc::User.new(m["name"], m["id"], m["whois"])
     end
 
-    def name
+    def name : String
       @nick
     end
   end

@@ -14,7 +14,7 @@ module CrystalIrc
 
     getter raw, source, command, message, sender
 
-    # Return the arguments value
+    # Return the "arguments" value
     # This is a litteral `String`.
     # Each arguments are separated with space (the last may contain spaces, but
     # in this case, the last argument follows a ':')
@@ -77,9 +77,10 @@ module CrystalIrc
       end
     end
 
-    def reply(msg : String)
+    def reply(msg : String) : Message
       target = user rescue chan rescue raise NotImplementedError.new "No chan nor user availiable"
       @sender.privmsg(target, msg)
+      self
     end
   end
 end
