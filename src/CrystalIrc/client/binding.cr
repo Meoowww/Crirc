@@ -31,7 +31,7 @@ module CrystalIrc
           if msg.source_nick == obj.nick # the client left
             obj.chans.delete(chan)
           else # someone else left
-            user = chan.as(Chan).users.bsearch { |e| e.name == name }
+            user = chan.user name
             chan.as(Chan).users.delete(user)
           end
         end
@@ -42,7 +42,7 @@ module CrystalIrc
           if name == obj.nick # the client just got kicked
             obj.chans.delete(chan)
           else # someone else has been kicked
-            user = chan.as(Chan).users.bsearch { |e| e.name == name }
+            user = chan.user name
             chan.as(Chan).users.delete(user)
           end
         end
