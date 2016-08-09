@@ -4,6 +4,7 @@ module CrystalIrc
   class Client
     module Connect
       # Connect the client to the server.
+      #
       # It does send the login informations.
       def connect : Client
         tmp_socket = TCPSocket.new ip, port
@@ -13,7 +14,6 @@ module CrystalIrc
         @socket = tmp_socket
         @socket = OpenSSL::SSL::Socket::Client.new(tmp_socket) if ssl
         send_login
-        # handle answer
         self
       end
 
@@ -25,7 +25,7 @@ module CrystalIrc
 
       # Sends the connecttion sequence (PASS, NICK, USER).
       # The password is sent only if specified.
-      # It does not handle the errors.
+      # It does not handle the errors (it is done in `binding.cr`).
       def send_login : Client
         send_raw "PASS #{pass}" if pass
         send_raw "NICK #{nick.to_s}"

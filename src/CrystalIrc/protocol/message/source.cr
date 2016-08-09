@@ -1,4 +1,5 @@
 module CrystalIrc
+  # Extention of `String`.
   module Source
     def source_nick : String
       self.split("!")[0].to_s

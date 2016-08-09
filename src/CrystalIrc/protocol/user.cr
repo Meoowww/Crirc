@@ -1,7 +1,12 @@
 require "./target"
 
 module CrystalIrc
-  # Represent an user, with a name, and an optional whois
+  # Representation of an IRC client.
+  #
+  # It has a name (or nick), id (id@...) and an optionaly a whois.
+  #
+  # It does not represent a controllable client (only the class `Client` does).
+  # TODO: checkout the masks
   class User < Target
     @nick : String
     @id : String

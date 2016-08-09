@@ -1,9 +1,16 @@
 require "./message/*"
 
 module CrystalIrc
-  # Represent a message.
-  # It has a sender, a command (or a code).
+  # This class is an entity to represent an IRC message.
+  #
+  # Every message has a sender and a command (or a code).
   # Optionaly, it may have a source, arguments, and message.
+  #
+  # **Rules**
+  # - If no source is specified, then it will be set to "0" by default.
+  # - The attribute `message` is used to represent the last argument if begin with a ':'. It it does not exist, then it will be considered `Nil`
+  # - If no arguments are specified, then it will be an empty `Array(String)`. *Note: if the last one (the message) begin with a ':', then the ':' is deleted from the string.*
+  # - The raw_arguments is the concatenation of arguments and message. *Note: The message, if exists, is always preceded by ':'
   class Message
     @raw : String
     @source : String
@@ -14,13 +21,10 @@ module CrystalIrc
 
     getter raw, source, command, message, sender
 
-    # Return the "arguments" value
-    # This is a litteral `String`.
-    # Each arguments are separated with space (the last may contain spaces, but
-    # in this case, the last argument follows a ':')
+    # Concatenation of `arguments` and `message`. If the message exists, it is preceded by ':'
     def raw_arguments : String
       return "" if @arguments.nil? && @message.nil?
-      return @arguments.as(String) if @message.nil?
+      return @arguments.to_s if @message.nil?
       return ":#{@message}" if @arguments.nil?
       return "#{@arguments} :#{@message}"
     end
@@ -47,19 +51,19 @@ module CrystalIrc
       @message = m["msg"]?
     end
 
-    def hl : String
-      source_nick
-    end
-
     delegate source_nick, to: source
     delegate source_id, to: source
     delegate source_whois, to: source
+
+    def hl : String
+      self.source_nick
+    end
 
     CHAN_COMMANDS = ["PRIVMSG", "JOIN", "NOTICE"]
 
     # TODO: if a chan is associated (eg: message emit in a chan)
     def chan : Chan
-      if CHAN_COMMANDS.includes?(@command) && !arguments.nil? && !arguments.empty? && arguments[0][0] == '#'
+      if CHAN_COMMANDS.includes?(@command) && !arguments.empty? && arguments[0][0] == '#'
         Chan.new arguments[0]
       else
         raise NotImplementedError.new "No chan availiable"
@@ -70,7 +74,7 @@ module CrystalIrc
 
     # TODO: if an user is associated (eg: privmsg, ...)
     def user : User
-      if USER_COMMANDS.includes?(@command) && !arguments.nil? && !arguments.empty? && arguments[0][0] != '#'
+      if USER_COMMANDS.includes?(@command) && !arguments.empty? && arguments[0][0] != '#'
         User.new arguments[0]
       else
         raise NotImplementedError.new "No user availiable"

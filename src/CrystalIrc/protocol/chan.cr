@@ -2,7 +2,10 @@ require "./target"
 require "./user"
 
 module CrystalIrc
-  # Represent a channel, with a name, ...
+  # Represent an IRC channel.
+  #
+  # It has a name and a list of user.
+  # TODO: checkout the masks
   class Chan < Target
     @name : String
     @users : Array(User)

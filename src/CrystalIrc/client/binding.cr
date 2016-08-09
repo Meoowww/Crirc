@@ -1,8 +1,12 @@
 module CrystalIrc
   class Client
-    # Default binding on the client.
+    # Default binding on the `Client`.
+    #
     # Handles the classic behavior of a client.
-    # ping, join, names, etc.
+    # - ping
+    # - join, kick, part, ...
+    # - names
+    # - etc.
     module Binding
       def self.attach(obj)
         attach_chans(obj)
