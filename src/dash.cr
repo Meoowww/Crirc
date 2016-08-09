@@ -17,7 +17,7 @@ module DashBot
       msg.reply "pong #{msg.hl} (#{msg.source.to_s.source_id})"
     end
 
-    bot.connect.on_connect do
+    bot.connect.on_ready do
       bot.join([CrystalIrc::Chan.new("#equilibre")])
     end
 

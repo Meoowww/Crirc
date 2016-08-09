@@ -23,8 +23,8 @@ module CrystalIrc
         self
       end
 
-      def on_connect(&b) : Client
-        self.on("NOTICE", arguments: /^Auth/){b.call}
+      def on_ready(&b) : Client
+        self.on("001"){b.call}
         self
       end
 

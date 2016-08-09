@@ -75,6 +75,9 @@ module CrystalIrc
           obj.nick.next
           obj.send_login
         end
+        obj.on("451") do |msg|
+          obj.send_login
+        end
       end
       #
     end
