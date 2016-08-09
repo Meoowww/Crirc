@@ -5,7 +5,7 @@ module CrystalIrc
     module Connect
       # Connect the client to the server.
       # It does send the login informations.
-      def connect
+      def connect : Client
         tmp_socket = TCPSocket.new ip, port
         tmp_socket.read_timeout = read_timeout
         tmp_socket.write_timeout = write_timeout
@@ -17,18 +17,20 @@ module CrystalIrc
         self
       end
 
-      def connect
+      def connect : Client
         yield connect()
         close()
+        self
       end
 
       # Sends the connecttion sequence (PASS, NICK, USER).
       # The password is sent only if specified.
       # It does not handle the errors.
-      def send_login
+      def send_login : Client
         send_raw "PASS #{pass}" if pass
         send_raw "NICK #{nick.to_s}"
         send_raw "USER #{user.to_s} \"#{domain}\" \"#{irc_server}\" :#{realname.to_s}"
+        self
       end
     end
   end

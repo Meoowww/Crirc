@@ -50,8 +50,16 @@ module CrystalIrc
       @socket.as(IrcSocket)
     end
 
-    def from
+    def from : String
       nick.to_s
+    end
+
+    # Search a `Chan` in the list `chans` by name (including '#')
+    # If the chan is not found, then it raise an error
+    def chan(chan_name : String) : Chan
+      chan = self.chans.bsearch { |e| e.name == chan_name }.as(Chan)
+      raise IrcError.new("Cannot find the chan \"#{chan_name}\"") if chan.nil?
+      chan.as(Chan)
     end
   end
 end

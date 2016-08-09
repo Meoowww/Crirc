@@ -10,7 +10,7 @@ module CrystalIrc
 
     abstract def from : String
 
-    def answer_raw(raw : String)
+    def answer_raw(raw : String) : IrcSender
       send_raw(":#{from} #{raw}")
     end
   end
