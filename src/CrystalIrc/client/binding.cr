@@ -8,12 +8,13 @@ module CrystalIrc
     # - names
     # - etc.
     module Binding
-      def self.attach(obj)
+      def self.attach(obj : Client)
+        attach_connection(obj)
         attach_chans(obj)
         attach_other(obj)
       end
 
-      def self.attach_chans(obj)
+      private def self.attach_chans(obj : Client)
         # Two cases: the client joins a chan or another user joins a chan
         obj.on("JOIN") do |msg|
           if msg.source_nick == obj.nick # the client joined
@@ -54,7 +55,7 @@ module CrystalIrc
         self
       end
 
-      def self.attach_other(obj)
+      private def self.attach_other(obj : Client)
         obj.on("PING") do |msg|
           msg.sender.pong(msg.message)
         end
@@ -67,6 +68,13 @@ module CrystalIrc
         end
 
         self
+      end
+
+      private def self.attach_connection(obj : Client)
+        obj.on("433") do |msg|
+          obj.nick.next
+          obj.send_login
+        end
       end
       #
     end

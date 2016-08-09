@@ -23,6 +23,11 @@ module CrystalIrc
         self
       end
 
+      def on_connect(&b) : Client
+        self.on("NOTICE", arguments: /^Auth/){b.call}
+        self
+      end
+
       # Sends the connecttion sequence (PASS, NICK, USER).
       # The password is sent only if specified.
       # It does not handle the errors (it is done in `binding.cr`).
