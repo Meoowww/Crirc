@@ -22,9 +22,17 @@ module CrystalIrc
 
     # Search an `User` by name (nick).
     def user(user_name : String) : User
-      user = self.users.bsearch { |e| e.name == user_name }
+      user = self.users.select { |e| e.name == user_name }.first?
       raise IrcError.new("Cannot find the user \"#{user_name}\" in \"#{@name}\"") if user.nil?
       user.as(User)
+    end
+
+    def has?(user_name : String) : Bool
+      !!user(user_name) rescue false
+    end
+
+    def has?(user : User) : Bool
+      has?(user.name)
     end
   end
 end

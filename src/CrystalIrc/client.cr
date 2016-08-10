@@ -57,9 +57,17 @@ module CrystalIrc
     # Search a `Chan` in the list `chans` by name (including '#')
     # If the chan is not found, then it raise an error
     def chan(chan_name : String) : Chan
-      chan = self.chans.bsearch { |e| e.name == chan_name }.as(Chan)
+      chan = self.chans.select { |e| e.name == chan_name }.first?
       raise IrcError.new("Cannot find the chan \"#{chan_name}\"") if chan.nil?
       chan.as(Chan)
+    end
+
+    def has?(chan_name : String) : Bool
+      !!chan(chan_name) rescue false
+    end
+
+    def has?(chan : Chan) : Bool
+      has?(chan.name)
     end
   end
 end
