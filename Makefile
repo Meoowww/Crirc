@@ -1,10 +1,10 @@
 all: build
 
 build:
-	crystal compile -s src/CrystalIrc.cr
+	crystal build -s src/CrystalIrc.cr
 
 release:
-	crystal compile -s --release src/CrystalIrc.cr
+	crystal build -s --release src/CrystalIrc.cr
 
 doc:
 	crystal docs
