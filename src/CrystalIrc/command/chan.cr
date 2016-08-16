@@ -2,22 +2,20 @@ module CrystalIrc
   module Command
     module Chan
       # Formats the chans to join: #chan1,#chan2 (works with users by the same way)
-      def format_list(chans : Array(CrystalIrc::Target))
-        chans.map do |c|
-          c.name
-        end.uniq.join(",")
+      def format_list(chans : Enumerable(CrystalIrc::Target)) : String
+        chans.map{ |c| c.name }.to_set.join(",")
       end
 
       # Requests to join the chan(s) chans, with password(s) passwords.
       # The passwords may be ignored if not needed.
-      def join(chans : Array(CrystalIrc::Chan), passwords : Array(String) = [""])
+      def join(chans : Enumerable(CrystalIrc::Chan), passwords : Enumerable(String) = [""])
         to_join = format_list(chans)
         passes = passwords.uniq.join(",")
         send_raw "JOIN #{to_join} #{passes}"
       end
 
       # Requests to leave the channel(s) chans, with an optional part message msg.
-      def part(chans : Array(CrystalIrc::Chan), msg : String?)
+      def part(chans : Enumerable(CrystalIrc::Chan), msg : String?)
         to_leave = format_list(chans)
         msg = ":#{msg}" if msg
         send_raw "PART #{to_leave} #{msg}"
@@ -40,14 +38,14 @@ module CrystalIrc
       # Requests the names of the users in the given channel(s).
       # If no channel is given, requests the names of the users in every
       # known channel.
-      def names(chans : Array(CrystalIrc::Chan)?)
+      def names(chans : Enumerable(CrystalIrc::Chan)?)
         target = chans ? format_list(chans) : ""
         send_raw "NAMES #{target}"
       end
 
       # Lists the channels and their topics.
       # If the chans parameter is given, lists the status of the given chans.
-      def list(chans : Array(CrystalIrc::Chan)?)
+      def list(chans : Enumerable(CrystalIrc::Chan)?)
         target = chans ? format_list(chans) : ""
         send_raw "LIST #{target}"
       end
@@ -59,7 +57,7 @@ module CrystalIrc
 
       # Kicks the user(s) users from the channel(s) chans.
       # The reason of the kick will be displayed if given as a parameter.
-      def kick(chans : Array(CrystalIrc::Chan), users : Array(CrystalIrc::User), reason : String?)
+      def kick(chans : Enumerable(CrystalIrc::Chan), users : Enumerable(CrystalIrc::User), reason : String?)
         chan = format_list(chans)
         targets = format_list(users)
         reason = ":#{reason}" if reason
