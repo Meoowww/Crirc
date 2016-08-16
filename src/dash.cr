@@ -18,7 +18,7 @@ module DashBot
     end
 
     bot.connect.on_ready do
-      bot.join([CrystalIrc::Chan.new("#equilibre")])
+      bot.join("#equilibre")
     end
 
     loop do
