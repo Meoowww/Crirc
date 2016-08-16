@@ -63,7 +63,7 @@ module CrystalIrc
         obj.on("353") do |msg|
           chan = obj.chan msg.arguments[2]
           chan.users = msg.arguments.last.split(" ").map do |name|
-            User.new name.delete("@+~")
+            User.new name.delete("~&@%+")
           end
         end
 
