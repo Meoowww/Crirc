@@ -81,9 +81,23 @@ module CrystalIrc
       end
     end
 
+    # Channel or User which emit the message
+    def target : Target
+      user rescue chan rescue raise NotImplementedError.new "No chan nor user availiable"
+    end
+
+    # Target to reply
+    def reply_to : Target
+      begin
+        chan rescue User.parse(@source)
+      rescue e
+        STDERR.puts e
+        raise NotImplementedError.new "No chan nor user to reply"
+      end
+    end
+
     def reply(msg : String) : Message
-      target = user rescue chan rescue raise NotImplementedError.new "No chan nor user availiable"
-      @sender.privmsg(target, msg)
+      @sender.privmsg(reply_to, msg)
       self
     end
   end
