@@ -14,9 +14,10 @@ module CrystalIrc
 
     getter nick, id, whois
 
+    # TODO: fix the parser
     def initialize(@nick, id = nil, @whois = nil)
       raise ParsingError.new @nick, "user name must not be empty" if @nick.empty?
-      raise ParsingError.new @nick, "user name must contains at most 50 valid characters" if !@nick.match(/\A(?!.{51,})(\#?([a-zA-Z])([a-zA-Z0-9_\-\[\]\\\`\^\{\}]+))\Z/)
+      raise ParsingError.new @nick, "user name must contains at most 50 valid characters" if !@nick.match(/\A(?!.{51,})(\#?([a-zA-Z])([a-zA-Z0-9_\|\-\[\]\\\`\^\{\}]+))\Z/)
       @id = id || @nick
     end
 
