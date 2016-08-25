@@ -1,8 +1,6 @@
 require "./client"
 
-module CrystalIrc
-  class Bot < Client
-  end
+class CrystalIrc::Bot < CrystalIrc::Client
 end
 
 require "./bot/*"

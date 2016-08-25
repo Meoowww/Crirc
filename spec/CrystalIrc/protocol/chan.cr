@@ -19,7 +19,7 @@ describe CrystalIrc::Chan do
     c.has?("toto").should eq false
     c.has?(CrystalIrc::User.new("toto")).should eq false
 
-    c.users = [CrystalIrc::User.new("toto") ]
+    c.users = [CrystalIrc::User.new("toto")]
     c.user("toto").should be_a(CrystalIrc::User)
     c.has?("toto").should eq true
     c.has?(CrystalIrc::User.new("toto")).should eq true

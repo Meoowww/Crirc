@@ -7,7 +7,7 @@ describe CrystalIrc::User do
     e = CrystalIrc::User.new "test_works"
     e.name.should eq("test_works")
 
-    #TODO: not valid
+    # TODO: not valid
     e = CrystalIrc::User.new "#test-works"
     e.name.should eq("#test-works")
 
