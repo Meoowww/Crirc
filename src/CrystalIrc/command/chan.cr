@@ -13,7 +13,7 @@ module CrystalIrc::Command::Chan
   end
 
   # Requests to leave the channel(s) chans, with an optional part message msg.
-  def part(chans : Enumerable(CrystalIrc::Chan), msg : String?)
+  def part(chans : Enumerable(CrystalIrc::Chan), msg : String? = nil)
     to_leave = format_list(chans)
     msg = ":#{msg}" if msg
     send_raw "PART #{to_leave} #{msg}"
@@ -21,30 +21,29 @@ module CrystalIrc::Command::Chan
 
   # Requests to change the mode of the given channel.
   # If the mode is to be applied to an user, precise it.
-  def mode(chan : CrystalIrc::Chan, flags : String, user : CrystalIrc::User?)
+  def mode(chan : CrystalIrc::Chan, flags : String, user : CrystalIrc::User? = nil)
     target = user ? user.name : ""
     send_raw "MODE #{chan.name} #{flags} #{target}"
   end
 
   # Requests to change the topic of the given channel.
   # If no topic is given, requests the topic of the given channel.
-  def topic(chan : CrystalIrc::Chan, topic : String?)
-    topic = ":#{topic}" if topic
-    send_raw "TOPIC #{chan.name} #{topic}"
+  def topic(chan : CrystalIrc::Chan, topic : String)
+    send_raw "TOPIC #{chan.name} :#{topic}"
   end
 
   # Requests the names of the users in the given channel(s).
   # If no channel is given, requests the names of the users in every
   # known channel.
-  def names(chans : Enumerable(CrystalIrc::Chan)?)
-    target = chans ? format_list(chans) : ""
+  def names(chans : Enumerable(CrystalIrc::Chan))
+    target = format_list(chans)
     send_raw "NAMES #{target}"
   end
 
   # Lists the channels and their topics.
   # If the chans parameter is given, lists the status of the given chans.
-  def list(chans : Enumerable(CrystalIrc::Chan)?)
-    target = chans ? format_list(chans) : ""
+  def list(chans : Enumerable(CrystalIrc::Chan))
+    target = format_list(chans)
     send_raw "LIST #{target}"
   end
 
@@ -55,7 +54,7 @@ module CrystalIrc::Command::Chan
 
   # Kicks the user(s) users from the channel(s) chans.
   # The reason of the kick will be displayed if given as a parameter.
-  def kick(chans : Enumerable(CrystalIrc::Chan), users : Enumerable(CrystalIrc::User), reason : String?)
+  def kick(chans : Enumerable(CrystalIrc::Chan), users : Enumerable(CrystalIrc::User), reason : String? = nil)
     chan = format_list(chans)
     targets = format_list(users)
     reason = ":#{reason}" if reason
