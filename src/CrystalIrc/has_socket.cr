@@ -5,19 +5,20 @@ abstract class CrystalIrc::HasSocket
 
   # Send a raw message to the socket. It should be a valid command
   # TODO: handle too large messages for IRC
-  def send_raw(raw : String) : HasSocket
+  def send_raw(raw : String, output : IO? = nil) : HasSocket
     begin
       socket.puts raw
-      STDERR.puts "[#{Time.now}] #{socket}.send_raw(#{raw.inspect}): ok" if $verbose == true
+      output.puts raw if !output.nil?
+      STDERR.puts "[#{Time.now}] #{raw}" if $verbose == true
     rescue e
-      STDERR.puts "[#{Time.now}] #{socket}.send_raw(#{raw.inspect}): #{e}" if $verbose == true
+      STDERR.puts "#{e} -> [#{Time.now}] #{raw.inspect}" if $verbose == true
       raise e
     end
     self
   end
 
-  def answer_raw(from : String, raw : String)
-    send_raw(":#{from} #{raw}")
+  def answer_raw(from : String, raw : String, output : IO? = nil)
+    send_raw(":#{from} #{raw}", output)
   end
 
   def close

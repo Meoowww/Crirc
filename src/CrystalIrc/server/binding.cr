@@ -1,4 +1,3 @@
-
 # Default binding on the server.
 # Handles the classic behavior of a server.
 module CrystalIrc::Server::Binding

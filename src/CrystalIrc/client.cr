@@ -28,7 +28,7 @@ class CrystalIrc::Client
 
   # default port is 6667 or 6697 if ssl is true
   def initialize(nick : String, @ip, port = nil.as(UInt16?), @ssl = true, @user = nil, @realname = nil, @domain = nil, @pass = nil, @irc_server = nil,
-    @read_timeout = 120_u16, @write_timeout = 5_u16, @keepalive = true)
+                 @read_timeout = 120_u16, @write_timeout = 5_u16, @keepalive = true)
     @nick = CrystalIrc::Nick.new(nick)
     @port = port || (ssl ? 6697_u16 : 6667_u16)
     @user ||= @nick

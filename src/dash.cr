@@ -1,5 +1,7 @@
 require "./CrystalIrc"
 
+$verbose = true
+
 module DashBot
   def start
     bot = CrystalIrc::Bot.new ip: "irc.mozilla.org", nick: "Dasshy", read_timeout: 300_u16
@@ -11,7 +13,6 @@ module DashBot
         STDERR.puts "[#{Time.now}] #{msg.hl} joined the chan"
       end
     end.on("PING") do |msg|
-      STDERR.puts "[#{Time.now}] PONG :#{msg.message}"
       bot.pong(msg.message)
     end.on("PRIVMSG", message: /^!ping/) do |msg|
       msg.reply "pong #{msg.hl} (#{msg.source.to_s.source_id})"

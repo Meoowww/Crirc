@@ -9,7 +9,7 @@ abstract class CrystalIrc::IrcSender < CrystalIrc::HasSocket
 
   abstract def from : String
 
-  def answer_raw(raw : String) : IrcSender
-    send_raw(":#{from} #{raw}")
+  def answer_raw(raw : String, output : IO? = nil) : IrcSender
+    send_raw ":#{from} #{raw}", output
   end
 end
