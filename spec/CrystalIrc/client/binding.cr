@@ -1,4 +1,4 @@
-# $verbose = true
+# ::VERBOSE = true
 
 describe CrystalIrc::Client do
   it "Binding test on irc.mozilla.net" do

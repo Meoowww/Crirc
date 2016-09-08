@@ -5,7 +5,7 @@ def server_process_client(s, cli)
   begin
     loop do
       cli.gets do |str|
-        STDERR.puts "server->cli.gets: #{str}" if $verbose == true
+        STDERR.puts "server->cli.gets: #{str}" if ::VERBOSE == true
         return if str.nil?
         begin
           s.handle str, cli

@@ -1,4 +1,4 @@
-# $verbose = true
+# ::VERBOSE = true
 
 def test_cli1(cli : CrystalIrc::Client, chan = "#nyupatate")
   cli.connect do |s|

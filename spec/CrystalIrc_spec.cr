@@ -1,6 +1,6 @@
 require "./spec_helper"
 
-$verbose = ENV["VERBOSE"]? == "true" || false
+VERBOSE = ENV["VERBOSE"]? == "true" || false
 
 require "./CrystalIrc/*"
 require "./CrystalIrc/utils/*"

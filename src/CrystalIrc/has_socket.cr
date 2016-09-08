@@ -1,5 +1,3 @@
-$verbose : Bool?
-
 abstract class CrystalIrc::HasSocket
   abstract def socket : IrcSocket
 
@@ -9,9 +7,9 @@ abstract class CrystalIrc::HasSocket
     begin
       socket.puts raw
       output.puts raw if !output.nil?
-      STDERR.puts "[#{Time.now}] #{raw}" if $verbose == true
+      STDERR.puts "[#{Time.now}] #{raw}" if ::VERBOSE == true
     rescue e
-      STDERR.puts "#{e} -> [#{Time.now}] #{raw.inspect}" if $verbose == true
+      STDERR.puts "#{e} -> [#{Time.now}] #{raw.inspect}" if ::VERBOSE == true
       raise e
     end
     self
@@ -39,7 +37,7 @@ abstract class CrystalIrc::HasSocket
 
   def gets
     r = socket.gets
-    STDERR.puts "[#{Time.now}] #{socket}.gets() => #{r.inspect}: ok" if $verbose == true
+    STDERR.puts "[#{Time.now}] #{socket}.gets() => #{r.inspect}: ok" if ::VERBOSE == true
     r
   end
 end

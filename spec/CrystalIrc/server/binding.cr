@@ -3,7 +3,7 @@ def server_process_client(s, cli)
   begin
     loop do
       cli.gets do |str|
-        STDERR.puts "server->cli.gets: #{str}" if $verbose == true
+        STDERR.puts "server->cli.gets: #{str}" if ::VERBOSE == true
         return if str.nil?
         s.handle str, cli
       end
@@ -15,7 +15,7 @@ def server_process_client(s, cli)
 end
 
 def client_fetch(cli, str)
-  STDERR.puts "fetch: #{str}" if $verbose == true
+  STDERR.puts "fetch: #{str}" if ::VERBOSE == true
 end
 
 describe CrystalIrc::Server::Binding do

@@ -1,6 +1,6 @@
 require "./CrystalIrc"
 
-$verbose = true
+::VERBOSE = true
 
 module DashBot
   def start
