@@ -1,5 +1,7 @@
 require "socket"
 
+::VERBOSE = ENV["VERBOSE"]? == "true" || true
+
 module CrystalIrc
   alias IrcSocket = (TCPSocket | OpenSSL::SSL::Socket)
   alias IrcServer = (TCPServer | OpenSSL::SSL::Socket::Server)
