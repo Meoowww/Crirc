@@ -1,3 +1,3 @@
 module CrystalIrc
-  VERSION = "0.1.0"
+  VERSION = YAML.parse({{ system("cat", "shard.yml").stringify }})["version"]
 end
