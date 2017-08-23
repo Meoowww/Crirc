@@ -7,7 +7,8 @@ abstract class CrystalIrc::HasSocket
     begin
       socket.puts raw
       output.puts raw if !output.nil?
-      STDERR.puts "[#{Time.now}] #{raw}" if ::VERBOSE == true
+      raw_display = raw.starts_with?("PASS ") ? "PASS ****" : raw
+      STDERR.puts "[#{Time.now}] #{raw_display}" if ::VERBOSE == true
     rescue e
       STDERR.puts "#{e} -> [#{Time.now}] #{raw.inspect}" if ::VERBOSE == true
       raise e
