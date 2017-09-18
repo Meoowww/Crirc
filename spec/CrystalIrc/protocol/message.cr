@@ -23,7 +23,17 @@ describe CrystalIrc::Message do
     m.hl.should eq("source")
   end
 
-  it "Instance wit no arguments" do
+  it "Instance with empty message" do
+    m = CrystalIrc::Message.new(":source CMD arg1 arg2 :", cli)
+    m.source.should eq("source")
+    m.command.should eq("CMD")
+    m.raw_arguments.should eq("arg1 arg2")
+    m.arguments.should eq(%w(arg1 arg2))
+    m.message.should eq(nil)
+    m.hl.should eq("source")
+  end
+
+  it "Instance with no arguments" do
     m = CrystalIrc::Message.new(":source CMD :message", cli)
     m.source.should eq("source")
     m.command.should eq("CMD")

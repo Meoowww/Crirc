@@ -39,7 +39,7 @@ class CrystalIrc::Message
   R_CMD     = "(?<cmd>[A-Z]+|\\d{3})"
   R_ARG_ONE = "(?:[^: ][^ ]*)"
   R_ARG     = "(?: (?<arg>#{R_ARG_ONE}(?: #{R_ARG_ONE})*))"
-  R_MSG     = "(?: \\:(?<msg>.+))"
+  R_MSG     = "(?: \\:(?<msg>.+)?)"
 
   def initialize(@raw, @sender)
     m = raw.strip.match(/\A#{R_SRC}?#{R_CMD}#{R_ARG}?#{R_MSG}?\Z/)
