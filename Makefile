@@ -1,26 +1,22 @@
-all: build
+NAME=`ls src/*/ -d | cut -f2 -d'/'`
 
+all: deps_opt test
+
+run:
+	crystal run src/$(NAME).cr
 build:
-	crystal build -s src/CrystalIrc.cr
-
+	crystal build src/$(NAME).cr --stats
 release:
-	crystal build -s --release src/CrystalIrc.cr
-
+	crystal build src/$(NAME).cr --stats --release
+test:
+	crystal spec
+deps:
+	crystal deps install
+deps_update:
+	crystal deps update
+deps_opt:
+	@[ -d lib/ ] || make deps
 doc:
 	crystal docs
 
-test:
-	crystal spec
-
-# useless, no dependancies
-deps:
-	shards
-
-# useless, no dependancies
-deps_opt:
-	[ -d libs/ ] || make deps
-
-clean:
-	rm -v CrystalIrc
-
-.PHONY: all doc test clean build release deps deps_opt
+.PHONY: all run build release test deps deps_update doc

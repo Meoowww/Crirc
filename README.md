@@ -1,8 +1,8 @@
 # CrystalIrc
 
-A crystal lib for irc client.
+A crystal library to create irc client/bots (in the future a server).
 
-Works for crystal v0.18.
+Works with crystal v0.23.0
 
 
 ## Installation
@@ -24,9 +24,8 @@ Then, run ``crystal deps install`` to fetch the lib.
 
 ## Usage
 
-- ``src/dash.cr``
-- [Dasshy bot](https://github.com/Meoowww/DashBot)
-
+- You can see a basic example: `src/dash.cr`
+- A bot (with database, plugins, etc.): [Dasshy bot](https://github.com/Meoowww/DashBot)
 
 ## Development
 
