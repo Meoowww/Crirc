@@ -18,7 +18,7 @@ describe CrystalIrc::Server do
     end
     TCPSocket.open("127.0.0.1", 6667) do |socket|
       got = socket.gets
-      got.should eq(":0 NOTICE Auth :***You are connected***\n")
+      got.should eq(":0 NOTICE Auth :***You are connected***")
     end
     s.close
   end
