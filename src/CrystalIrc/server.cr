@@ -9,20 +9,20 @@ class CrystalIrc::Server
   include CrystalIrc::Handler
   # include CrystalIrc::Server::Binding
 
+  getter socket : TCPServer
   @host : String
   @port : UInt16
-  @socket : TCPServer
   @ssl : Bool
-  @chans : Hash(String, Hash(CrystalIrc::Chan, Array(CrystalIrc::User)))
   @clients : Array(CrystalIrc::Server::Client)
+  @verbose : Bool
 
   getter host, port, socket, chans, clients
 
   # TODO: maybe new should be protected
   # TODO: add ssl socket
-  def initialize(@host = "127.0.0.1", @port = 6697_16, @ssl = true)
+  def initialize(@host = "127.0.0.1", @port = 6697_16, @ssl = true, @verbose = false)
     @socket = TCPServer.new(@host, @port)
-    @chans = Hash(String, Hash(CrystalIrc::Chan, Array(CrystalIrc::User))).new
+    STDOUT.puts "Server listen on #{@host}:#{@port}" if @verbose
     @clients = Array(CrystalIrc::Server::Client).new
     super()
     CrystalIrc::Server::Binding.attach(self)
@@ -37,13 +37,18 @@ class CrystalIrc::Server
     end
   end
 
-  def accept
+  def accept(&block)
+    STDOUT.puts "Wait for client"
     @socket.accept do |s|
+      STDOUT.puts "Client connected"
       cli = CrystalIrc::Server::Client.new s
       begin
+        STDOUT.puts "Add client to the list"
         @clients << cli
+        STDOUT.puts "Client execution"
         yield cli
       ensure
+        STDOUT.puts "Client stop"
         cli.close
         @clients.delete cli
       end
@@ -51,19 +56,18 @@ class CrystalIrc::Server
   end
 
   def accept
-    cli = CrystalIrc::Server::Client.new @socket.accept
+    STDOUT.puts "Wait for client"
+    cli_socket = @socket.accept
+    cli = CrystalIrc::Server::Client.new cli_socket
+    STDOUT.puts "Add client to the list"
     @clients << cli
     cli
   end
 
-  protected def socket
-    @socket
-  end
-
   def close
+    STDOUT.puts "Clean the connections and server"
     @clients.each { |c| c.close }
     @clients.clear
-    @chans.clear
     super
   end
 

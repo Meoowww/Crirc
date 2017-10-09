@@ -12,6 +12,6 @@ class CrystalIrc::Server::Client < CrystalIrc::IrcSender
   end
 
   def from
-    "0" #  TODO: find the client through the Server.users
+    "0" # TODO: find the client through the Server.users
   end
 end

@@ -1,4 +1,3 @@
-
 counter_toto = 0
 
 describe CrystalIrc::Bot do

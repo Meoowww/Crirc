@@ -16,7 +16,7 @@ describe CrystalIrc::User do
     CrystalIrc::User.new("Validity_2").name.should eq "Validity_2"
     CrystalIrc::User.new("Validity[2]").name.should eq "Validity[2]"
     CrystalIrc::User.new("Validity{2}").name.should eq "Validity{2}"
-    CrystalIrc::User.new("`Validity").name.should eq "`Validity" # Not in the RFC, still accepted
+    CrystalIrc::User.new("`Validity").name.should eq "`Validity" #  Not in the RFC, still accepted
   end
 
   it "Instanciation error" do
