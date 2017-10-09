@@ -7,10 +7,6 @@ describe CrystalIrc::User do
     e = CrystalIrc::User.new "test_works"
     e.name.should eq("test_works")
 
-    # TODO: not valid
-    e = CrystalIrc::User.new "#test-works"
-    e.name.should eq("#test-works")
-
     e = CrystalIrc::User.new("a"*50)
     e.name.should eq("a"*50)
 
@@ -20,6 +16,7 @@ describe CrystalIrc::User do
     CrystalIrc::User.new("Validity_2").name.should eq "Validity_2"
     CrystalIrc::User.new("Validity[2]").name.should eq "Validity[2]"
     CrystalIrc::User.new("Validity{2}").name.should eq "Validity{2}"
+    CrystalIrc::User.new("`Validity").name.should eq "`Validity" # Not in the RFC, still accepted
   end
 
   it "Instanciation error" do
@@ -27,6 +24,7 @@ describe CrystalIrc::User do
     expect_raises(CrystalIrc::ParsingError) { CrystalIrc::User.new("1a") }
     expect_raises(CrystalIrc::ParsingError) { CrystalIrc::User.new("a"*51) }
     expect_raises(CrystalIrc::ParsingError) { CrystalIrc::User.new("spaces in the name") }
+    expect_raises(CrystalIrc::ParsingError) { CrystalIrc::User.new("#a") }
   end
 
   it "Whois" do

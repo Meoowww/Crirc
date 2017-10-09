@@ -13,10 +13,14 @@ class CrystalIrc::User < CrystalIrc::Target
 
   getter nick, id, whois
 
-  # TODO: fix the parser
+  CHARS_SPECIAL = "[_\\|\\[\\]\\\\\\`\\^\\{\\}]"
+  CHARS_ALPHA = "[a-zA-Z]"
+  CHARS_NUM = "[0-9\\-]"
+  CHARS_FIRST = "#{CHARS_SPECIAL}|#{CHARS_ALPHA}"
+  CHARS_NEXT = "#{CHARS_FIRST}|#{CHARS_NUM}"
   def initialize(@nick, id = nil, @whois = nil)
     raise ParsingError.new @nick, "user name must not be empty" if @nick.empty?
-    raise ParsingError.new @nick, "user name must contains at most 50 valid characters" if !@nick.match(/\A(?!.{51,})(\#?([a-zA-Z])([a-zA-Z0-9_\|\-\[\]\\\`\^\{\}]+))\Z/)
+    raise ParsingError.new @nick, "user name must contains at most 50 valid characters" if !@nick.match(/\A(?!.{51,})((#{CHARS_FIRST})((#{CHARS_NEXT})+))\Z/)
     @id = id || @nick
   end
 
