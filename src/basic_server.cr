@@ -43,8 +43,8 @@ def start
     client = s.clients.select { |e| e.user.nick == msg.sender.from }.first?
     raise CrystalIrc::IrcError.new if client.nil?
     # Broadcast nick to all users who share a chan
-    # TODO
-    msg.sender.send_raw ":#{client.user.nick} NICK :#{msg.raw_arguments.to_s}" # only notifies the concerned user for now
+    # TODO broadcast only to concerned clients
+    s.clients.each { |u| u.send_raw ":#{client.user.nick} NICK :#{msg.raw_arguments.to_s}" }
     client.user.nick = msg.raw_arguments.to_s
   end.on("USER") do |msg|
     msg.sender.answer_raw "462 #{msg.raw_arguments.to_s} : nop"
@@ -62,9 +62,8 @@ def start
       raise CrystalIrc::IrcError.new if client.nil?
       # Add user to the chan's user list
       chan.users << client.user if !client.nil?
-      chan.users.each do |u|
-        msg.sender.send_raw ":#{client.user.nick} JOIN :#{chan.name}"
-      end
+      # TODO broadcast only to clients in chan? (Maybe chan should have client list and not user list?)
+      s.clients.each { |u| u.send_raw ":#{client.user.nick} JOIN :#{chan.name}" }
       # TODO send user list & motd
     end
   end
