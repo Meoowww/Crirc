@@ -12,6 +12,7 @@ class CrystalIrc::User < CrystalIrc::Target
   @whois : String?
 
   getter nick, id, whois
+  setter nick
 
   CHARS_SPECIAL = "[_\\|\\[\\]\\\\\\`\\^\\{\\}]"
   CHARS_ALPHA   = "[a-zA-Z]"

@@ -4,6 +4,7 @@ class CrystalIrc::Server < CrystalIrc::IrcSender
 end
 
 require "./server/*"
+require "./protocol/chan"
 
 class CrystalIrc::Server
   include CrystalIrc::Handler
@@ -14,6 +15,7 @@ class CrystalIrc::Server
   @port : UInt16
   @ssl : Bool
   @clients : Array(CrystalIrc::Server::Client)
+  @chans : Array(CrystalIrc::Chan)
   @verbose : Bool
 
   getter host, port, socket, chans, clients
@@ -24,6 +26,7 @@ class CrystalIrc::Server
     @socket = TCPServer.new(@host, @port)
     STDOUT.puts "Server listen on #{@host}:#{@port}" if @verbose
     @clients = Array(CrystalIrc::Server::Client).new
+    @chans = Array(CrystalIrc::Chan).new
     super()
     CrystalIrc::Server::Binding.attach(self)
   end
@@ -59,6 +62,7 @@ class CrystalIrc::Server
     STDOUT.puts "Wait for client"
     cli_socket = @socket.accept
     cli = CrystalIrc::Server::Client.new cli_socket
+    cli.user.nick = "Default"
     STDOUT.puts "Add client to the list"
     @clients << cli
     cli
