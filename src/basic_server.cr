@@ -75,7 +75,20 @@ def start
       chan.users << client.user
       # TODO broadcast only to clients in chan? (Maybe chan should have client list and not user list?)
       s.clients.each { |u| u.send_raw ":#{client.user.nick} JOIN :#{chan.name}" }
-      # TODO send user list & motd
+
+      # Send user list & motd & mode
+      if chan.motd.nil?
+        msg.sender.send_raw "331 #{msg.sender.from} #{chan.name} :No topic is set"
+      else
+        msg.sender.send_raw "332 #{msg.sender.from} #{chan.name} :#{chan.motd}"
+        # TODO handle 333 which is not in RFC 2812
+        msg.sender.send_raw "333 #{msg.sender.from} #{chan.name} name of setter timestamp"
+      end
+      # This is the answer to the user list command, so should be in a separate function
+      userlist = String::Builder.new
+      chan.users.join(" ", userlist) { |u, io| io << "#{u.nick}" }
+      msg.sender.send_raw "353 #{msg.sender.from} = #{chan.name} :#{userlist.to_s}"
+      msg.sender.send_raw "366 #{msg.sender.from} #{chan.name} :End of /NAMES list."
     end
   end.on("PART") do |msg|
     client = s.clients.select { |e| e.user.nick == msg.sender.from }.first?

@@ -8,8 +8,10 @@ require "./user"
 class CrystalIrc::Chan < CrystalIrc::Target
   @name : String
   @users : Array(User)
+  @modes : String
+  @motd : String? # TODO : motd = string + user (string?) + timestamp
 
-  getter name, users
+  getter name, users, motd
   setter users
 
   def initialize(@name)
@@ -17,6 +19,7 @@ class CrystalIrc::Chan < CrystalIrc::Target
     raise ParsingError.new @name, "The Chan name must begin with a \"#\"" if !@name.match(/\A\#.+\Z/)
     raise ParsingError.new @name, "The Chan name must contains at most 63 valid characters" if !@name.match(/\A(?!.{51,})(\#\#?([^[:space:],]+))\Z/)
     @users = [] of User
+    @modes = ""
   end
 
   # Search an `User` by name (nick).
