@@ -86,7 +86,7 @@ def start
         # TODO handle 333 which is not in RFC 2812
         msg.sender.send_raw "333 #{msg.sender.from} #{chan.name} name of setter timestamp"
       end
-      # This is the answer to the user list command, so should be in a separate function
+      # This is the answer to the user list command, so should be in a separate function
       userlist = String::Builder.new
       chan.users.join(" ", userlist) { |u, io| io << "#{u.nick}" }
       msg.sender.send_raw "353 #{msg.sender.from} = #{chan.name} :#{userlist.to_s}"
@@ -141,9 +141,9 @@ def start
       client.send_raw(":127.0.0.1 CAP 203BAN0MN ACK :")
     end
   end
-  spawn server_process_client(s, s.accept)
+
   loop do
-    sleep 1
+    spawn server_process_client(s, s.accept)
   end
 end
 
