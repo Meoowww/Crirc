@@ -5,11 +5,22 @@ require "../protocol/user"
 class CrystalIrc::Server::Client < CrystalIrc::IrcSender
   @socket : TCPSocket
   @user : CrystalIrc::User
+  @valid : Bool
+  @username : String
+  @realname : String
 
-  getter user
+  getter user, valid
+  setter username, realname
 
   def initialize(@socket)
-    @user = CrystalIrc::User.new "Default"
+    @user = CrystalIrc::User.new "Default" + Random.rand(10000).to_s
+    @valid = false
+    @username = "guest"
+    @realname = "guest"
+  end
+
+  def validate()
+    @valid = true
   end
 
   protected def socket

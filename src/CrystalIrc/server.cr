@@ -62,7 +62,6 @@ class CrystalIrc::Server
     STDOUT.puts "Wait for client"
     cli_socket = @socket.accept
     cli = CrystalIrc::Server::Client.new cli_socket
-    cli.user.nick = "Default"
     STDOUT.puts "Add client to the list"
     @clients << cli
     cli
