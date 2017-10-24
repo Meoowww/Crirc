@@ -8,11 +8,11 @@ require "./user"
 class CrystalIrc::Chan < CrystalIrc::Target
   @name : String
   @users : Array(User)
-  @modes : String
+  @modes : String # TODO : for now chan modes are purely decorative
   @motd : String? # TODO : motd = string + user (string?) + timestamp
 
-  getter name, users, motd
-  setter users
+  getter name, users, motd, modes
+  setter users, modes
 
   def initialize(@name)
     raise ParsingError.new @name, "The Chan name must not be empty" if @name.empty?

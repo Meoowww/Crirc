@@ -71,6 +71,8 @@ def start
         s.chans << c
         chan = c
       end
+      # Check if user already in the chan
+      next if chan.users.includes? client.user
       # Add user to the chan's user list
       chan.users << client.user
       # TODO broadcast only to clients in chan? (Maybe chan should have client list and not user list?)
@@ -90,6 +92,29 @@ def start
       msg.sender.send_raw "353 #{msg.sender.from} = #{chan.name} :#{userlist.to_s}"
       msg.sender.send_raw "366 #{msg.sender.from} #{chan.name} :End of /NAMES list."
     end
+  end.on("MODE") do |msg|
+    c = CrystalIrc::Chan.new msg.raw_arguments.to_s.split(" ")[0]
+    chan = s.chans.select { |e| e.name == c.name }.first?
+    raise CrystalIrc::IrcError.new if chan.nil?
+    if msg.raw_arguments.to_s.split(" ").size > 1
+      # TODO check if mode is valid
+      # TODO handle mode effects in chan class
+      if msg.raw_arguments.to_s.split(" ")[1].chars.first == '+'
+        chan.modes += msg.raw_arguments.to_s.split(" ")[1]
+        chan.modes = chan.modes.delete '+'
+      elsif msg.raw_arguments.to_s.split(" ")[1].chars.first == '-'
+        msg.raw_arguments.to_s.split(" ")[1].chars.each do |c|
+          chan.modes = chan.modes.delete c
+        end
+      else
+        # TODO
+      end
+      chan.modes = chan.modes.chars.uniq!.join("")
+      msg.sender.send_raw "324 #{msg.sender.from} #{chan.name} +#{chan.modes}"
+    else
+      msg.sender.send_raw "324 #{msg.sender.from} #{chan.name} +#{chan.modes}"
+    end
+    # TODO handle 329 which is not in RFC 2812
   end.on("PART") do |msg|
     client = s.clients.select { |e| e.user.nick == msg.sender.from }.first?
     raise CrystalIrc::IrcError.new if client.nil?
