@@ -2,8 +2,6 @@ require "./CrystalIrc"
 
 def server_process_client(s, cli)
   cli.send_raw ":127.0.0.1 NOTICE Auth :*** Connecting..."
-  # BUG: Expect at least a NICK to send 001 connected, but the server doesn't recognize NICK commands without this
-  # TODO: putting :Default nickname is a quick&dirty fix that should not be here
   # BUG: server only accepts 1 connection?
   begin
     loop do
@@ -52,13 +50,19 @@ def start
     client = s.clients.select { |e| e.user.nick == msg.sender.from }.first?
     raise CrystalIrc::IrcError.new if client.nil?
     client.username = msg.raw_arguments.to_s.split(" ")[0]
-    client.realname = msg.raw_arguments.to_s.split(":")[1]
+    if msg.raw_arguments.to_s.split(":").size > 0
+      client.realname = msg.raw_arguments.to_s.split(":")[1]
+    else
+      client.realname = msg.raw_arguments.to_s.split(" ")[3]
+    end
     msg.sender.answer_raw "001 #{client.user.nick} :Welcome to PonyServ"
     msg.sender.answer_raw "002 #{client.user.nick} :Host is 127.0.0.1"
     msg.sender.answer_raw "003 #{client.user.nick} :This server was created on..."
     msg.sender.answer_raw "004 #{client.user.nick} 127.0.0.1 v001 BHIRSWacdhikorswx ABCDFKLMNOQRSTYZabcefghijklmnopqrstuvz FLYZabefghjkloq" # TODO put right stuff here
     client.validate
   end.on("JOIN") do |msg|
+    client = s.clients.select { |e| e.user.nick == msg.sender.from }.first?
+    raise CrystalIrc::IrcError.new if client.nil?
     chans = msg.raw_arguments.to_s.split(",").map { |e| CrystalIrc::Chan.new e.strip }
     chans.each do |c|
       chan = s.chans.select { |e| e.name == c.name }.first?
@@ -67,15 +71,28 @@ def start
         s.chans << c
         chan = c
       end
-      # Get user
-      client = s.clients.select { |e| e.user.nick == msg.sender.from }.first?
-      raise CrystalIrc::IrcError.new if client.nil?
       # Add user to the chan's user list
-      chan.users << client.user if !client.nil?
+      chan.users << client.user
       # TODO broadcast only to clients in chan? (Maybe chan should have client list and not user list?)
       s.clients.each { |u| u.send_raw ":#{client.user.nick} JOIN :#{chan.name}" }
       # TODO send user list & motd
     end
+  end.on("PART") do |msg|
+    client = s.clients.select { |e| e.user.nick == msg.sender.from }.first?
+    raise CrystalIrc::IrcError.new if client.nil?
+    chans = msg.raw_arguments.to_s.split(":")[0].split(",").map { |e| CrystalIrc::Chan.new e.strip }
+    chans.each do |c|
+      chan = s.chans.select { |e| e.name == c.name }.first?
+      next if chan.nil?
+      chan.users.delete(client.user)
+      # TODO broadcast only to clients in chan? (Maybe chan should have client list and not user list?)
+      if msg.raw_arguments.to_s.split(":").size > 1
+        s.clients.each { |u| u.send_raw ":#{client.user.nick} PART #{chan.name} :#{msg.raw_arguments.to_s.split(":")[1]}" }
+      else
+        s.clients.each { |u| u.send_raw ":#{client.user.nick} PART #{chan.name}" }
+      end
+    end
+    # Delete empty chans
   end.on("PASS") do |msg| # TODO not implemented
   end.on("CAP") do |msg|
     client = s.clients.select { |e| e.user.nick == msg.sender.from }.first?
