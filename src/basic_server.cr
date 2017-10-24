@@ -91,8 +91,8 @@ def start
       else
         s.clients.each { |u| u.send_raw ":#{client.user.nick} PART #{chan.name}" }
       end
+      chans.delete(chan) if chan.users.empty?
     end
-    # Delete empty chans
   end.on("PASS") do |msg| # TODO not implemented
   end.on("CAP") do |msg|
     client = s.clients.select { |e| e.user.nick == msg.sender.from }.first?
