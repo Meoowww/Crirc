@@ -245,7 +245,7 @@ module CrystalIrc::Server::Binding
           msg.sender.send_raw "404 #{msg.sender.from} #{msg.arguments[0]} :Cannot send to channel"
           next
         end
-        chan[1].each { |u| u.send_raw ":#{msg.sender.from} PRIVMSG #{msg.arguments[0]} :#{msg.message}" }
+        chan[1].each { |u| u.send_raw ":#{msg.sender.from} PRIVMSG #{msg.arguments[0]} :#{msg.message}" if u.user.nick != msg.sender.from }
       else # Private message
       end
     end
