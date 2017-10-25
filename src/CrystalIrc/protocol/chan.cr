@@ -8,10 +8,8 @@ require "./user"
 class CrystalIrc::Chan < CrystalIrc::Target
   class CrystalIrc::Chan::Motd
     getter message : String
-    @user : String
-    @timestamp : Int64
-
-    getter user, timestamp
+    getter user : String
+    getter timestamp : Int64
 
     def initialize(@message, @user)
       @timestamp = Time.now.epoch
@@ -22,10 +20,10 @@ class CrystalIrc::Chan < CrystalIrc::Target
     end
   end
 
-  @name : String
-  @users : Array(User)
-  @modes : String # TODO : for now chan modes are purely decorative
-  @motd : CrystalIrc::Chan::Motd?
+  getter name : String
+  property users : Array(User)
+  property modes : String # TODO : for now chan modes are purely decorative
+  property motd : CrystalIrc::Chan::Motd?
 
   getter name, users, motd, modes
   setter users, modes, motd

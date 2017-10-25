@@ -7,12 +7,9 @@ require "./target"
 # It does not represent a controllable client (only the class `Client` does).
 # TODO: checkout the masks
 class CrystalIrc::User < CrystalIrc::Target
-  @nick : String
-  @id : String
-  @whois : String?
-
-  getter nick, id, whois
-  setter nick
+  property nick : String
+  getter id : String
+  getter whois : String?
 
   CHARS_SPECIAL = "[_\\|\\[\\]\\\\\\`\\^\\{\\}]"
   CHARS_ALPHA   = "[a-zA-Z]"
