@@ -15,7 +15,7 @@ class CrystalIrc::Server
   @port : UInt16
   @ssl : Bool
   @clients : Array(CrystalIrc::Server::Client)
-  @chans : Array(CrystalIrc::Chan)
+  @chans : Hash(CrystalIrc::Chan, Array(CrystalIrc::Server::Client))
   @verbose : Bool
 
   getter host, port, socket, chans, clients
@@ -26,7 +26,7 @@ class CrystalIrc::Server
     @socket = TCPServer.new(@host, @port)
     STDOUT.puts "Server listen on #{@host}:#{@port}" if @verbose
     @clients = Array(CrystalIrc::Server::Client).new
-    @chans = Array(CrystalIrc::Chan).new
+    @chans = Hash(CrystalIrc::Chan, Array(CrystalIrc::Server::Client)).new
     super()
     CrystalIrc::Server::Binding.attach(self)
   end
