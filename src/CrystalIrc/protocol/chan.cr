@@ -6,13 +6,29 @@ require "./user"
 # It has a name and a list of user.
 # TODO: checkout the masks
 class CrystalIrc::Chan < CrystalIrc::Target
+  class CrystalIrc::Chan::Motd
+    @message : String
+    @user : String
+    @timestamp : Int64
+
+    getter message, user, timestamp
+
+    def initialize(@message, @user)
+      @timestamp = Time.now.epoch
+    end
+
+    def setMotd(@message, @user)
+      @timestamp = Time.now.epoch
+    end
+  end
+
   @name : String
   @users : Array(User)
   @modes : String # TODO : for now chan modes are purely decorative
-  @motd : String? # TODO : motd = string + user (string?) + timestamp
+  @motd : CrystalIrc::Chan::Motd?
 
   getter name, users, motd, modes
-  setter users, modes
+  setter users, modes, motd
 
   def initialize(@name)
     raise ParsingError.new @name, "The Chan name must not be empty" if @name.empty?
