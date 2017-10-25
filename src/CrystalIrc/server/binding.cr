@@ -43,11 +43,13 @@ module CrystalIrc::Server::Binding
       # Check for availability & validity of nick
       if !msg.arguments[0].match(/\A(?!.{51,})((#{CrystalIrc::User::CHARS_FIRST})((#{CrystalIrc::User::CHARS_NEXT})+))\Z/)
         msg.sender.send_raw ":0 432 :#{msg.arguments[0]} :Erroneus nickname"
+        obj.mut.unlock
         next
       end
       obj.clients.each do |cli|
         if cli.user.nick == msg.arguments[0]
           msg.sender.send_raw ":0 433 :#{msg.arguments[0]} :Nickname is already in use"
+          obj.mut.unlock
           next
         end
       end
@@ -61,11 +63,14 @@ module CrystalIrc::Server::Binding
           # Send nick to users who share a chan
           # TODO: avoid duplicates
           chan, userlist = c
-          next if userlist.find { |e| e.user.nick == msg.sender.from }.nil?
+          if userlist.find { |e| e.user.nick == msg.sender.from }.nil?
+            obj.mut.unlock
+            next
+          end
           userlist.each { |u| u.send_raw ":#{client.user.nick} NICK :#{msg.raw_arguments.to_s}" }
         end
       else
-        client.validate 1
+        client.validate  CrystalIrc::Server::Client::ValidationStates::Nick
       end
       client.user.nick = msg.arguments[0]
       obj.mut.unlock
@@ -90,7 +95,7 @@ module CrystalIrc::Server::Binding
       msg.sender.send_raw ":0 002 #{client.user.nick} :Host is 127.0.0.1"
       msg.sender.send_raw ":0 003 #{client.user.nick} :This server was created on..."
       msg.sender.send_raw ":0 004 #{client.user.nick} 127.0.0.1 v001 BHIRSWacdhikorswx ABCDFKLMNOQRSTYZabcefghijklmnopqrstuvz FLYZabefghjkloq" # TODO put right stuff here
-      client.validate 2
+      client.validate CrystalIrc::Server::Client::ValidationStates::User
     end
   end
 
