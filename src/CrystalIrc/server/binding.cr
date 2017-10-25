@@ -37,8 +37,9 @@ module CrystalIrc::Server::Binding
     end
   end
 
-  def self.bind_nick(obj)
+  def self.bind_nick(obj) # BUG: when several persons connect at once, they get confused...
     obj.on("NICK") do |msg|
+      obj.mut.lock
       # Check for availability & validity of nick
       if !msg.arguments[0].match(/\A(?!.{51,})((#{CrystalIrc::User::CHARS_FIRST})((#{CrystalIrc::User::CHARS_NEXT})+))\Z/)
         msg.sender.answer_raw "432 :#{msg.arguments[0]} :Erroneus nickname"
@@ -66,6 +67,7 @@ module CrystalIrc::Server::Binding
         client.validate 1
       end
       client.user.nick = msg.arguments[0]
+      obj.mut.unlock
     end
   end
 
@@ -76,7 +78,7 @@ module CrystalIrc::Server::Binding
       if msg.arguments.size < 4 || msg.message.nil?
         msg.sender.send_raw "461 #{msg.sender.from} USER :Not enough parameters"
         next
-      elsif !client.username.nil?
+      elsif client.valid == (CrystalIrc::Server::Client::ValidationStates::User || CrystalIrc::Server::Client::ValidationStates::Valid)
         msg.sender.send_raw "462 #{msg.sender.from} :Unauthorized command (already registered)"
       end
       client.username = msg.arguments[0]

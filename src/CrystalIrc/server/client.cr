@@ -19,8 +19,8 @@ class CrystalIrc::Server::Client < CrystalIrc::IrcSender
   def initialize(@socket)
     @user = CrystalIrc::User.new "Default" + Random.rand(10000).to_s
     @valid = ValidationStates::None
-    @username = "guest"
-    @realname = "guest"
+    @username = ""
+    @realname = ""
   end
 
   def validate(type)

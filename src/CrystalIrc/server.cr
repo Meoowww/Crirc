@@ -11,14 +11,13 @@ class CrystalIrc::Server
   # include CrystalIrc::Server::Binding
 
   getter socket : TCPServer
-  @host : String
-  @port : UInt16
+  getter host : String
+  getter port : UInt16
   @ssl : Bool
-  @clients : Array(CrystalIrc::Server::Client)
-  @chans : Hash(CrystalIrc::Chan, Array(CrystalIrc::Server::Client))
+  getter clients : Array(CrystalIrc::Server::Client)
+  getter chans : Hash(CrystalIrc::Chan, Array(CrystalIrc::Server::Client))
   @verbose : Bool
-
-  getter host, port, socket, chans, clients
+  getter mut : Mutex
 
   # TODO: maybe new should be protected
   # TODO: add ssl socket
@@ -27,6 +26,7 @@ class CrystalIrc::Server
     STDOUT.puts "Server listen on #{@host}:#{@port}" if @verbose
     @clients = Array(CrystalIrc::Server::Client).new
     @chans = Hash(CrystalIrc::Chan, Array(CrystalIrc::Server::Client)).new
+    @mut = Mutex.new
     super()
     CrystalIrc::Server::Binding.attach(self)
   end
