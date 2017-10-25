@@ -16,11 +16,11 @@ class CrystalIrc::Server::Client < CrystalIrc::IrcSender
     @realname = "guest"
   end
 
-  def validate()
+  def validate
     @valid = true
   end
 
-  def valid?()
+  def valid?
     @valid
   end
 
