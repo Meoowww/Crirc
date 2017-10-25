@@ -242,9 +242,9 @@ module CrystalIrc::Server::Binding
     end
   end
 
-  def self.bind_message(obj) # TODO handle all error cases
+  def self.bind_message(obj) # TODO handle all error cases
     obj.on("PRIVMSG") do |msg|
-      # Message on chan
+      # Message on chan
       if msg.arguments[0][0] == '#'
         c = CrystalIrc::Chan.new msg.arguments[0]
         chan_tuple = obj.chans.find { |e| e[0].name == c.name }
