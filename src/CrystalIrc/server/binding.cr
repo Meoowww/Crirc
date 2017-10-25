@@ -22,6 +22,7 @@ module CrystalIrc::Server::Binding
     self.bind_pass obj
     self.bind_cap obj
     self.bind_topic obj
+    self.bind_message obj
   end
 
   def self.bind_ping(obj)
@@ -75,6 +76,8 @@ module CrystalIrc::Server::Binding
       if msg.arguments.size < 4 || msg.message.nil?
         msg.sender.send_raw "461 #{msg.sender.from} USER :Not enough parameters"
         next
+      elsif !client.username.nil?
+        msg.sender.send_raw "462 #{msg.sender.from} :Unauthorized command (already registered)"
       end
       client.username = msg.arguments[0]
       if !(message = msg.message).nil?
@@ -225,6 +228,24 @@ module CrystalIrc::Server::Binding
       # Send back topic
       # TODO send it to everyone in chan!
       chan[1].each { |u| self.rpl_topic u, chan[0] }
+    end
+  end
+
+  def self.bind_message(obj) # TODO handle all error cases
+    obj.on("PRIVMSG") do |msg|
+      # Message on chan
+      if msg.arguments[0][0] == '#'
+        c = CrystalIrc::Chan.new msg.arguments[0]
+        chan = obj.chans.find { |e| e[0].name == c.name }
+        raise CrystalIrc::IrcError.new if chan.nil?
+        # Check if user is in chan
+        if chan[1].find { |e| e.user.nick == msg.sender.from }.nil?
+          msg.sender.send_raw "404 #{msg.sender.from} #{msg.arguments[0]} :Cannot send to channel"
+          next
+        end
+        chan[1].each { |u| u.send_raw ":#{msg.sender.from} PRIVMSG #{msg.arguments[0]} :#{msg.message}" }
+      else # Private message
+      end
     end
   end
 end
