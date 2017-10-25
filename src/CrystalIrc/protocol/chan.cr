@@ -7,17 +7,17 @@ require "./user"
 # TODO: checkout the masks
 class CrystalIrc::Chan < CrystalIrc::Target
   class CrystalIrc::Chan::Motd
-    @message : String
+    getter message : String
     @user : String
     @timestamp : Int64
 
-    getter message, user, timestamp
+    getter user, timestamp
 
     def initialize(@message, @user)
       @timestamp = Time.now.epoch
     end
 
-    def setMotd(@message, @user)
+    def set_motd(@message, @user)
       @timestamp = Time.now.epoch
     end
   end

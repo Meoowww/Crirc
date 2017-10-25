@@ -12,11 +12,30 @@ module CrystalIrc::Server::Binding
   end
 
   def self.attach(obj)
+    self.bind_ping obj
+    self.bind_whois obj
+    self.bind_nick obj
+    self.bind_user obj
+    self.bind_join obj
+    self.bind_mode obj
+    self.bind_part obj
+    self.bind_topic obj
+  end
+
+  def self.bind_ping(obj)
     obj.on("PING") do |msg|
       msg.sender.pong(msg.message)
-    end.on("WHOIS") do |msg|
-        msg.sender.answer_raw "311 #{msg.raw_arguments.to_s} #{msg.raw_arguments.to_s} ~#{msg.raw_arguments.to_s} 0 * ok@ok"
-    end.on("NICK") do |msg|
+    end
+  end
+
+  def self.bind_whois(obj)
+    obj.on("WHOIS") do |msg|
+      msg.sender.answer_raw "311 #{msg.raw_arguments.to_s} #{msg.raw_arguments.to_s} ~#{msg.raw_arguments.to_s} 0 * ok@ok"
+    end
+  end
+
+  def self.bind_nick(obj)
+    obj.on("NICK") do |msg|
       # Check for availability & validity of nick
       if !msg.raw_arguments.to_s.match(/\A(?!.{51,})((#{CrystalIrc::User::CHARS_FIRST})((#{CrystalIrc::User::CHARS_NEXT})+))\Z/)
         msg.sender.answer_raw "432 :#{msg.raw_arguments.to_s} :Erroneus nickname"
@@ -37,7 +56,11 @@ module CrystalIrc::Server::Binding
         obj.clients.each { |u| u.send_raw ":#{client.user.nick} NICK :#{msg.raw_arguments.to_s}" }
       end
       client.user.nick = msg.raw_arguments.to_s
-    end.on("USER") do |msg|
+    end
+  end
+
+  def self.bind_user(obj)
+    obj.on("USER") do |msg|
       client = obj.clients.select { |e| e.user.nick == msg.sender.from }.first?
       raise CrystalIrc::IrcError.new if client.nil?
       client.username = msg.raw_arguments.to_s.split(" ")[0]
@@ -51,7 +74,11 @@ module CrystalIrc::Server::Binding
       msg.sender.answer_raw "003 #{client.user.nick} :This server was created on..."
       msg.sender.answer_raw "004 #{client.user.nick} 127.0.0.1 v001 BHIRSWacdhikorswx ABCDFKLMNOQRSTYZabcefghijklmnopqrstuvz FLYZabefghjkloq" # TODO put right stuff here
       client.validate
-    end.on("JOIN") do |msg|
+    end
+  end
+
+  def self.bind_join(obj)
+    obj.on("JOIN") do |msg|
       client = obj.clients.select { |e| e.user.nick == msg.sender.from }.first?
       raise CrystalIrc::IrcError.new if client.nil?
       chans = msg.raw_arguments.to_s.split(",").map { |e| CrystalIrc::Chan.new e.strip }
@@ -82,7 +109,11 @@ module CrystalIrc::Server::Binding
         msg.sender.send_raw "353 #{msg.sender.from} = #{chan.name} :#{userlist.to_s}"
         msg.sender.send_raw "366 #{msg.sender.from} #{chan.name} :End of /NAMES list."
       end
-    end.on("MODE") do |msg|
+    end
+  end
+
+  def self.bind_mode(obj)
+    obj.on("MODE") do |msg|
       c = CrystalIrc::Chan.new msg.raw_arguments.to_s.split(" ")[0]
       chan = obj.chans.select { |e| e.name == c.name }.first?
       if chan.nil?
@@ -108,7 +139,11 @@ module CrystalIrc::Server::Binding
         msg.sender.send_raw "324 #{msg.sender.from} #{chan.name} +#{chan.modes}"
       end
       # TODO handle 329 which is not in RFC 2812
-    end.on("PART") do |msg|
+    end
+  end
+
+  def self.bind_part(obj)
+    obj.on("PART") do |msg|
       client = obj.clients.select { |e| e.user.nick == msg.sender.from }.first?
       raise CrystalIrc::IrcError.new if client.nil?
       chans = msg.raw_arguments.to_s.split(":")[0].split(",").map { |e| CrystalIrc::Chan.new e.strip }
@@ -137,7 +172,11 @@ module CrystalIrc::Server::Binding
       elsif msg.raw_arguments.to_s.split(" ")[0] == "REQ"
         client.send_raw(":127.0.0.1 CAP 203BAN0MN ACK :")
       end
-    end.on("TOPIC") do |msg|
+    end
+  end
+
+  def self.bind_topic(obj)
+    obj.on("TOPIC") do |msg|
       c = CrystalIrc::Chan.new msg.raw_arguments.to_s.split(" ")[0]
       chan = obj.chans.select { |e| e.name == c.name }.first?
       if chan.nil?
@@ -148,7 +187,7 @@ module CrystalIrc::Server::Binding
         if (motd = chan.motd).nil?
           chan.motd = CrystalIrc::Chan::Motd.new msg.raw_arguments.to_s.split(":")[1], msg.sender.from
         else
-          motd.setMotd msg.raw_arguments.to_s.split(":")[1], msg.sender.from
+          motd.set_motd msg.raw_arguments.to_s.split(":")[1], msg.sender.from
         end
       end
       # Send back topic
