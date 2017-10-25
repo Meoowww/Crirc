@@ -60,8 +60,9 @@ module CrystalIrc::Server::Binding
         obj.chans.each do |c|
           # Send nick to users who share a chan
           # TODO: avoid duplicates
-          next if c[0].users.find { |e| e.nick == msg.sender.from }.nil?
-          c[1].each { |u| u.send_raw ":#{client.user.nick} NICK :#{msg.raw_arguments.to_s}" }
+          chan, userlist = c
+          next if userlist.find { |e| e.user.nick == msg.sender.from }.nil?
+          userlist.each { |u| u.send_raw ":#{client.user.nick} NICK :#{msg.raw_arguments.to_s}" }
         end
       else
         client.validate 1
@@ -103,30 +104,31 @@ module CrystalIrc::Server::Binding
         next
       end
       chans.each do |c|
-        chan = obj.chans.find { |e| e[0].name == c.name }
-        if chan.nil?
+        chan_tuple = obj.chans.find { |e| e[0].name == c.name }
+        if chan_tuple.nil?
           # Add chan to chan list if new
           obj.chans[c] = [] of CrystalIrc::Server::Client
-          chan = obj.chans.find { |e| e[0].name == c.name }
-          raise CrystalIrc::IrcError.new if chan.nil?
+          chan_tuple = obj.chans.find { |e| e[0].name == c.name }
+          raise CrystalIrc::IrcError.new if chan_tuple.nil?
         end
+        chan, userlist = chan_tuple
         # Check if user already in the chan
-        next if chan[1].includes? client
+        next if userlist.includes? client
         # Add user to the chan's user list
-        chan[0].users << client.user
-        chan[1] << client
+        chan.users << client.user
+        userlist << client
 
         # Broadcast the join to chan
-        chan[1].each { |u| u.send_raw ":#{client.user.nick} JOIN :#{chan[0].name}" }
+        userlist.each { |u| u.send_raw ":#{client.user.nick} JOIN :#{chan.name}" }
 
         # Send user list & motd & mode
-        self.rpl_topic client, chan[0]
+        self.rpl_topic client, chan
 
         # This is the answer to the user list command, so should be in a separate function
-        userlist = String::Builder.new
-        chan[1].join(" ", userlist) { |u, io| io << "#{u.user.nick}" }
-        msg.sender.send_raw "353 #{msg.sender.from} = #{chan[0].name} :#{userlist.to_s}"
-        msg.sender.send_raw "366 #{msg.sender.from} #{chan[0].name} :End of /NAMES list."
+        userlist_response = String::Builder.new
+        userlist.join(" ", userlist_response) { |u, io| io << "#{u.user.nick}" }
+        msg.sender.send_raw "353 #{msg.sender.from} = #{chan.name} :#{userlist_response.to_s}"
+        msg.sender.send_raw "366 #{msg.sender.from} #{chan.name} :End of /NAMES list."
       end
     end
   end
@@ -175,22 +177,23 @@ module CrystalIrc::Server::Binding
       chans = msg.arguments[0].split(",").map { |e| CrystalIrc::Chan.new e.strip }
       if chans.size == 0
         msg.sender.send_raw "461 #{msg.sender.from} PART :Not enough parameters"
-        raise CrystalIrc::IrcError.new
+        next
       end
       chans.each do |c|
-        chan = obj.chans.find { |e| e[0].name == c.name }
-        next if chan.nil?
-        chan[1].delete(client)
-        chan[0].users.delete(client.user)
+        chan_tuple = obj.chans.find { |e| e[0].name == c.name }
+        next if chan_tuple.nil?
+        chan, userlist = chan_tuple
+        userlist.delete(client)
+        chan.users.delete(client.user)
 
         # Broadcast PART to users in the chan + client
-        msg.sender.send_raw ":#{client.user.nick} PART #{chan[0].name} :#{msg.raw_arguments.to_s.split(":")[1]}"
+        msg.sender.send_raw ":#{client.user.nick} PART #{chan.name} :#{msg.raw_arguments.to_s.split(":")[1]}"
         if msg.message.nil?
-          chan[1].each { |u| u.send_raw ":#{client.user.nick} PART #{chan[0].name} :#{msg.raw_arguments.to_s.split(":")[1]}" }
+          userlist.each { |u| u.send_raw ":#{client.user.nick} PART #{chan.name} :#{msg.raw_arguments.to_s.split(":")[1]}" }
         else
-          chan[1].each { |u| u.send_raw ":#{client.user.nick} PART #{chan[0].name}" }
+          userlist.each { |u| u.send_raw ":#{client.user.nick} PART #{chan.name}" }
         end
-        chans.delete(chan) if chan[1].empty?
+        chans.delete(chan) if userlist.empty?
       end
     end
   end
@@ -215,21 +218,22 @@ module CrystalIrc::Server::Binding
   def self.bind_topic(obj)
     obj.on("TOPIC") do |msg|
       c = CrystalIrc::Chan.new msg.arguments[0]
-      chan = obj.chans.find { |e| e[0].name == c.name }
-      if chan.nil?
+      chan_tuple = obj.chans.find { |e| e[0].name == c.name }
+      if chan_tuple.nil?
         msg.sender.send_raw "461 #{msg.sender.from} JOIN :Not enough parameters"
         next
       end
+      chan, userlist = chan_tuple
       if msg.arguments.size > 1
-        if (motd = chan[0].motd).nil? && !(message = msg.message).nil?
-          chan[0].motd = CrystalIrc::Chan::Motd.new message, msg.sender.from
+        if (motd = chan.motd).nil? && !(message = msg.message).nil?
+          chan.motd = CrystalIrc::Chan::Motd.new message, msg.sender.from
         elsif !motd.nil? && !message.nil?
           motd.set_motd message, msg.sender.from
         end
       end
       # Send back topic
       # TODO send it to everyone in chan!
-      chan[1].each { |u| self.rpl_topic u, chan[0] }
+      userlist.each { |u| self.rpl_topic u, chan }
     end
   end
 
@@ -238,14 +242,15 @@ module CrystalIrc::Server::Binding
       # Message on chan
       if msg.arguments[0][0] == '#'
         c = CrystalIrc::Chan.new msg.arguments[0]
-        chan = obj.chans.find { |e| e[0].name == c.name }
-        raise CrystalIrc::IrcError.new if chan.nil?
+        chan_tuple = obj.chans.find { |e| e[0].name == c.name }
+        raise CrystalIrc::IrcError.new if chan_tuple.nil?
+        chan, userlist = chan_tuple
         # Check if user is in chan
-        if chan[1].find { |e| e.user.nick == msg.sender.from }.nil?
+        if userlist.find { |e| e.user.nick == msg.sender.from }.nil?
           msg.sender.send_raw "404 #{msg.sender.from} #{msg.arguments[0]} :Cannot send to channel"
           next
         end
-        chan[1].each { |u| u.send_raw ":#{msg.sender.from} PRIVMSG #{msg.arguments[0]} :#{msg.message}" if u.user.nick != msg.sender.from }
+        userlist.each { |u| u.send_raw ":#{msg.sender.from} PRIVMSG #{msg.arguments[0]} :#{msg.message}" if u.user.nick != msg.sender.from }
       else # Private message
       end
     end
