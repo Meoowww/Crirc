@@ -26,11 +26,10 @@ module CrystalIrc::Server::Binding
   end
 
   def self.bind_ping(obj)
-    obj.on("PING") do |msg|
-      msg.sender.pong(msg.message)
-    end
+    obj.on("PING") { |msg| msg.sender.pong msg.message }
   end
 
+  # TODO: read which infos we must send
   def self.bind_whois(obj)
     obj.on("WHOIS") do |msg|
       msg.sender.send_raw ":0 311 #{msg.raw_arguments.to_s} #{msg.raw_arguments.to_s} ~#{msg.raw_arguments.to_s} 0 * ok@ok"
