@@ -1,12 +1,12 @@
 # Default binding on the server.
 # Handles the classic behavior of a server.
 module CrystalIrc::Server::Binding
+  # TODO put user address and not just name
   def self.rpl_topic(client, chan)
     if (motd = chan.motd).nil?
       client.send_raw ":0 331 #{client.user.nick} #{chan.name} :No topic is set"
     else
       client.send_raw ":0 332 #{client.user.nick} #{chan.name} :#{motd.message}"
-      # TODO put user address and not just name
       client.send_raw ":0 333 #{client.user.nick} #{chan.name} #{motd.user} #{motd.timestamp}"
     end
   end
@@ -19,6 +19,7 @@ module CrystalIrc::Server::Binding
     msg.sender.send_raw ":0 004 #{msg.sender.from} 127.0.0.1 v001 BHIRSWacdhikorswx ABCDFKLMNOQRSTYZabcefghijklmnopqrstuvz FLYZabefghjkloq"
   end
 
+  # TODO: avoid sending NICK several times to the same persons (if share several chans)
   def self.handle_nick(obj, msg)
     # Check for availability & validity of nick
     if !msg.arguments[0].match(/\A(?!.{51,})((#{CrystalIrc::User::CHARS_FIRST})((#{CrystalIrc::User::CHARS_NEXT})+))\Z/)
@@ -34,11 +35,10 @@ module CrystalIrc::Server::Binding
     client = obj.clients.find { |e| e.user.nick == msg.sender.from }
     raise CrystalIrc::IrcError.new if client.nil?
     if client.valid?
-      msg.sender.send_raw ":#{client.user.nick} NICK :#{msg.raw_arguments.to_s}"
+      msg.sender.send_raw ":#{client.user.nick} NICK :#{msg.arguments[0]}"
       # Broadcast nick to all users who share a chan
       obj.chans.each do |c|
         # Send nick to users who share a chan
-        # TODO: avoid duplicates
         chan, userlist = c
         if userlist.find { |e| e.user.nick == msg.sender.from }.nil?
           obj.mut.unlock
@@ -46,11 +46,12 @@ module CrystalIrc::Server::Binding
         end
         userlist.each { |u| u.send_raw ":#{client.user.nick} NICK :#{msg.raw_arguments.to_s}" }
       end
+      client.user.nick = msg.arguments[0]
     else
-      client.validate  CrystalIrc::Server::Client::ValidationStates::Nick
+      client.validate CrystalIrc::Server::Client::ValidationStates::Nick
+      client.user.nick = msg.arguments[0]
       self.send_welcome msg if client.valid?
     end
-    client.user.nick = msg.arguments[0]
   end
 
   def self.attach(obj)
@@ -149,9 +150,13 @@ module CrystalIrc::Server::Binding
     end
   end
 
+  # TODO Handle modes for users
+  # TODO check if mode is valid
+  # TODO handle mode effects in chan class
+  # TODO: MODE #chan b for ex gives ban list and only ban list ("else" of chan part)
+  # TODO handle 329 after 324 which is not in RFC 2812
   def self.bind_mode(obj)
     obj.on("MODE") do |msg|
-      # TODO mode is not always on a chan, can be on a user !
       if msg.arguments.size == 0
         msg.sender.send_raw ":0 461 #{msg.sender.from} MODE :Not enough parameters"
       elsif msg.arguments[0].chars[0] == '#' # chan
@@ -160,8 +165,6 @@ module CrystalIrc::Server::Binding
         raise CrystalIrc::IrcError.new if chan.nil?
         chan = chan[0]
         if msg.arguments.size > 1
-          # TODO check if mode is valid
-          # TODO handle mode effects in chan class
           if msg.arguments[1].chars.first == '+'
             chan.modes += msg.arguments[1]
             chan.modes = chan.modes.delete '+'
@@ -170,17 +173,14 @@ module CrystalIrc::Server::Binding
               chan.modes = chan.modes.delete c
             end
           else
-            # TODO: MODE #chan b for ex gives ban list and only ban list
           end
           chan.modes = chan.modes.chars.uniq!.join("")
         end
         msg.sender.send_raw ":0 324 #{msg.sender.from} #{chan.name} +#{chan.modes}"
-        # TODO handle 329 which is not in RFC 2812
       else # user
         if msg.arguments[0] != msg.sender.from
           msg.sender.send_raw ":0 402 #{msg.sender.from} :Cannot change mode for other users"
         else
-          # TODO
         end
       end
     end
@@ -220,9 +220,9 @@ module CrystalIrc::Server::Binding
       client = obj.clients.find { |e| e.user.nick == msg.sender.from }
       raise CrystalIrc::IrcError.new if client.nil?
       if msg.arguments[0] == "LS"
-        client.send_raw ":0 CAP 203BAN0L5 LS :"
+        client.send_raw ":0 CAP #{msg.sender.from} LS :"
       elsif msg.arguments[0] == "REQ"
-        client.send_raw ":0 CAP 203BAN0MN ACK :"
+        client.send_raw ":0 CAP #{msg.sender.from} ACK :"
       end
     end
   end
@@ -249,7 +249,8 @@ module CrystalIrc::Server::Binding
     end
   end
 
-  def self.bind_message(obj) # TODO handle all error cases
+  # TODO handle all error cases
+  def self.bind_message(obj)
     obj.on("PRIVMSG") do |msg|
       # Message on chan
       if msg.arguments.size == 0
@@ -286,6 +287,7 @@ module CrystalIrc::Server::Binding
       client = obj.clients.find { |e| e.user.nick == msg.sender.from }
       raise CrystalIrc::IrcError.new if client.nil?
       # Remove client from Clients & Chans
+      client.close
       obj.clients.delete client
       obj.chans.each do |c|
         chan, userlist = c
@@ -295,7 +297,7 @@ module CrystalIrc::Server::Binding
         chan.users.delete client.user
         # Inform everyone of the client's departure
         userlist.each { |u| u.send_raw ":#{msg.sender.from} QUIT #{chan.name} :#{msg.message}" }
-        chans.delete chan if userlist.empty?
+        obj.chans.delete chan if userlist.empty?
       end
     end
   end
