@@ -11,6 +11,48 @@ module CrystalIrc::Server::Binding
     end
   end
 
+  # TODO put right stuff in the 004 reply
+  def self.send_welcome(msg)
+    msg.sender.send_raw ":0 001 #{msg.sender.from} :Welcome to PonyServ"
+    msg.sender.send_raw ":0 002 #{msg.sender.from} :Host is 127.0.0.1"
+    msg.sender.send_raw ":0 003 #{msg.sender.from} :This server was created on..."
+    msg.sender.send_raw ":0 004 #{msg.sender.from} 127.0.0.1 v001 BHIRSWacdhikorswx ABCDFKLMNOQRSTYZabcefghijklmnopqrstuvz FLYZabefghjkloq"
+  end
+
+  def self.handle_nick(obj, msg)
+    # Check for availability & validity of nick
+    if !msg.arguments[0].match(/\A(?!.{51,})((#{CrystalIrc::User::CHARS_FIRST})((#{CrystalIrc::User::CHARS_NEXT})+))\Z/)
+      msg.sender.send_raw ":0 432 #{msg.arguments[0]} :Erroneus nickname"
+      return
+    end
+    if !obj.clients.find { |e| e.user.nick == msg.arguments[0] }.nil?
+      msg.sender.send_raw ":0 433 #{msg.arguments[0]} :Nickname is already in use"
+      return
+    end
+
+    # Change the nick of the user
+    client = obj.clients.find { |e| e.user.nick == msg.sender.from }
+    raise CrystalIrc::IrcError.new if client.nil?
+    if client.valid?
+      msg.sender.send_raw ":#{client.user.nick} NICK :#{msg.raw_arguments.to_s}"
+      # Broadcast nick to all users who share a chan
+      obj.chans.each do |c|
+        # Send nick to users who share a chan
+        # TODO: avoid duplicates
+        chan, userlist = c
+        if userlist.find { |e| e.user.nick == msg.sender.from }.nil?
+          obj.mut.unlock
+          next
+        end
+        userlist.each { |u| u.send_raw ":#{client.user.nick} NICK :#{msg.raw_arguments.to_s}" }
+      end
+    else
+      client.validate  CrystalIrc::Server::Client::ValidationStates::Nick
+      self.send_welcome msg if client.valid?
+    end
+    client.user.nick = msg.arguments[0]
+  end
+
   def self.attach(obj)
     self.bind_ping obj
     self.bind_whois obj
@@ -36,47 +78,17 @@ module CrystalIrc::Server::Binding
     end
   end
 
-  def self.bind_nick(obj) # BUG: when several persons connect at once, they get confused...
+  def self.bind_nick(obj)
     obj.on("NICK") do |msg|
       obj.mut.lock
-      # Check for availability & validity of nick
-      if !msg.arguments[0].match(/\A(?!.{51,})((#{CrystalIrc::User::CHARS_FIRST})((#{CrystalIrc::User::CHARS_NEXT})+))\Z/)
-        msg.sender.send_raw ":0 432 :#{msg.arguments[0]} :Erroneus nickname"
+      begin
+        self.handle_nick obj, msg
+      ensure
         obj.mut.unlock
-        next
       end
-      obj.clients.each do |cli|
-        if cli.user.nick == msg.arguments[0]
-          msg.sender.send_raw ":0 433 :#{msg.arguments[0]} :Nickname is already in use"
-          obj.mut.unlock
-          next
-        end
-      end
-      # Change the nick of the user
-      client = obj.clients.find { |e| e.user.nick == msg.sender.from }
-      raise CrystalIrc::IrcError.new if client.nil?
-      if client.valid?
-        msg.sender.send_raw ":#{client.user.nick} NICK :#{msg.raw_arguments.to_s}"
-        # Broadcast nick to all users who share a chan
-        obj.chans.each do |c|
-          # Send nick to users who share a chan
-          # TODO: avoid duplicates
-          chan, userlist = c
-          if userlist.find { |e| e.user.nick == msg.sender.from }.nil?
-            obj.mut.unlock
-            next
-          end
-          userlist.each { |u| u.send_raw ":#{client.user.nick} NICK :#{msg.raw_arguments.to_s}" }
-        end
-      else
-        client.validate  CrystalIrc::Server::Client::ValidationStates::Nick
-      end
-      client.user.nick = msg.arguments[0]
-      obj.mut.unlock
     end
   end
 
-  # TODO put right stuff in the 004 reply
   def self.bind_user(obj)
     obj.on("USER") do |msg|
       client = obj.clients.find { |e| e.user.nick == msg.sender.from }
@@ -86,17 +98,14 @@ module CrystalIrc::Server::Binding
         next
       elsif client.valid == (CrystalIrc::Server::Client::ValidationStates::User || CrystalIrc::Server::Client::ValidationStates::Valid)
         msg.sender.send_raw ":0 462 #{msg.sender.from} :Unauthorized command (already registered)"
+        next
       end
 
       client.username = msg.arguments[0]
       message = msg.message
       client.realname = message unless message.nil?
-
-      msg.sender.send_raw ":0 001 #{client.user.nick} :Welcome to PonyServ"
-      msg.sender.send_raw ":0 002 #{client.user.nick} :Host is 127.0.0.1"
-      msg.sender.send_raw ":0 003 #{client.user.nick} :This server was created on..."
-      msg.sender.send_raw ":0 004 #{client.user.nick} 127.0.0.1 v001 BHIRSWacdhikorswx ABCDFKLMNOQRSTYZabcefghijklmnopqrstuvz FLYZabefghjkloq"
       client.validate CrystalIrc::Server::Client::ValidationStates::User
+      self.send_welcome msg if client.valid?
     end
   end
 
@@ -247,10 +256,17 @@ module CrystalIrc::Server::Binding
   def self.bind_message(obj) # TODO handle all error cases
     obj.on("PRIVMSG") do |msg|
       # Message on chan
+      if msg.arguments.size == 0
+        msg.sender.send_raw ":0 411 #{msg.sender.from} :No recipient given (PRIVMSG)"
+        next
+      end
       if msg.arguments[0][0] == '#'
         c = CrystalIrc::Chan.new msg.arguments[0]
         chan_tuple = obj.chans.find { |e| e[0].name == c.name }
-        raise CrystalIrc::IrcError.new if chan_tuple.nil?
+        if chan_tuple.nil?
+          msg.sender.send_raw ":0 403 #{msg.sender.from} #{msg.arguments[0]} :No such channel"
+          next
+        end
         chan, userlist = chan_tuple
         # Check if user is in chan
         if userlist.find { |e| e.user.nick == msg.sender.from }.nil?
@@ -259,6 +275,12 @@ module CrystalIrc::Server::Binding
         end
         userlist.each { |u| u.send_raw ":#{msg.sender.from} PRIVMSG #{msg.arguments[0]} :#{msg.message}" if u.user.nick != msg.sender.from }
       else # Private message
+        dest = obj.clients.find { |e| e.user.nick == msg.arguments[0] }
+        if dest.nil?
+          msg.sender.send_raw ":0 401 #{msg.sender.from} #{msg.arguments[0]} :No such nick/channel"
+          next
+        end
+        dest.send_raw ":#{msg.sender.from} PRIVMSG #{msg.arguments[0]} :#{msg.message}"
       end
     end
   end
