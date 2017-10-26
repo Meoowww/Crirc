@@ -76,6 +76,7 @@ module CrystalIrc::Server::Binding
     end
   end
 
+  # TODO put right stuff in the 004 reply
   def self.bind_user(obj)
     obj.on("USER") do |msg|
       client = obj.clients.find { |e| e.user.nick == msg.sender.from }
@@ -86,14 +87,15 @@ module CrystalIrc::Server::Binding
       elsif client.valid == (CrystalIrc::Server::Client::ValidationStates::User || CrystalIrc::Server::Client::ValidationStates::Valid)
         msg.sender.send_raw ":0 462 #{msg.sender.from} :Unauthorized command (already registered)"
       end
+
       client.username = msg.arguments[0]
-      if !(message = msg.message).nil?
-        client.realname = message
-      end
+      message = msg.message
+      client.realname = message unless message.nil?
+
       msg.sender.send_raw ":0 001 #{client.user.nick} :Welcome to PonyServ"
       msg.sender.send_raw ":0 002 #{client.user.nick} :Host is 127.0.0.1"
       msg.sender.send_raw ":0 003 #{client.user.nick} :This server was created on..."
-      msg.sender.send_raw ":0 004 #{client.user.nick} 127.0.0.1 v001 BHIRSWacdhikorswx ABCDFKLMNOQRSTYZabcefghijklmnopqrstuvz FLYZabefghjkloq" # TODO put right stuff here
+      msg.sender.send_raw ":0 004 #{client.user.nick} 127.0.0.1 v001 BHIRSWacdhikorswx ABCDFKLMNOQRSTYZabcefghijklmnopqrstuvz FLYZabefghjkloq"
       client.validate CrystalIrc::Server::Client::ValidationStates::User
     end
   end
@@ -202,8 +204,9 @@ module CrystalIrc::Server::Binding
     end
   end
 
+  # TODO not implemented
   def self.bind_pass(obj)
-    obj.on("PASS") do |msg| # TODO not implemented
+    obj.on("PASS") do |msg|
     end
   end
 

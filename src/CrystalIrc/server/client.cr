@@ -23,23 +23,26 @@ class CrystalIrc::Server::Client < CrystalIrc::IrcSender
     @realname = ""
   end
 
-  def validate(type)
-    if type == ValidationStates::Nick
+  # Validate the user has send a required information (NICK, USER)
+  def validate(state) : self
+    if state == ValidationStates::Nick
       if @valid == ValidationStates::User
         @valid = ValidationStates::Valid
       else
         @valid = ValidationStates::Nick
       end
-    elsif type == ValidationStates::User
+    elsif state == ValidationStates::User
       if @valid == ValidationStates::Nick
         @valid = ValidationStates::Valid
       else
         @valid = ValidationStates::User
       end
     end
+    self
   end
 
-  def valid?
+  # Verify the user has validated all the required information (NICK & USER)
+  def valid? : Bool
     @valid == ValidationStates::Valid
   end
 
@@ -47,7 +50,8 @@ class CrystalIrc::Server::Client < CrystalIrc::IrcSender
     @socket
   end
 
+  # TODO: find the client through the Server.users
   def from
-    user.nick # TODO: find the client through the Server.users
+    user.nick
   end
 end
