@@ -11,7 +11,7 @@ module CrystalIrc::Server::Binding
     end
   end
 
-  # TODO put right stuff in the 004 reply
+  # TODO put right stuff in the 003 & 004 replies
   def self.send_welcome(msg)
     msg.sender.send_raw ":0 001 #{msg.sender.from} :Welcome to PonyServ"
     msg.sender.send_raw ":0 002 #{msg.sender.from} :Host is 127.0.0.1"
@@ -65,6 +65,7 @@ module CrystalIrc::Server::Binding
     self.bind_cap obj
     self.bind_topic obj
     self.bind_message obj
+    self.bind_quit obj
   end
 
   def self.bind_ping(obj)
@@ -202,9 +203,9 @@ module CrystalIrc::Server::Binding
         chan.users.delete(client.user)
 
         # Broadcast PART to users in the chan + client
-        msg.sender.send_raw ":#{client.user.nick} PART #{chan.name} :#{msg.raw_arguments.to_s.split(":")[1]}"
+        msg.sender.send_raw ":#{client.user.nick} PART #{chan.name} :#{msg.message}"
         if msg.message.nil?
-          userlist.each { |u| u.send_raw ":#{client.user.nick} PART #{chan.name} :#{msg.raw_arguments.to_s.split(":")[1]}" }
+          userlist.each { |u| u.send_raw ":#{client.user.nick} PART #{chan.name} :#{msg.message}" }
         else
           userlist.each { |u| u.send_raw ":#{client.user.nick} PART #{chan.name}" }
         end
@@ -281,6 +282,23 @@ module CrystalIrc::Server::Binding
           next
         end
         dest.send_raw ":#{msg.sender.from} PRIVMSG #{msg.arguments[0]} :#{msg.message}"
+      end
+    end
+  end
+
+  def self.bind_quit(obj)
+    obj.on("QUIT") do |msg|
+      client = obj.clients.find { |e| e.user.nick == msg.sender.from }
+      raise CrystalIrc::IrcError.new if client.nil?
+      # Remove client from Clients & Chans
+      obj.clients.delete client
+      obj.chans.each do |c|
+        chan, userlist = c
+        client = userlist.find { |e| e.user.nick == msg.sender.from }
+        next if client.nil?
+        userlist.delete client
+        # Inform everyone of the client's departure
+        userlist.each { |u| u.send_raw ":#{msg.sender.from} QUIT #{chan.name} :#{msg.message}" }
       end
     end
   end
