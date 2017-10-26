@@ -199,17 +199,12 @@ module CrystalIrc::Server::Binding
         chan_tuple = obj.chans.find { |e| e[0].name == c.name }
         next if chan_tuple.nil?
         chan, userlist = chan_tuple
-        userlist.delete(client)
-        chan.users.delete(client.user)
-
         # Broadcast PART to users in the chan + client
-        msg.sender.send_raw ":#{client.user.nick} PART #{chan.name} :#{msg.message}"
-        if msg.message.nil?
-          userlist.each { |u| u.send_raw ":#{client.user.nick} PART #{chan.name} :#{msg.message}" }
-        else
-          userlist.each { |u| u.send_raw ":#{client.user.nick} PART #{chan.name}" }
-        end
-        chans.delete(chan) if userlist.empty?
+        userlist.each { |u| u.send_raw ":#{client.user.nick} PART #{chan.name} :#{msg.message}" }
+
+        userlist.delete client
+        chan.users.delete client.user
+        chans.delete chan if userlist.empty?
       end
     end
   end
@@ -297,8 +292,10 @@ module CrystalIrc::Server::Binding
         client = userlist.find { |e| e.user.nick == msg.sender.from }
         next if client.nil?
         userlist.delete client
+        chan.users.delete client.user
         # Inform everyone of the client's departure
         userlist.each { |u| u.send_raw ":#{msg.sender.from} QUIT #{chan.name} :#{msg.message}" }
+        chans.delete chan if userlist.empty?
       end
     end
   end
