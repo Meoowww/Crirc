@@ -1,3 +1,3 @@
-abstract class Crirc::Broadcast
+module Crirc::Broadcast
   abstract def send
 end

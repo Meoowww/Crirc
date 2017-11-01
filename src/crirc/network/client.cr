@@ -7,7 +7,7 @@ class Crirc::Network::Client
   getter ip : String
   getter port : UInt16
   getter ssl : Bool
-  @socket : IrcSocket
+  @socket : IrcSocket?
   getter user : String
   getter realname : String
   getter domain : String?
