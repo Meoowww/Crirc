@@ -21,9 +21,9 @@ class Crirc::Protocol::Chan < Crirc::Protocol::Target
   property motd : Motd
 
   def initialize(@name)
-    raise ParsingError.new @name, "The Chan name must not be empty" if @name.empty?
-    raise ParsingError.new @name, "The Chan name must begin with a \"#\"" if !@name.match(/\A\#.+\Z/)
-    raise ParsingError.new @name, "The Chan name must contains at most 63 valid characters" if !@name.match(/\A(?!.{51,})(\#\#?([^[:space:],]+))\Z/)
+    raise ParsingError.new "The Chan name (#{@name}) must not be empty" if @name.empty?
+    raise ParsingError.new "The Chan name (#{@name}) must begin with a \"#\"" if !@name.match(/\A\#.+\Z/)
+    raise ParsingError.new "The Chan name (#{@name}) must contains at most 63 valid characters" if !@name.match(/\A(?!.{51,})(\#\#?([^[:space:],]+))\Z/)
     @modes = ""
     @motd = Motd.new("", "")
   end

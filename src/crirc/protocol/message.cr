@@ -13,7 +13,7 @@ class Crirc::Protocol::Message
 
   def initialize(@raw)
     m = raw.strip.match(/\A#{R_SRC}?#{R_CMD}#{R_ARG}?#{R_MSG}?\Z/)
-    raise ParsingError.new(@raw, "message invalid") if m.nil?
+    raise ParsingError.new "The message (#{@raw}) is invalid" if m.nil?
     @source = m["src"]? || "0"
     @command = m["cmd"] # ? || raise InvalidMessage.new("No command to parse in \"#{raw}\"")
     @arguments = m["arg"]?
@@ -28,10 +28,12 @@ class Crirc::Protocol::Message
     return "#{@arguments} :#{@message}"
   end
 
-  def arguments : Array(String)
+  def argument_list : Array(String)
     return Array(String).new if @arguments.nil? && @message.nil?
     return (@arguments.as(String)).split(" ") if @message.nil?
     return [@message.as(String)] if @arguments.nil?
     return (@arguments.as(String)).split(" ") << (@message.as(String))
   end
+
+  class ParsingError < Exception; end
 end
