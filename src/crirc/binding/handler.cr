@@ -5,7 +5,7 @@ module Crirc::Binding::Handler
   alias HookRule = String | Regex | Nil
   alias Hook = (Crirc::Protocol::Message, Regex::MatchData?) ->
 
-  getter hooks : Hash(HookRule, Array(Hook))
+  getter hooks : Hash(HookTest, Array(Hook))
 
   def initialize(**opts)
     super(**opts)
@@ -14,7 +14,7 @@ module Crirc::Binding::Handler
 
   # Register a hook on a command name (JOIN, PRIVMSG, ...) and other rules
   def on(command : String, source : HookRule = nil, arguments : HookRule = nil, message : HookRule = nil, &hook : Hook)
-    rule = HookRules.new(command, source, arguments, message)
+    rule = HookTest.new(command, source, arguments, message)
     self.hooks.fetch(rule) { self.hooks[rule] = Array(Hook).new }
     self.hooks[rule] << hook
     self
@@ -30,7 +30,7 @@ module Crirc::Binding::Handler
       hooks.each do |hook|
         message_to_handle = msg.message
         rule_message = rule.message
-        match = if message && rule_message.is_a?(Regex)
+        match = if message_to_handle && rule_message.is_a?(Regex)
           rule_message.match message_to_handle
         end
         hook.call msg, match
