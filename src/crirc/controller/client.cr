@@ -11,6 +11,7 @@ class Crirc::Controller::Client
   include Crirc::Controller::Command::Chan
 
   include Controller
+  # It has to be the last module included so initialize { super() } works
   include Binding::Handler
 
   getter network : Network::Client
@@ -26,9 +27,9 @@ class Crirc::Controller::Client
   end
 
   def init
-    @network.puts "PASS #{@network.pass}" if @network.pass
-    @network.puts "NICK #{@network.nick.to_s}"
-    @network.puts "USER #{@network.user.to_s} \"#{@network.domain}\" \"#{@network.irc_server}\" :#{@network.realname.to_s}"
+    puts "PASS #{@network.pass}" if @network.pass
+    puts "NICK #{@network.nick.to_s}"
+    puts "USER #{@network.user.to_s} \"#{@network.domain}\" \"#{@network.irc_server}\" :#{@network.realname.to_s}"
   end
 
   def on_ready(&b) : Client
