@@ -26,7 +26,7 @@ client.start do |bot|
       m = bot.gets
       puts "> #{m}"
       break if m.nil?
-      spawn {bot.handle(m.as(String))}
+      spawn { bot.handle(m.as(String)) }
     rescue error
       puts error
       sleep 0.1

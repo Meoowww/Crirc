@@ -11,6 +11,7 @@ class Crirc::ChanList
   end
 
   # Broadcast a message to the users
-  def send
+  def puts(context : Controller::Controller, data)
+    @chans.each { |chan, userlist| userlist.puts context, data }
   end
 end

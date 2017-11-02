@@ -1,12 +1,14 @@
 require "../network/client"
 require "../binding/handler"
+require "./controller"
 
 class Crirc::Controller::Client
+  include Controller
   include Binding::Handler
+
   getter network : Network::Client
 
   delegate nick, to: :network
-
   delegate puts, to: :network
   delegate gets, to: :network
 

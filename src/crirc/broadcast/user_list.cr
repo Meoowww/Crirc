@@ -1,5 +1,6 @@
 require "../protocol/user"
 require "./broadcast"
+require "../controller/controller"
 
 class Crirc::UserList
   getter users : Array(Protocol::User)
@@ -10,6 +11,7 @@ class Crirc::UserList
   end
 
   # Broadcast a message to the users
-  def send
+  def puts(context : Controller::Controller, data)
+    @users.each { context.puts data }
   end
 end
