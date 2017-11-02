@@ -1,4 +1,8 @@
+require "./network"
+
 class Crirc::Network::ServerClient
+  include Network
+
   def initialize
   end
 
@@ -7,6 +11,6 @@ class Crirc::Network::ServerClient
   end
 
   # Send a message to the server
-  def puts
+  def puts(data)
   end
 end

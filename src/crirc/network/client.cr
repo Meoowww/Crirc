@@ -1,9 +1,13 @@
 require "socket"
 require "openssl"
 require "../controller/client"
+require "./network"
 
 class Crirc::Network::Client
+  include Network
+
   alias IrcSocket = TCPSocket | OpenSSL::SSL::Socket::Client
+
   getter nick : String
   getter ip : String
   getter port : UInt16
