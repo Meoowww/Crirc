@@ -1,4 +1,4 @@
-# CrystalIrc
+# Crirc
 
 A crystal library to create irc client/bot/server.
 
