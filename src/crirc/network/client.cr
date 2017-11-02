@@ -29,7 +29,7 @@ class Crirc::Network::Client
   end
 
   def socket
-    raise "Socket is not set. Add `client.connect()` before using `client.socket`"
+    raise "Socket is not set. Add `client.connect()` before using `client.socket`" if @socket.nil?
     @socket.as(IrcSocket)
   end
 

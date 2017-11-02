@@ -24,6 +24,7 @@ client.start do |bot|
   loop do
     begin
       m = bot.gets
+      puts "> #{m}"
       break if m.nil?
       spawn {bot.handle(m.as(String))}
     rescue error
