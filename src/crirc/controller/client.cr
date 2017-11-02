@@ -2,10 +2,16 @@ require "../network/client"
 require "../binding/handler"
 require "./controller"
 require "../broadcast/chan_list"
+require "./command/*"
 
 class Crirc::Controller::Client
   include Controller
   include Binding::Handler
+
+  include Crirc::Controller::Command::Ping
+  include Crirc::Controller::Command::User
+  include Crirc::Controller::Command::Talk
+  include Crirc::Controller::Command::Chan
 
   getter network : Network::Client
   getter chanlist : ChanList
