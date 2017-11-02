@@ -11,6 +11,7 @@ class Crirc::Controller::Client
   include Crirc::Controller::Command::Chan
 
   include Controller
+  # It has to be the last module included so initialize { super() } works
   include Binding::Handler
 
   getter network : Network::Client
