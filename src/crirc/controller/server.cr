@@ -5,7 +5,4 @@ class Crirc::Controller::Server
 
   def initialize(@network)
   end
-
-  def start
-  end
 end

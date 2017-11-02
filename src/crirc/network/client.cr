@@ -1,8 +1,9 @@
 require "socket"
+require "openssl"
 require "../controller/client"
 
 class Crirc::Network::Client
-  alias IrcSocket = TCPSocket
+  alias IrcSocket = TCPSocket | OpenSSL::SSL::Socket::Client
   getter nick : String
   getter ip : String
   getter port : UInt16
@@ -36,11 +37,18 @@ class Crirc::Network::Client
   # Connect to the server
   def connect
     @socket = TCPSocket.new(@ip, @port)
+    @socket.read_timeout = @read_timeout
+    @socket.write_timeout = @write_timeout
+    @socket.keepalive = @keepalive
+    @socket = OpenSSL::SSL::Socket::Client.new(@socket) if @ssl
+    self
   end
 
   # Start a new Controller::Client binded to the current object
   def start(&block)
-    Controller::Client.new(self).start
+    controller = Controller::Client.new(self)
+    controller.init
+    yield controller
   end
 
   # Wait and fetch the next incoming message
