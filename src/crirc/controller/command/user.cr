@@ -1,6 +1,8 @@
 require "./make_command"
 
 module Crirc::Controller::Command::User
+  include Crirc::Controller::Command::Make
+
   # Request data about a given target
   make_command("whois", target : Crirc::Protocol::Target) do
     "WHOIS #{target.name}"
