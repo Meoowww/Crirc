@@ -19,12 +19,11 @@ class Crirc::Network::Client
   getter keepalive : Bool
 
   # default port is 6667 or 6697 if ssl is true
-  def initialize(nick : String, @ip, port = nil.as(UInt16?), @ssl = true, @user = nil, @realname = nil, @domain = nil, @pass = nil, @irc_server = nil,
+  def initialize(@nick : String, @ip, port = nil.as(UInt16?), @ssl = true, user = nil, realname = nil, @domain = nil, @pass = nil, @irc_server = nil,
                  @read_timeout = 120_u16, @write_timeout = 5_u16, @keepalive = true)
-    @nick = nick
-    @port = port || (ssl ? 6697_u16 : 6667_u16)
-    @user ||= @nick
-    @realname ||= @nick
+    @port = port.to_u16 || (ssl ? 6697_u16 : 6667_u16)
+    @user = user || @nick
+    @realname = realname || @nick
     @domain ||= "0"
     @irc_server ||= "*"
   end
@@ -36,11 +35,12 @@ class Crirc::Network::Client
 
   # Connect to the server
   def connect
-    @socket = TCPSocket.new(@ip, @port)
-    @socket.read_timeout = @read_timeout
-    @socket.write_timeout = @write_timeout
-    @socket.keepalive = @keepalive
-    @socket = OpenSSL::SSL::Socket::Client.new(@socket) if @ssl
+    tcp_socket = TCPSocket.new(@ip, @port)
+    tcp_socket.read_timeout = @read_timeout
+    tcp_socket.write_timeout = @write_timeout
+    tcp_socket.keepalive = @keepalive
+    @socket = tcp_socket
+    @socket = OpenSSL::SSL::Socket::Client.new(tcp_socket) if @ssl
     self
   end
 
