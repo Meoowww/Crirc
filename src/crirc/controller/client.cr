@@ -1,12 +1,14 @@
 require "../network/client"
 require "../binding/handler"
 require "./controller"
+require "../broadcast/chan_list"
 
 class Crirc::Controller::Client
   include Controller
   include Binding::Handler
 
   getter network : Network::Client
+  getter chanlist : ChanList
 
   delegate nick, to: :network
   delegate puts, to: :network
@@ -14,6 +16,7 @@ class Crirc::Controller::Client
 
   def initialize(@network)
     super()
+    @chanlist = ChanList.new
   end
 
   def init
