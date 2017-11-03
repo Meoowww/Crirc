@@ -1,3 +1,3 @@
 module Crirc::Controller::Command::Command
-  abstract def puts
+  abstract def puts(data)
 end
