@@ -1,7 +1,7 @@
-require "./make_command"
+require "./command"
 
 module Crirc::Controller::Command::Chan
-  include Crirc::Controller::Command::Make
+  include Crirc::Controller::Command::Command
 
   # Format the chans to join: #chan1,#chan2 (works with users by the same way)
   protected def format_list(chans : Enumerable(Crirc::Protocol::Target)) : String
@@ -10,58 +10,58 @@ module Crirc::Controller::Command::Chan
 
   # Request to join the chan(s) chans, with password(s) passwords.
   # The passwords may be ignored if not needed.
-  make_command("join", chans : Enumerable(Crirc::Protocol::Chan), passwords : Enumerable(String) = [""]) do
+  def join(chans : Enumerable(Crirc::Protocol::Chan), passwords : Enumerable(String) = [""])
     to_join = format_list(chans)
     passes = passwords.uniq.join(",")
-    "JOIN #{to_join} #{passes}"
+    puts "JOIN #{to_join} #{passes}"
   end
 
   # Request to leave the channel(s) chans, with an optional part message msg.
-  make_command("part", chans : Enumerable(Crirc::Protocol::Chan), msg : String? = nil) do
+  def part(chans : Enumerable(Crirc::Protocol::Chan), msg : String? = nil)
     to_leave = format_list(chans)
     reason = ":#{msg}" if msg
-    "PART #{to_leave} #{reason}"
+    puts "PART #{to_leave} #{reason}"
   end
 
   # Request to change the mode of the given channel.
   # If the mode is to be applied to an user, precise it.
-  make_command("mode", chan : Crirc::Protocol::Chan, flags : String, user : Crirc::Protocol::User? = nil) do
+  def mode(chan : Crirc::Protocol::Chan, flags : String, user : Crirc::Protocol::User? = nil)
     target = user ? user.name : ""
-    "MODE #{chan.name} #{flags} #{target}"
+    puts "MODE #{chan.name} #{flags} #{target}"
   end
 
   # Request to change the topic of the given channel.
   # If no topic is given, requests the topic of the given channel.
-  make_command("topic", chan : Crirc::Protocol::Chan, topic : String) do
-    "TOPIC #{chan.name} :#{topic}"
+  def topic(chan : Crirc::Protocol::Chan, topic : String)
+    puts "TOPIC #{chan.name} :#{topic}"
   end
 
   # Request the names of the users in the given channel(s).
   # If no channel is given, requests the names of the users in every
   # known channel.
-  make_command("names", chans : Enumerable(Crirc::Protocol::Chan)) do
+  def names(chans : Enumerable(Crirc::Protocol::Chan))
     target = format_list(chans)
-    "NAMES #{target}"
+    puts "NAMES #{target}"
   end
 
   # List the channels and their topics.
   # If the chans parameter is given, lists the status of the given chans.
-  make_command("list", chans : Enumerable(Crirc::Protocol::Chan)) do
+  def list(chans : Enumerable(Crirc::Protocol::Chan))
     target = format_list(chans)
-    "LIST #{target}"
+    puts "LIST #{target}"
   end
 
   # Invite the user "user" to the channel "chan".
-  make_command("invite", chan : Crirc::Protocol::Chan, user : Crirc::Protocol::User) do
-    "INVITE #{user.name} #{chan.name}"
+  def invite(chan : Crirc::Protocol::Chan, user : Crirc::Protocol::User)
+    puts "INVITE #{user.name} #{chan.name}"
   end
 
   # Kick the user(s) users from the channel(s) chans.
   # The reason of the kick will be displayed if given as a parameter.
-  make_command("kick", chans : Enumerable(Crirc::Protocol::Chan), users : Enumerable(Crirc::Protocol::User), msg : String? = nil) do
+  def kick(chans : Enumerable(Crirc::Protocol::Chan), users : Enumerable(Crirc::Protocol::User), msg : String? = nil)
     chan = format_list(chans)
     targets = format_list(users)
     reason = ":#{msg}" if msg
-    "KICK #{chan} #{targets} #{reason}"
+    puts "KICK #{chan} #{targets} #{reason}"
   end
 end

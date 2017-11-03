@@ -1,14 +1,14 @@
-require "./make_command"
+require "./command"
 
 module Crirc::Controller::Command::Ping
-  include Crirc::Controller::Command::Make
+  include Crirc::Controller::Command::Command
   # Send a ping to check if the other end is alive
-  make_command("ping", msg = "0") do
-    "PING :#{msg}"
+  def ping(msg : String = "0")
+    puts "PING :#{msg}"
   end
 
   # Answer to a ping command with a pong
-  make_command("pong", msg = "0") do
-    "PONG :#{msg}"
+  def pong(msg : String = "0")
+    puts "PONG :#{msg}"
   end
 end
