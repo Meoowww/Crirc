@@ -38,13 +38,25 @@ describe Crirc::Controller::Command::Chan do
     Crirc::Test::Controller::Command::Chan.topic(chan).should eq("TOPIC #patate ")
     Crirc::Test::Controller::Command::Chan.topic(chan, "bloup").should eq("TOPIC #patate :bloup")
 
+    Crirc::Test::Controller::Command::Chan.invite(chan, target).should eq("INVITE nyupnyup #patate")
+  end
+
+  it "names test" do
+    chan = Crirc::Protocol::Chan.new "#patate"
+    chan2 = Crirc::Protocol::Chan.new "#nyu"
+
+    Crirc::Test::Controller::Command::Chan.names(nil).should eq("NAMES ")
     Crirc::Test::Controller::Command::Chan.names([chan]).should eq("NAMES #patate")
     Crirc::Test::Controller::Command::Chan.names([chan, chan2]).should eq("NAMES #patate,#nyu")
+  end
 
+  it "list test" do
+    chan = Crirc::Protocol::Chan.new "#patate"
+    chan2 = Crirc::Protocol::Chan.new "#nyu"
+
+    Crirc::Test::Controller::Command::Chan.list(nil).should eq("LIST ")
     Crirc::Test::Controller::Command::Chan.list([chan]).should eq("LIST #patate")
     Crirc::Test::Controller::Command::Chan.list([chan, chan2]).should eq("LIST #patate,#nyu")
-
-    Crirc::Test::Controller::Command::Chan.invite(chan, target).should eq("INVITE nyupnyup #patate")
   end
 
   it "kick test" do

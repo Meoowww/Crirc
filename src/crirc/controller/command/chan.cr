@@ -40,15 +40,15 @@ module Crirc::Controller::Command::Chan
   # Request the names of the users in the given channel(s).
   # If no channel is given, requests the names of the users in every
   # known channel.
-  def names(chans : Enumerable(Crirc::Protocol::Chan))
-    target = format_list(chans)
+  def names(chans : Enumerable(Crirc::Protocol::Chan)?)
+    target = format_list(chans) if chans
     puts "NAMES #{target}"
   end
 
   # List the channels and their topics.
   # If the chans parameter is given, lists the status of the given chans.
-  def list(chans : Enumerable(Crirc::Protocol::Chan))
-    target = format_list(chans)
+  def list(chans : Enumerable(Crirc::Protocol::Chan?)?)
+    target = format_list(chans) if chans
     puts "LIST #{target}"
   end
 
