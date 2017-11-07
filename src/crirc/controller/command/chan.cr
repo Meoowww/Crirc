@@ -32,8 +32,9 @@ module Crirc::Controller::Command::Chan
 
   # Request to change the topic of the given channel.
   # If no topic is given, requests the topic of the given channel.
-  def topic(chan : Crirc::Protocol::Chan, topic : String)
-    puts "TOPIC #{chan.name} :#{topic}"
+  def topic(chan : Crirc::Protocol::Chan, msg : String? = nil)
+    topic = ":#{msg}" if msg
+    puts "TOPIC #{chan.name} #{topic}"
   end
 
   # Request the names of the users in the given channel(s).
