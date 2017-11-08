@@ -16,10 +16,9 @@ module Crirc::Controller::Command::Chan
     puts "JOIN #{to_join} #{passes}"
   end
 
-  # Request to join the chan "chan", with the password "password".
-  # The password may be ignored if not needed.
+  # Overloads the join function for 1 chan.
   def join(chan : Crirc::Protocol::Chan, password : String = "")
-    puts "JOIN #{chan.name} #{password}"
+    join({chan}, {password})
   end
 
   # Request to leave the channel(s) "chans", with an optional part message "msg".
@@ -29,10 +28,9 @@ module Crirc::Controller::Command::Chan
     puts "PART #{to_leave} #{reason}"
   end
 
-  # Request to leave the channel "chan", with an optional part message "msg".
+  # Overloads the part function for 1 chan.
   def part(chan : Crirc::Protocol::Chan, msg : String? = nil)
-    reason = ":#{msg}" if msg
-    puts "PART #{chan.name} #{reason}"
+    part({chan}, msg)
   end
 
   # Request to change the mode of the given channel.
@@ -57,11 +55,9 @@ module Crirc::Controller::Command::Chan
     puts "NAMES #{target}"
   end
 
-  # Request the names of the users in the given channel.
-  # If no channel is given, requests the names of the users in every
-  # known channel.
+  # Overloads the names function for 1 chan.
   def names(chan : Crirc::Protocol::Chan)
-    puts "NAMES #{chan.name}"
+    names({chan})
   end
 
   # List the channels and their topics.
@@ -71,8 +67,7 @@ module Crirc::Controller::Command::Chan
     puts "LIST #{target}"
   end
 
-  # List the channels and their topics.
-  # If the chan parameter is given, lists the status of the given chan.
+  # Overloads the list function for 1 chan.
   def list(chan : Crirc::Protocol::Chan)
     puts "LIST #{chan.name}"
   end
@@ -91,26 +86,18 @@ module Crirc::Controller::Command::Chan
     puts "KICK #{chan} #{targets} #{reason}"
   end
 
-  # Kick the user user from the channels chans.
-  # The reason of the kick will be displayed if given as a parameter.
+  # Overloads the kick function for several chans, one user.
   def kick(chans : Enumerable(Crirc::Protocol::Chan), user : Crirc::Protocol::User, msg : String? = nil)
-    chan = format_list(chans)
-    reason = ":#{msg}" if msg
-    puts "KICK #{chan} #{user.name} #{reason}"
+    kick(chans, {user}, msg)
   end
 
-  # Kick the users users from the channel chan.
-  # The reason of the kick will be displayed if given as a parameter.
+  # Overloads the kick function for one chan, several users.
   def kick(chan : Crirc::Protocol::Chan, users : Enumerable(Crirc::Protocol::User), msg : String? = nil)
-    targets = format_list(users)
-    reason = ":#{msg}" if msg
-    puts "KICK #{chan.name} #{targets} #{reason}"
+    kick({chan}, users, msg)
   end
 
-  # Kick the user user from the channel chan.
-  # The reason of the kick will be displayed if given as a parameter.
+  # Overloads the kick function for one chan, one user.
   def kick(chan : Crirc::Protocol::Chan, user : Crirc::Protocol::User, msg : String? = nil)
-    reason = ":#{msg}" if msg
-    puts "KICK #{chan.name} #{user.name} #{reason}"
+    kick({chan}, {user}, msg)
   end
 end
