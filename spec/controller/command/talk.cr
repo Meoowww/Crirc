@@ -1,6 +1,7 @@
 module Crirc::Test::Controller::Command::Talk
   include Crirc::Controller::Command::Talk
   extend self
+
   def puts(data)
     data
   end

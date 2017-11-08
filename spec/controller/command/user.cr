@@ -1,6 +1,7 @@
 module Crirc::Test::Controller::Command::User
   include Crirc::Controller::Command::User
   extend self
+
   def puts(data)
     data
   end

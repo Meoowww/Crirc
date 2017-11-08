@@ -31,8 +31,8 @@ module Crirc::Binding::Handler
         message_to_handle = msg.message
         rule_message = rule.message
         match = if message_to_handle && rule_message.is_a?(Regex)
-          rule_message.match message_to_handle
-        end
+                  rule_message.match message_to_handle
+                end
         hook.call msg, match
       end
     end

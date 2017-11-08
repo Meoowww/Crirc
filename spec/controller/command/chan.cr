@@ -1,6 +1,7 @@
 module Crirc::Test::Controller::Command::Chan
   include Crirc::Controller::Command::Chan
   extend self
+
   def puts(data)
     data
   end

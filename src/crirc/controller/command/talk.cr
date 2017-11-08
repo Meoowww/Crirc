@@ -2,6 +2,7 @@ require "./command"
 
 module Crirc::Controller::Command::Talk
   include Crirc::Controller::Command::Command
+
   # Send a notice to a target
   def notice(target : Crirc::Protocol::Target, msg : String)
     puts "NOTICE #{target.name} :#{msg}"
