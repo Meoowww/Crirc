@@ -12,7 +12,7 @@ module Crirc::Controller::Command::Chan
   # The passwords may be ignored if not needed.
   def join(chans : Enumerable(Crirc::Protocol::Chan), passwords : Enumerable(String) = [""])
     to_join = format_list(chans)
-    passes = passwords.uniq.join(",")
+    passes = passwords.join(",")
     puts "JOIN #{to_join} #{passes}"
   end
 
