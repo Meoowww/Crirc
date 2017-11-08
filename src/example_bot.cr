@@ -8,7 +8,7 @@ end
 private def bind_example(bot)
   bot.on_ready do
     # Join the default chan when the bot is connected
-    bot.join({Crirc::Protocol::Chan.new("#equilibre2")})
+    bot.join Crirc::Protocol::Chan.new("#equilibre2")
   end.on("JOIN") do |msg|
     # Greet message on join
     if (extract_nick msg.source) == bot.nick
