@@ -38,7 +38,7 @@ class Crirc::Controller::Client
   end
 
   def reply(msg, data)
-    target = msg.arguments.first
+    target = msg.argument_list.first
     target_object = (target[0] == '#' ? Crirc::Protocol::Chan : Crirc::Protocol::User).new(target).as(Crirc::Protocol::Target)
     self.privmsg(target_object, data)
   end
