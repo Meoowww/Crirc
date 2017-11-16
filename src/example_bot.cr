@@ -11,7 +11,7 @@ private def bind_example(bot)
     bot.join Crirc::Protocol::Chan.new("#equilibre2")
   end.on("JOIN") do |msg|
     # Greet message on join
-    if (extract_nick msg.source) == bot.nick
+    if extract_nick(msg.source) == bot.nick
       chan = msg.message if msg.message
       bot.privmsg Crirc::Protocol::Chan.new(chan), "Hello, world!" if chan
     end
