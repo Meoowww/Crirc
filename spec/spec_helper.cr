@@ -1,2 +1,2 @@
 require "spec"
-require "../src/CrystalIrc"
+require "../src/crirc"
