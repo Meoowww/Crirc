@@ -13,7 +13,8 @@ module Crirc::Controller::Command::Chan
   def join(chans : Enumerable(Crirc::Protocol::Chan), passwords : Enumerable(String) = [""])
     to_join = format_list(chans)
     passes = passwords.join(",")
-    puts "JOIN #{to_join} #{passes}"
+    puts FastIRC::Message.new("JOIN", [to_join, passes]).to_s # TODO: use to_s(io)
+    #puts "JOIN #{to_join} #{passes}"
   end
 
   # Overloads the join function for 1 chan.

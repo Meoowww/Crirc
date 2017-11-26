@@ -6,4 +6,9 @@ authors:
 
 crystal: 0.23.1
 
-license: MIT
+license: GPLv3
+
+dependencies:
+  fast_irc:
+    github: RX14/fast_irc.cr
+    version: 0.3.3

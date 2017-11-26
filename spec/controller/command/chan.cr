@@ -12,9 +12,9 @@ describe Crirc::Controller::Command::Chan do
     chan = Crirc::Protocol::Chan.new "#patate"
     chan2 = Crirc::Protocol::Chan.new "#nyu"
 
-    Crirc::Test::Controller::Command::Chan.join({chan}).should eq("JOIN #patate")
-    Crirc::Test::Controller::Command::Chan.join(chan).should eq("JOIN #patate")
-    Crirc::Test::Controller::Command::Chan.join({chan, chan2}).should eq("JOIN #patate,#nyu")
+    Crirc::Test::Controller::Command::Chan.join({chan}).should eq("JOIN #patate :")
+    Crirc::Test::Controller::Command::Chan.join(chan).should eq("JOIN #patate :")
+    Crirc::Test::Controller::Command::Chan.join({chan, chan2}).should eq("JOIN #patate,#nyu :")
     Crirc::Test::Controller::Command::Chan.join({chan}, {"bloup"}).should eq("JOIN #patate bloup")
     Crirc::Test::Controller::Command::Chan.join({chan, chan2}, {"bloup", "blip"}).should eq("JOIN #patate,#nyu bloup,blip")
   end
