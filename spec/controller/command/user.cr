@@ -3,7 +3,7 @@ module Crirc::Test::Controller::Command::User
   extend self
 
   def puts(data)
-    data
+    data.strip
   end
 end
 

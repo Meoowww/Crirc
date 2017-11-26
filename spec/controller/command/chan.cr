@@ -3,7 +3,7 @@ module Crirc::Test::Controller::Command::Chan
   extend self
 
   def puts(data)
-    data
+    data.strip
   end
 end
 
@@ -12,9 +12,9 @@ describe Crirc::Controller::Command::Chan do
     chan = Crirc::Protocol::Chan.new "#patate"
     chan2 = Crirc::Protocol::Chan.new "#nyu"
 
-    Crirc::Test::Controller::Command::Chan.join({chan}).should eq("JOIN #patate ")
-    Crirc::Test::Controller::Command::Chan.join(chan).should eq("JOIN #patate ")
-    Crirc::Test::Controller::Command::Chan.join({chan, chan2}).should eq("JOIN #patate,#nyu ")
+    Crirc::Test::Controller::Command::Chan.join({chan}).should eq("JOIN #patate")
+    Crirc::Test::Controller::Command::Chan.join(chan).should eq("JOIN #patate")
+    Crirc::Test::Controller::Command::Chan.join({chan, chan2}).should eq("JOIN #patate,#nyu")
     Crirc::Test::Controller::Command::Chan.join({chan}, {"bloup"}).should eq("JOIN #patate bloup")
     Crirc::Test::Controller::Command::Chan.join({chan, chan2}, {"bloup", "blip"}).should eq("JOIN #patate,#nyu bloup,blip")
   end
@@ -23,9 +23,9 @@ describe Crirc::Controller::Command::Chan do
     chan = Crirc::Protocol::Chan.new "#patate"
     chan2 = Crirc::Protocol::Chan.new "#nyu"
 
-    Crirc::Test::Controller::Command::Chan.part({chan}).should eq("PART #patate ")
-    Crirc::Test::Controller::Command::Chan.part(chan).should eq("PART #patate ")
-    Crirc::Test::Controller::Command::Chan.part({chan, chan2}).should eq("PART #patate,#nyu ")
+    Crirc::Test::Controller::Command::Chan.part({chan}).should eq("PART #patate")
+    Crirc::Test::Controller::Command::Chan.part(chan).should eq("PART #patate")
+    Crirc::Test::Controller::Command::Chan.part({chan, chan2}).should eq("PART #patate,#nyu")
     Crirc::Test::Controller::Command::Chan.part({chan}, "I'm out").should eq("PART #patate :I'm out")
     Crirc::Test::Controller::Command::Chan.part(chan, "I'm out").should eq("PART #patate :I'm out")
     Crirc::Test::Controller::Command::Chan.part({chan, chan2}, "I'm out").should eq("PART #patate,#nyu :I'm out")
@@ -36,10 +36,10 @@ describe Crirc::Controller::Command::Chan do
     chan = Crirc::Protocol::Chan.new "#patate"
     chan2 = Crirc::Protocol::Chan.new "#nyu"
 
-    Crirc::Test::Controller::Command::Chan.mode(chan, "+a").should eq("MODE #patate +a ")
+    Crirc::Test::Controller::Command::Chan.mode(chan, "+a").should eq("MODE #patate +a")
     Crirc::Test::Controller::Command::Chan.mode(chan, "+b", target).should eq("MODE #patate +b nyupnyup")
 
-    Crirc::Test::Controller::Command::Chan.topic(chan).should eq("TOPIC #patate ")
+    Crirc::Test::Controller::Command::Chan.topic(chan).should eq("TOPIC #patate")
     Crirc::Test::Controller::Command::Chan.topic(chan, "bloup").should eq("TOPIC #patate :bloup")
 
     Crirc::Test::Controller::Command::Chan.invite(chan, target).should eq("INVITE nyupnyup #patate")
@@ -49,7 +49,7 @@ describe Crirc::Controller::Command::Chan do
     chan = Crirc::Protocol::Chan.new "#patate"
     chan2 = Crirc::Protocol::Chan.new "#nyu"
 
-    Crirc::Test::Controller::Command::Chan.names(nil).should eq("NAMES ")
+    Crirc::Test::Controller::Command::Chan.names(nil).should eq("NAMES")
     Crirc::Test::Controller::Command::Chan.names(chan).should eq("NAMES #patate")
     Crirc::Test::Controller::Command::Chan.names({chan}).should eq("NAMES #patate")
     Crirc::Test::Controller::Command::Chan.names({chan, chan2}).should eq("NAMES #patate,#nyu")
@@ -59,7 +59,7 @@ describe Crirc::Controller::Command::Chan do
     chan = Crirc::Protocol::Chan.new "#patate"
     chan2 = Crirc::Protocol::Chan.new "#nyu"
 
-    Crirc::Test::Controller::Command::Chan.list(nil).should eq("LIST ")
+    Crirc::Test::Controller::Command::Chan.list(nil).should eq("LIST")
     Crirc::Test::Controller::Command::Chan.list(chan).should eq("LIST #patate")
     Crirc::Test::Controller::Command::Chan.list({chan}).should eq("LIST #patate")
     Crirc::Test::Controller::Command::Chan.list({chan, chan2}).should eq("LIST #patate,#nyu")
@@ -71,13 +71,13 @@ describe Crirc::Controller::Command::Chan do
     chan = Crirc::Protocol::Chan.new "#patate"
     chan2 = Crirc::Protocol::Chan.new "#nyu"
 
-    Crirc::Test::Controller::Command::Chan.kick({chan}, {target}).should eq("KICK #patate nyupnyup ")
-    Crirc::Test::Controller::Command::Chan.kick(chan, target).should eq("KICK #patate nyupnyup ")
-    Crirc::Test::Controller::Command::Chan.kick({chan, chan2}, {target}).should eq("KICK #patate,#nyu nyupnyup ")
-    Crirc::Test::Controller::Command::Chan.kick({chan, chan2}, target).should eq("KICK #patate,#nyu nyupnyup ")
-    Crirc::Test::Controller::Command::Chan.kick({chan}, {target, target2}).should eq("KICK #patate nyupnyup,gloubi ")
-    Crirc::Test::Controller::Command::Chan.kick(chan, {target, target2}).should eq("KICK #patate nyupnyup,gloubi ")
-    Crirc::Test::Controller::Command::Chan.kick({chan, chan2}, {target, target2}).should eq("KICK #patate,#nyu nyupnyup,gloubi ")
+    Crirc::Test::Controller::Command::Chan.kick({chan}, {target}).should eq("KICK #patate nyupnyup")
+    Crirc::Test::Controller::Command::Chan.kick(chan, target).should eq("KICK #patate nyupnyup")
+    Crirc::Test::Controller::Command::Chan.kick({chan, chan2}, {target}).should eq("KICK #patate,#nyu nyupnyup")
+    Crirc::Test::Controller::Command::Chan.kick({chan, chan2}, target).should eq("KICK #patate,#nyu nyupnyup")
+    Crirc::Test::Controller::Command::Chan.kick({chan}, {target, target2}).should eq("KICK #patate nyupnyup,gloubi")
+    Crirc::Test::Controller::Command::Chan.kick(chan, {target, target2}).should eq("KICK #patate nyupnyup,gloubi")
+    Crirc::Test::Controller::Command::Chan.kick({chan, chan2}, {target, target2}).should eq("KICK #patate,#nyu nyupnyup,gloubi")
     Crirc::Test::Controller::Command::Chan.kick({chan, chan2}, {target, target2}, "Get out").should eq("KICK #patate,#nyu nyupnyup,gloubi :Get out")
     Crirc::Test::Controller::Command::Chan.kick({chan}, {target}, "Get out").should eq("KICK #patate nyupnyup :Get out")
     Crirc::Test::Controller::Command::Chan.kick(chan, target, "Get out").should eq("KICK #patate nyupnyup :Get out")
