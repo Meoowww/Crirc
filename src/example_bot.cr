@@ -17,12 +17,15 @@ private def bind_example(bot)
   end.on("PING") do |msg|
     # Server pong
     bot.pong(msg.message)
-  end.on("PRIVMSG", message: /^!ping */, doc: "!ping    the bot respond by `pong nick`") do |msg|
+  end.on("PRIVMSG", message: /^!ping */, doc: {"!ping", "the bot respond by `pong nick`"}) do |msg|
     # !ping command : answer !pong to the user
     chan = msg.arguments if msg.arguments
     bot.reply msg, "pong #{extract_nick msg.source}" if chan
-  end.on(message: /!help/, doc: "!help    write this message") do |msg|
-    bot.docs.each { |doc| bot.reply msg, doc }
+  end.on(message: /^!help *$/, doc: {"!help", "`!help` to list the modules\n`!help cmd` to advanced description of the cmd"}) do |msg|
+    bot.reply msg, bot.docs.keys.join(", ")
+  end.on(message: /^!help *(.*[^ ]) *$/) do |msg, match|
+    doc = bot.docs[match.as(Regex::MatchData)[1]]?
+    doc.split("\n").each { |split| bot.reply msg, split } unless doc.nil?
   end
 end
 
