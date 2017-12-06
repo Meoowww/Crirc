@@ -9,13 +9,13 @@ Works with crystal v0.23.0
 
 [![travis](https://travis-ci.org/Meoowww/Crirc.svg)](https://travis-ci.org/Meoowww/Crirc)
 
-To install the lib, you will have to add the CrystalIrc dependancy to your project.
+To install the lib, you will have to add the Crirc dependancy to your project.
 
 Add this to your application's `shard.yml`:
 
 ```yaml
 dependencies:
-  CrystalIrc:
+  Crirc:
     github: Meoowww/Crirc
 ```
 
