@@ -23,10 +23,10 @@ Then, run ``crystal deps install`` to fetch the lib.
 
 ## Development
 
-- Network: A network object manage a socket / IO
-- Controller: A controller belongs to a network object, and handle the logic and data
-- Protocol: A protocol object represent a IRC entity (chan, user, message, ...)
-- Binding: The binding socket to allow the system to respond to incoming transmissions
+- `Network`: A network object manage a socket / IO
+- `Controller`: A controller belongs to a network object, and handle the logic and data
+- `Protocol`: A protocol object represent a IRC entity (chan, user, message, ...)
+- `Binding`: The binding socket to allow the system to respond to incoming transmissions
 
 
 ## Contributing
