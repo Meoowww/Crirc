@@ -1,7 +1,8 @@
-require "./command"
+require "../command"
 
+# Defines the IRC commands related to the users (whois, mode).
 module Crirc::Controller::Command::User
-  include Crirc::Controller::Command::Command
+  include Crirc::Controller::Command
 
   # Request data about a given target
   def whois(target : Crirc::Protocol::Target)

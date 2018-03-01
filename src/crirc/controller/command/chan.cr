@@ -1,7 +1,8 @@
-require "./command"
+require "../command"
 
+# Defines the IRC commands that are related to chans (join, part, ...).
 module Crirc::Controller::Command::Chan
-  include Crirc::Controller::Command::Command
+  include Crirc::Controller::Command
 
   # Format the chans to join: #chan1,#chan2 (works with users by the same way)
   protected def format_list(chans : Enumerable(Crirc::Protocol::Target)) : String

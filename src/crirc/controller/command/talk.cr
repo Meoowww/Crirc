@@ -1,7 +1,8 @@
-require "./command"
+require "../command"
 
+# Defines the IRC commands related to communicating between "humans".
 module Crirc::Controller::Command::Talk
-  include Crirc::Controller::Command::Command
+  include Crirc::Controller::Command
 
   # Send a notice to a target
   def notice(target : Crirc::Protocol::Target, msg : String)
