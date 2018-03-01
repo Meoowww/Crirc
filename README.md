@@ -28,6 +28,10 @@ Then, run ``crystal deps install`` to fetch the lib.
 - Protocol: A protocol object represent a IRC entity (chan, user, message, ...)
 - Binding: The binding socket to allow the system to respond to incoming transmissions
 
+## Documentation
+
+The documentation is built automaticaly when a commit is pushed on master on github, via Travis: <https://meoowww.github.io/Crirc/>
+
 
 ## Contributing
 
