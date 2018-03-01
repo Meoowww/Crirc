@@ -1,6 +1,6 @@
 require "./target"
 
-# Represent an IRC channel.
+# Represents an IRC channel.
 class Crirc::Protocol::Chan < Crirc::Protocol::Target
   class Motd
     getter message : String
