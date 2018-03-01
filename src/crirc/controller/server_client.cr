@@ -1,6 +1,8 @@
 require "../network/server_client"
 require "./controller"
 
+# TODO
+# Handles the clients connected to a `Server`
 class Crirc::Controller::ServerClient
   include Controller
 

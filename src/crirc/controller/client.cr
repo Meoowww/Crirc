@@ -26,17 +26,20 @@ class Crirc::Controller::Client
     @chanlist = ChanList.new
   end
 
+  # Initialize the connection with the IRC server (send pass, nick and user).
   def init
     puts "PASS #{@network.pass}" if @network.pass
     puts "NICK #{@network.nick.to_s}"
     puts "USER #{@network.user.to_s} \"#{@network.domain}\" \"#{@network.irc_server}\" :#{@network.realname.to_s}"
   end
 
+  # Start the callback when the server is ready to receive messages.
   def on_ready(&b) : Client
     self.on("001") { b.call }
     self
   end
 
+  # Reply to a given message with a privmsg.
   def reply(msg, data)
     target = msg.argument_list.first
     target_object = (target[0] == '#' ? Crirc::Protocol::Chan : Crirc::Protocol::User).new(target).as(Crirc::Protocol::Target)

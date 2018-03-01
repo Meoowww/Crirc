@@ -1,6 +1,7 @@
 require "../network/server"
 require "./controller"
 
+# TODO
 class Crirc::Controller::Server
   include Controller
 
