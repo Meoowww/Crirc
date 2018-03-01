@@ -22,8 +22,10 @@ private def bind_example(bot)
     chan = msg.arguments if msg.arguments
     bot.reply msg, "pong #{extract_nick msg.source}" if chan
   end.on(message: /^!help *$/, doc: {"!help", "`!help` to list the modules\n`!help cmd` to advanced description of the cmd"}) do |msg|
+    # take each documented bind (those with on("...", doc: ....)) and send the short documentation
     bot.reply msg, bot.docs.keys.join(", ")
   end.on(message: /^!help *(.*[^ ]) *$/) do |msg, match|
+    # take one documented bind (those with on("...", doc: ....)) and send the long documentation
     doc = bot.docs[match.as(Regex::MatchData)[1]]?
     doc.split("\n").each { |split| bot.reply msg, split } unless doc.nil?
   end
