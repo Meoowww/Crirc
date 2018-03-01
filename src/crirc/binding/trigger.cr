@@ -1,6 +1,6 @@
 # The `HookRules` define a set of rules.
 # Theses rules can test an event (message) to "match" with.
-class Crirc::Binding::HookTest
+class Crirc::Binding::Trigger
   @source : String | Regex | Nil
   @command : String | Regex
   @arguments : String | Regex | Nil

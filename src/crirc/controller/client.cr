@@ -15,12 +15,18 @@ class Crirc::Controller::Client
   include Binding::Handler
 
   getter network : Network::Client
+
+  # TODO Not used yet
   getter chanlist : ChanList
 
+  # delegated to the `Network`
   delegate nick, to: :network
+  # delegated to the `Network`
   delegate puts, to: :network
+  # delegated to the `Network`
   delegate gets, to: :network
 
+  # New `Client` that controls the given `Network`.
   def initialize(@network)
     super()
     @chanlist = ChanList.new
@@ -34,12 +40,25 @@ class Crirc::Controller::Client
   end
 
   # Start the callback when the server is ready to receive messages.
+  #
+  # ```
+  # bot.on_ready do
+  #   amazing_stuff(bot)
+  # end
+  # ```
   def on_ready(&b) : Client
     self.on("001") { b.call }
     self
   end
 
   # Reply to a given message with a privmsg.
+  #
+  # ```
+  # bot.on("JOIN") do |msg, _|
+  #   nick = msg.source.source_nick
+  #   context.reply(msg, "Welcome to #{nick}")
+  # end
+  # ```
   def reply(msg, data)
     target = msg.argument_list.first
     target_object = (target[0] == '#' ? Crirc::Protocol::Chan : Crirc::Protocol::User).new(target).as(Crirc::Protocol::Target)
