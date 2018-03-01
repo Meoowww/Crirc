@@ -21,15 +21,6 @@ dependencies:
 
 Then, run ``crystal deps install`` to fetch the lib.
 
-## Development
-
-The project is built around 4 layers of objects:
-
-- **Network**: A network object manage a socket / IO. The interface is described by <https://meoowww.github.io/Crirc/Crirc/Network/Network.html>.
-- **Controller**: A controller belongs to a network object, and handle the logic and data. Its interface is described by <https://meoowww.github.io/Crirc/Crirc/Controller/Controller.html>.
-- **Protocol**: A protocol object represent a IRC entity (chan, user, message, ...).
-- **Binding**: The `Binding::Handler` allows a given `Controller` to respond to incoming transmissions.
-
 ## Documentation
 
 The documentation is built automaticaly when a commit is pushed on master on github, via Travis: <https://meoowww.github.io/Crirc/>.
