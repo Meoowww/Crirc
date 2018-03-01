@@ -1,4 +1,4 @@
-# The `HookRules` define a set of rules.
+# The `Trigger` define a set of rules.
 # Theses rules can test an event (message) to "match" with.
 class Crirc::Binding::Trigger
   @source : String | Regex | Nil
