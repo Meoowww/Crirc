@@ -30,7 +30,9 @@ Then, run ``crystal deps install`` to fetch the lib.
 
 ## Documentation
 
-The documentation is built automaticaly when a commit is pushed on master on github, via Travis: <https://meoowww.github.io/Crirc/>
+The documentation is built automaticaly when a commit is pushed on master on github, via Travis: <https://meoowww.github.io/Crirc/>.
+
+A full implementation of a bot is published and maintained on <https://github.com/Meoowww/DashBot>.
 
 
 ## Contributing
