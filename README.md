@@ -17,6 +17,7 @@ Add this to your application's `shard.yml`:
 dependencies:
   Crirc:
     github: Meoowww/Crirc
+    branch: master # because it is still in dev
 ```
 
 Then, run ``crystal deps install`` to fetch the lib.
