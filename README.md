@@ -25,6 +25,9 @@ Then, run ``crystal deps install`` to fetch the lib.
 ## Documentation
 
 The documentation is built automaticaly when a commit is pushed on master on github, via Travis: <https://meoowww.github.io/Crirc/>.
+This explains the architecture and design on the library, and details the technical informations about the internal & external API.
+
+Specifications (unit tests) are written into the `/spec` directory.
 
 A full implementation of a bot is published and maintained on <https://github.com/Meoowww/DashBot>.
 
