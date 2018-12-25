@@ -2,9 +2,6 @@
 
 A crystal library to create irc client/bot/server.
 
-Works with crystal v0.23.0
-
-
 ## Installation
 
 [![travis](https://travis-ci.org/Meoowww/Crirc.svg)](https://travis-ci.org/Meoowww/Crirc)
@@ -17,7 +14,6 @@ Add this to your application's `shard.yml`:
 dependencies:
   Crirc:
     github: Meoowww/Crirc
-    branch: master # because it is still in dev
 ```
 
 Then, run ``crystal deps install`` to fetch the lib.
