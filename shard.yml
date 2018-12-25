@@ -1,9 +1,9 @@
-name: CrystalIrc
-version: 0.1.1
+name: crirc
+version: 0.1.0
 
 authors:
-  - Arthur Poulet <arthur.poulet@mailoo.org>
+  - Arthur Poulet <arthur.poulet@sceptique.eu>
 
-license: MIT
 crystal: 0.23.1
 
+license: MIT

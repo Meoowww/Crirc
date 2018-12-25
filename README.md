@@ -1,40 +1,36 @@
-# CrystalIrc
+# Crirc
 
-A crystal library to create irc client/bots (in the future a server).
-
-Works with crystal v0.23.0
-
+A crystal library to create irc client/bot/server.
 
 ## Installation
 
-[![travis](https://travis-ci.org/Meoowww/CrystalIrc.svg)](https://travis-ci.org/Meoowww/CrystalIrc)
+[![travis](https://travis-ci.org/Meoowww/Crirc.svg)](https://travis-ci.org/Meoowww/Crirc)
 
-To install the lib, you will have to add the CrystalIrc dependancy to your project.
+To install the lib, you will have to add the Crirc dependancy to your project.
 
 Add this to your application's `shard.yml`:
 
 ```yaml
 dependencies:
-  CrystalIrc:
-    github: Meoowww/CrystalIrc
+  Crirc:
+    github: Meoowww/Crirc
 ```
 
 Then, run ``crystal deps install`` to fetch the lib.
 
+## Documentation
 
-## Usage
+The documentation is built automaticaly when a commit is pushed on master on github, via Travis: <https://meoowww.github.io/Crirc/>.
+This explains the architecture and design on the library, and details the technical informations about the internal & external API.
 
-- You can see a basic example: `src/dash.cr`
-- A bot (with database, plugins, etc.): [Dasshy bot](https://github.com/Meoowww/DashBot)
+Specifications (unit tests) are written into the `/spec` directory.
 
-## Development
-
-Open an issue if you miss an feature, or want to improve our code, or take a coffee :).
+A full implementation of a bot is published and maintained on <https://github.com/Meoowww/DashBot>.
 
 
 ## Contributing
 
-1. Fork it ( https://github.com/Meoowww/CrystalIrc/fork )
+1. Fork it ( https://github.com/Meoowww/Crirc/fork )
 2. Create your feature branch (git checkout -b my-new-feature)
 3. Commit your changes (git commit -am 'Add some feature')
 4. Push to the branch (git push origin my-new-feature)
