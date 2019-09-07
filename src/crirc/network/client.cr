@@ -63,6 +63,7 @@ class Crirc::Network::Client
   # Send a message to the server
   def puts(data)
     socket.puts data.strip # TODO: add \r\n
+    socket.flush
   end
 
   # End the connection
