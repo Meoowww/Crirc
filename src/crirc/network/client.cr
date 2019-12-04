@@ -37,7 +37,7 @@ class Crirc::Network::Client
     @socket.as(IrcSocket)
   end
 
-  # Connect to the server
+  # Connect to the target server
   def connect
     tcp_socket = TCPSocket.new(@ip, @port)
     tcp_socket.read_timeout = @read_timeout

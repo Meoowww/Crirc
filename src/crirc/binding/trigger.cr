@@ -19,6 +19,7 @@ class Crirc::Binding::Trigger
   def initialize(@command = "PRIVMSG", @source = nil, @arguments = nil, @message = nil)
   end
 
+  # returns true if the the message match with the condition of this trigger
   def test(msg : Crirc::Protocol::Message)
     test_command(msg) && test_source(msg) && test_arguments(msg) && test_message(msg)
   end
