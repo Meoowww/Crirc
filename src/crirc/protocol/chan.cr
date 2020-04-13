@@ -8,11 +8,11 @@ class Crirc::Protocol::Chan < Crirc::Protocol::Target
     getter timestamp : Int64
 
     def initialize(@message, @user)
-      @timestamp = Time.now.to_unix
+      @timestamp = Time.utc.to_unix
     end
 
     def set_motd(@message, @user)
-      @timestamp = Time.now.to_unix
+      @timestamp = Time.utc.to_unix
     end
   end
 
