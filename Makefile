@@ -3,9 +3,7 @@ all: deps_opt test
 test:
 	crystal spec
 deps:
-	crystal deps install
-deps_update:
-	crystal deps update
+	shards install
 deps_opt:
 	@[ -d lib/ ] || make deps
 doc:
