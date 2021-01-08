@@ -12,7 +12,7 @@ Add this to your application's `shard.yml`:
 
 ```yaml
 dependencies:
-  Crirc:
+  crirc:
     github: Meoowww/Crirc
 ```
 
