@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Crystal Docs 0.34.0">
+<meta name="crystal_docs.project_version" content="HEAD">
+<meta name="crystal_docs.project_name" content="crirc">
+
+
+<link href="../../css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="../../js/doc.js"></script>
+
+<svg class="hidden">
+  <symbol id="octicon-link" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+  </symbol>
+</svg>
+
+  <meta id="repository-name" content="crirc">
+  <title>Crirc::Network::Client - crirc HEAD</title>
+  <script type="text/javascript">
+    CrystalDocs.base_path = "../../";
+  </script>
+</head>
+<body>
+
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false" aria-label="Search">
+    </div>
+
+    <div class="project-summary">
+      <h1 class="project-name">
+        <a href="../../index.html">
+          crirc
+        </a>
+      </h1>
+
+      <span class="project-version">
+        HEAD
+      </span>
+    </div>
+  </div>
+
+  <div class="search-results" class="hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class=" " data-id="crirc/toplevel" data-name="top level namespace">
+      <a href="../../toplevel.html">Top Level Namespace</a>
+      
+    </li>
+  
+  <li class="parent open current" data-id="crirc/Crirc" data-name="crirc">
+      <a href="../../Crirc.html">Crirc</a>
+      
+        <ul>
+  
+  <li class="parent " data-id="crirc/Crirc/Binding" data-name="crirc::binding">
+      <a href="../../Crirc/Binding.html">Binding</a>
+      
+        <ul>
+  
+  <li class="parent " data-id="crirc/Crirc/Binding/Handler" data-name="crirc::binding::handler">
+      <a href="../../Crirc/Binding/Handler.html">Handler</a>
+      
+        <ul>
+  
+  <li class=" " data-id="crirc/Crirc/Binding/Handler/Hook" data-name="crirc::binding::handler::hook">
+      <a href="../../Crirc/Binding/Handler/Hook.html">Hook</a>
+      
+    </li>
+  
+  <li class=" " data-id="crirc/Crirc/Binding/Handler/HookRule" data-name="crirc::binding::handler::hookrule">
+      <a href="../../Crirc/Binding/Handler/HookRule.html">HookRule</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="crirc/Crirc/Binding/Trigger" data-name="crirc::binding::trigger">
+      <a href="../../Crirc/Binding/Trigger.html">Trigger</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="crirc/Crirc/Broadcast" data-name="crirc::broadcast">
+      <a href="../../Crirc/Broadcast.html">Broadcast</a>
+      
+    </li>
+  
+  <li class=" " data-id="crirc/Crirc/ChanList" data-name="crirc::chanlist">
+      <a href="../../Crirc/ChanList.html">ChanList</a>
+      
+    </li>
+  
+  <li class="parent " data-id="crirc/Crirc/Controller" data-name="crirc::controller">
+      <a href="../../Crirc/Controller.html">Controller</a>
+      
+        <ul>
+  
+  <li class=" " data-id="crirc/Crirc/Controller/Client" data-name="crirc::controller::client">
+      <a href="../../Crirc/Controller/Client.html">Client</a>
+      
+    </li>
+  
+  <li class="parent " data-id="crirc/Crirc/Controller/Command" data-name="crirc::controller::command">
+      <a href="../../Crirc/Controller/Command.html">Command</a>
+      
+        <ul>
+  
+  <li class=" " data-id="crirc/Crirc/Controller/Command/Chan" data-name="crirc::controller::command::chan">
+      <a href="../../Crirc/Controller/Command/Chan.html">Chan</a>
+      
+    </li>
+  
+  <li class=" " data-id="crirc/Crirc/Controller/Command/Ping" data-name="crirc::controller::command::ping">
+      <a href="../../Crirc/Controller/Command/Ping.html">Ping</a>
+      
+    </li>
+  
+  <li class=" " data-id="crirc/Crirc/Controller/Command/Talk" data-name="crirc::controller::command::talk">
+      <a href="../../Crirc/Controller/Command/Talk.html">Talk</a>
+      
+    </li>
+  
+  <li class=" " data-id="crirc/Crirc/Controller/Command/User" data-name="crirc::controller::command::user">
+      <a href="../../Crirc/Controller/Command/User.html">User</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="crirc/Crirc/Controller/Controller" data-name="crirc::controller::controller">
+      <a href="../../Crirc/Controller/Controller.html">Controller</a>
+      
+    </li>
+  
+  <li class=" " data-id="crirc/Crirc/Controller/Server" data-name="crirc::controller::server">
+      <a href="../../Crirc/Controller/Server.html">Server</a>
+      
+    </li>
+  
+  <li class=" " data-id="crirc/Crirc/Controller/ServerClient" data-name="crirc::controller::serverclient">
+      <a href="../../Crirc/Controller/ServerClient.html">ServerClient</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class="parent open current" data-id="crirc/Crirc/Network" data-name="crirc::network">
+      <a href="../../Crirc/Network.html">Network</a>
+      
+        <ul>
+  
+  <li class="parent open current" data-id="crirc/Crirc/Network/Client" data-name="crirc::network::client">
+      <a href="../../Crirc/Network/Client.html">Client</a>
+      
+        <ul>
+  
+  <li class=" " data-id="crirc/Crirc/Network/Client/IrcSocket" data-name="crirc::network::client::ircsocket">
+      <a href="../../Crirc/Network/Client/IrcSocket.html">IrcSocket</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="crirc/Crirc/Network/Network" data-name="crirc::network::network">
+      <a href="../../Crirc/Network/Network.html">Network</a>
+      
+    </li>
+  
+  <li class=" " data-id="crirc/Crirc/Network/Server" data-name="crirc::network::server">
+      <a href="../../Crirc/Network/Server.html">Server</a>
+      
+    </li>
+  
+  <li class=" " data-id="crirc/Crirc/Network/ServerClient" data-name="crirc::network::serverclient">
+      <a href="../../Crirc/Network/ServerClient.html">ServerClient</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class="parent " data-id="crirc/Crirc/Protocol" data-name="crirc::protocol">
+      <a href="../../Crirc/Protocol.html">Protocol</a>
+      
+        <ul>
+  
+  <li class="parent " data-id="crirc/Crirc/Protocol/Chan" data-name="crirc::protocol::chan">
+      <a href="../../Crirc/Protocol/Chan.html">Chan</a>
+      
+        <ul>
+  
+  <li class=" " data-id="crirc/Crirc/Protocol/Chan/Motd" data-name="crirc::protocol::chan::motd">
+      <a href="../../Crirc/Protocol/Chan/Motd.html">Motd</a>
+      
+    </li>
+  
+  <li class=" " data-id="crirc/Crirc/Protocol/Chan/ParsingError" data-name="crirc::protocol::chan::parsingerror">
+      <a href="../../Crirc/Protocol/Chan/ParsingError.html">ParsingError</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class="parent " data-id="crirc/Crirc/Protocol/Message" data-name="crirc::protocol::message">
+      <a href="../../Crirc/Protocol/Message.html">Message</a>
+      
+        <ul>
+  
+  <li class=" " data-id="crirc/Crirc/Protocol/Message/ParsingError" data-name="crirc::protocol::message::parsingerror">
+      <a href="../../Crirc/Protocol/Message/ParsingError.html">ParsingError</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="crirc/Crirc/Protocol/Target" data-name="crirc::protocol::target">
+      <a href="../../Crirc/Protocol/Target.html">Target</a>
+      
+    </li>
+  
+  <li class="parent " data-id="crirc/Crirc/Protocol/User" data-name="crirc::protocol::user">
+      <a href="../../Crirc/Protocol/User.html">User</a>
+      
+        <ul>
+  
+  <li class=" " data-id="crirc/Crirc/Protocol/User/ParsingError" data-name="crirc::protocol::user::parsingerror">
+      <a href="../../Crirc/Protocol/User/ParsingError.html">ParsingError</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="crirc/Crirc/UserList" data-name="crirc::userlist">
+      <a href="../../Crirc/UserList.html">UserList</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<h1 class="type-name">
+
+  <span class="kind">class</span> Crirc::Network::Client
+
+</h1>
+
+
+  <ul class="superclass-hierarchy"><li class="superclass"><a href="../../Crirc/Network/Client.html">Crirc::Network::Client</a></li><li class="superclass">Reference</li><li class="superclass">Object</li></ul>
+
+
+
+
+
+
+
+
+  <h2>
+    <a id="included-modules" class="anchor" href="#included-modules">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Included Modules
+  </h2>
+  <ul class="other-types-list">
+    
+      <li class="other-type"><a href="../../Crirc/Network/Network.html">Crirc::Network::Network</a></li>
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+  <h2>
+    <a id="defined-in" class="anchor" href="#defined-in">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Defined in:
+  </h2>
+  
+    
+      <a href="https://github.com/Meoowww/Crirc/blob/c21010a9d9d3ef9067b5610ec4cb4ea389fdc508/src/crirc/network/client.cr#L6" target="_blank">
+        crirc/network/client.cr
+      </a>
+    
+    <br/>
+  
+
+
+
+
+
+  <h2>
+    <a id="constructors" class="anchor" href="#constructors">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Constructors
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#new(nick:String,ip,port=nil.as(UInt16%7C::Nil),ssl=true,user=nil,realname=nil,domain=nil,pass=nil,irc_server=nil,read_timeout=120_u16,write_timeout=5_u16,keepalive=true)-class-method" class="signature"><strong>.new</strong>(nick : String, ip, port = <span class="n">nil</span>.<span class="k">as</span>(<span class="t">UInt16</span> <span class="o">|</span> <span class="t">::</span><span class="t">Nil</span>), ssl = <span class="n">true</span>, user = <span class="n">nil</span>, realname = <span class="n">nil</span>, domain = <span class="n">nil</span>, pass = <span class="n">nil</span>, irc_server = <span class="n">nil</span>, read_timeout = <span class="n">120_u16</span>, write_timeout = <span class="n">5_u16</span>, keepalive = <span class="n">true</span>)</a>
+        
+          <div class="summary"><p>default port is 6667 or 6697 if ssl is true</p></div>
+        
+      </li>
+    
+  </ul>
+
+
+
+
+
+  <h2>
+    <a id="instance-method-summary" class="anchor" href="#instance-method-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Summary
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#close-instance-method" class="signature"><strong>#close</strong></a>
+        
+          <div class="summary"><p>End the connection</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#connect-instance-method" class="signature"><strong>#connect</strong></a>
+        
+          <div class="summary"><p>Connect to the target server</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#domain:String?-instance-method" class="signature"><strong>#domain</strong> : String?</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#gets-instance-method" class="signature"><strong>#gets</strong></a>
+        
+          <div class="summary"><p>Wait and fetch the next incoming message</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#ip:String-instance-method" class="signature"><strong>#ip</strong> : String</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#irc_server:String?-instance-method" class="signature"><strong>#irc_server</strong> : String?</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#keepalive:Bool-instance-method" class="signature"><strong>#keepalive</strong> : Bool</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#nick:String-instance-method" class="signature"><strong>#nick</strong> : String</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#pass:String?-instance-method" class="signature"><strong>#pass</strong> : String?</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#port:UInt16-instance-method" class="signature"><strong>#port</strong> : UInt16</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#puts(data)-instance-method" class="signature"><strong>#puts</strong>(data)</a>
+        
+          <div class="summary"><p>Send a message to the server</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#read_timeout:UInt16-instance-method" class="signature"><strong>#read_timeout</strong> : UInt16</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#realname:String-instance-method" class="signature"><strong>#realname</strong> : String</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#socket-instance-method" class="signature"><strong>#socket</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#ssl:Bool-instance-method" class="signature"><strong>#ssl</strong> : Bool</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#start(&)-instance-method" class="signature"><strong>#start</strong>(&)</a>
+        
+          <div class="summary"><p>Start a new Controller::Client binded to the current object</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#user:String-instance-method" class="signature"><strong>#user</strong> : String</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#write_timeout:UInt16-instance-method" class="signature"><strong>#write_timeout</strong> : UInt16</a>
+        
+      </li>
+    
+  </ul>
+
+
+
+
+
+<div class="methods-inherited">
+  
+    
+
+  <h3>Instance methods inherited from module <code><a href="../../Crirc/Network/Network.html">Crirc::Network::Network</a></code></h3>
+  
+  
+    <a href="../../Crirc/Network/Network.html#gets-instance-method" class="tooltip">
+      <span>gets</span>
+    gets</a>, 
+    
+  
+    <a href="../../Crirc/Network/Network.html#puts(data)-instance-method" class="tooltip">
+      <span>puts(data)</span>
+    puts</a>
+    
+  
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+</div>
+
+
+  <h2>
+    <a id="constructor-detail" class="anchor" href="#constructor-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Constructor Detail
+  </h2>
+  
+    <div class="entry-detail" id="new(nick:String,ip,port=nil.as(UInt16|::Nil),ssl=true,user=nil,realname=nil,domain=nil,pass=nil,irc_server=nil,read_timeout=120_u16,write_timeout=5_u16,keepalive=true)-class-method">
+      <div class="signature">
+        
+        def self.<strong>new</strong>(nick : String, ip, port = <span class="n">nil</span>.<span class="k">as</span>(<span class="t">UInt16</span> <span class="o">|</span> <span class="t">::</span><span class="t">Nil</span>), ssl = <span class="n">true</span>, user = <span class="n">nil</span>, realname = <span class="n">nil</span>, domain = <span class="n">nil</span>, pass = <span class="n">nil</span>, irc_server = <span class="n">nil</span>, read_timeout = <span class="n">120_u16</span>, write_timeout = <span class="n">5_u16</span>, keepalive = <span class="n">true</span>)
+
+        <a class="method-permalink" href="#new(nick:String,ip,port=nil.as(UInt16%7C::Nil),ssl=true,user=nil,realname=nil,domain=nil,pass=nil,irc_server=nil,read_timeout=120_u16,write_timeout=5_u16,keepalive=true)-class-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>default port is 6667 or 6697 if ssl is true</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Meoowww/Crirc/blob/c21010a9d9d3ef9067b5610ec4cb4ea389fdc508/src/crirc/network/client.cr#L26" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+
+
+  <h2>
+    <a id="instance-method-detail" class="anchor" href="#instance-method-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Detail
+  </h2>
+  
+    <div class="entry-detail" id="close-instance-method">
+      <div class="signature">
+        
+        def <strong>close</strong>
+
+        <a class="method-permalink" href="#close-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>End the connection</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Meoowww/Crirc/blob/c21010a9d9d3ef9067b5610ec4cb4ea389fdc508/src/crirc/network/client.cr#L71" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="connect-instance-method">
+      <div class="signature">
+        
+        def <strong>connect</strong>
+
+        <a class="method-permalink" href="#connect-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Connect to the target server</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Meoowww/Crirc/blob/c21010a9d9d3ef9067b5610ec4cb4ea389fdc508/src/crirc/network/client.cr#L41" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="domain:String?-instance-method">
+      <div class="signature">
+        
+        def <strong>domain</strong> : String?
+
+        <a class="method-permalink" href="#domain:String?-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Meoowww/Crirc/blob/c21010a9d9d3ef9067b5610ec4cb4ea389fdc508/src/crirc/network/client.cr#L18" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="gets-instance-method">
+      <div class="signature">
+        
+        def <strong>gets</strong>
+
+        <a class="method-permalink" href="#gets-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Wait and fetch the next incoming message</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Meoowww/Crirc/blob/c21010a9d9d3ef9067b5610ec4cb4ea389fdc508/src/crirc/network/client.cr#L59" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="ip:String-instance-method">
+      <div class="signature">
+        
+        def <strong>ip</strong> : String
+
+        <a class="method-permalink" href="#ip:String-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Meoowww/Crirc/blob/c21010a9d9d3ef9067b5610ec4cb4ea389fdc508/src/crirc/network/client.cr#L12" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="irc_server:String?-instance-method">
+      <div class="signature">
+        
+        def <strong>irc_server</strong> : String?
+
+        <a class="method-permalink" href="#irc_server:String?-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Meoowww/Crirc/blob/c21010a9d9d3ef9067b5610ec4cb4ea389fdc508/src/crirc/network/client.cr#L20" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="keepalive:Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>keepalive</strong> : Bool
+
+        <a class="method-permalink" href="#keepalive:Bool-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Meoowww/Crirc/blob/c21010a9d9d3ef9067b5610ec4cb4ea389fdc508/src/crirc/network/client.cr#L23" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="nick:String-instance-method">
+      <div class="signature">
+        
+        def <strong>nick</strong> : String
+
+        <a class="method-permalink" href="#nick:String-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Meoowww/Crirc/blob/c21010a9d9d3ef9067b5610ec4cb4ea389fdc508/src/crirc/network/client.cr#L11" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="pass:String?-instance-method">
+      <div class="signature">
+        
+        def <strong>pass</strong> : String?
+
+        <a class="method-permalink" href="#pass:String?-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Meoowww/Crirc/blob/c21010a9d9d3ef9067b5610ec4cb4ea389fdc508/src/crirc/network/client.cr#L19" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="port:UInt16-instance-method">
+      <div class="signature">
+        
+        def <strong>port</strong> : UInt16
+
+        <a class="method-permalink" href="#port:UInt16-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Meoowww/Crirc/blob/c21010a9d9d3ef9067b5610ec4cb4ea389fdc508/src/crirc/network/client.cr#L13" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="puts(data)-instance-method">
+      <div class="signature">
+        
+        def <strong>puts</strong>(data)
+
+        <a class="method-permalink" href="#puts(data)-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Send a message to the server</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Meoowww/Crirc/blob/c21010a9d9d3ef9067b5610ec4cb4ea389fdc508/src/crirc/network/client.cr#L64" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="read_timeout:UInt16-instance-method">
+      <div class="signature">
+        
+        def <strong>read_timeout</strong> : UInt16
+
+        <a class="method-permalink" href="#read_timeout:UInt16-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Meoowww/Crirc/blob/c21010a9d9d3ef9067b5610ec4cb4ea389fdc508/src/crirc/network/client.cr#L21" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="realname:String-instance-method">
+      <div class="signature">
+        
+        def <strong>realname</strong> : String
+
+        <a class="method-permalink" href="#realname:String-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Meoowww/Crirc/blob/c21010a9d9d3ef9067b5610ec4cb4ea389fdc508/src/crirc/network/client.cr#L17" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="socket-instance-method">
+      <div class="signature">
+        
+        def <strong>socket</strong>
+
+        <a class="method-permalink" href="#socket-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Meoowww/Crirc/blob/c21010a9d9d3ef9067b5610ec4cb4ea389fdc508/src/crirc/network/client.cr#L35" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="ssl:Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>ssl</strong> : Bool
+
+        <a class="method-permalink" href="#ssl:Bool-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Meoowww/Crirc/blob/c21010a9d9d3ef9067b5610ec4cb4ea389fdc508/src/crirc/network/client.cr#L14" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="start(&)-instance-method">
+      <div class="signature">
+        
+        def <strong>start</strong>(&)
+
+        <a class="method-permalink" href="#start(&)-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Start a new Controller::Client binded to the current object</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Meoowww/Crirc/blob/c21010a9d9d3ef9067b5610ec4cb4ea389fdc508/src/crirc/network/client.cr#L52" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="user:String-instance-method">
+      <div class="signature">
+        
+        def <strong>user</strong> : String
+
+        <a class="method-permalink" href="#user:String-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Meoowww/Crirc/blob/c21010a9d9d3ef9067b5610ec4cb4ea389fdc508/src/crirc/network/client.cr#L16" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="write_timeout:UInt16-instance-method">
+      <div class="signature">
+        
+        def <strong>write_timeout</strong> : UInt16
+
+        <a class="method-permalink" href="#write_timeout:UInt16-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Meoowww/Crirc/blob/c21010a9d9d3ef9067b5610ec4cb4ea389fdc508/src/crirc/network/client.cr#L22" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+
+</div>
+
+</body>
+</html>

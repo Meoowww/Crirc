@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Crystal Docs 0.34.0">
+<meta name="crystal_docs.project_version" content="HEAD">
+<meta name="crystal_docs.project_name" content="crirc">
+
+
+<link href="../../css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="../../js/doc.js"></script>
+
+<svg class="hidden">
+  <symbol id="octicon-link" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+  </symbol>
+</svg>
+
+  <meta id="repository-name" content="crirc">
+  <title>Crirc::Binding::Handler - crirc HEAD</title>
+  <script type="text/javascript">
+    CrystalDocs.base_path = "../../";
+  </script>
+</head>
+<body>
+
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false" aria-label="Search">
+    </div>
+
+    <div class="project-summary">
+      <h1 class="project-name">
+        <a href="../../index.html">
+          crirc
+        </a>
+      </h1>
+
+      <span class="project-version">
+        HEAD
+      </span>
+    </div>
+  </div>
+
+  <div class="search-results" class="hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class=" " data-id="crirc/toplevel" data-name="top level namespace">
+      <a href="../../toplevel.html">Top Level Namespace</a>
+      
+    </li>
+  
+  <li class="parent open current" data-id="crirc/Crirc" data-name="crirc">
+      <a href="../../Crirc.html">Crirc</a>
+      
+        <ul>
+  
+  <li class="parent open current" data-id="crirc/Crirc/Binding" data-name="crirc::binding">
+      <a href="../../Crirc/Binding.html">Binding</a>
+      
+        <ul>
+  
+  <li class="parent open current" data-id="crirc/Crirc/Binding/Handler" data-name="crirc::binding::handler">
+      <a href="../../Crirc/Binding/Handler.html">Handler</a>
+      
+        <ul>
+  
+  <li class=" " data-id="crirc/Crirc/Binding/Handler/Hook" data-name="crirc::binding::handler::hook">
+      <a href="../../Crirc/Binding/Handler/Hook.html">Hook</a>
+      
+    </li>
+  
+  <li class=" " data-id="crirc/Crirc/Binding/Handler/HookRule" data-name="crirc::binding::handler::hookrule">
+      <a href="../../Crirc/Binding/Handler/HookRule.html">HookRule</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="crirc/Crirc/Binding/Trigger" data-name="crirc::binding::trigger">
+      <a href="../../Crirc/Binding/Trigger.html">Trigger</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="crirc/Crirc/Broadcast" data-name="crirc::broadcast">
+      <a href="../../Crirc/Broadcast.html">Broadcast</a>
+      
+    </li>
+  
+  <li class=" " data-id="crirc/Crirc/ChanList" data-name="crirc::chanlist">
+      <a href="../../Crirc/ChanList.html">ChanList</a>
+      
+    </li>
+  
+  <li class="parent " data-id="crirc/Crirc/Controller" data-name="crirc::controller">
+      <a href="../../Crirc/Controller.html">Controller</a>
+      
+        <ul>
+  
+  <li class=" " data-id="crirc/Crirc/Controller/Client" data-name="crirc::controller::client">
+      <a href="../../Crirc/Controller/Client.html">Client</a>
+      
+    </li>
+  
+  <li class="parent " data-id="crirc/Crirc/Controller/Command" data-name="crirc::controller::command">
+      <a href="../../Crirc/Controller/Command.html">Command</a>
+      
+        <ul>
+  
+  <li class=" " data-id="crirc/Crirc/Controller/Command/Chan" data-name="crirc::controller::command::chan">
+      <a href="../../Crirc/Controller/Command/Chan.html">Chan</a>
+      
+    </li>
+  
+  <li class=" " data-id="crirc/Crirc/Controller/Command/Ping" data-name="crirc::controller::command::ping">
+      <a href="../../Crirc/Controller/Command/Ping.html">Ping</a>
+      
+    </li>
+  
+  <li class=" " data-id="crirc/Crirc/Controller/Command/Talk" data-name="crirc::controller::command::talk">
+      <a href="../../Crirc/Controller/Command/Talk.html">Talk</a>
+      
+    </li>
+  
+  <li class=" " data-id="crirc/Crirc/Controller/Command/User" data-name="crirc::controller::command::user">
+      <a href="../../Crirc/Controller/Command/User.html">User</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="crirc/Crirc/Controller/Controller" data-name="crirc::controller::controller">
+      <a href="../../Crirc/Controller/Controller.html">Controller</a>
+      
+    </li>
+  
+  <li class=" " data-id="crirc/Crirc/Controller/Server" data-name="crirc::controller::server">
+      <a href="../../Crirc/Controller/Server.html">Server</a>
+      
+    </li>
+  
+  <li class=" " data-id="crirc/Crirc/Controller/ServerClient" data-name="crirc::controller::serverclient">
+      <a href="../../Crirc/Controller/ServerClient.html">ServerClient</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class="parent " data-id="crirc/Crirc/Network" data-name="crirc::network">
+      <a href="../../Crirc/Network.html">Network</a>
+      
+        <ul>
+  
+  <li class="parent " data-id="crirc/Crirc/Network/Client" data-name="crirc::network::client">
+      <a href="../../Crirc/Network/Client.html">Client</a>
+      
+        <ul>
+  
+  <li class=" " data-id="crirc/Crirc/Network/Client/IrcSocket" data-name="crirc::network::client::ircsocket">
+      <a href="../../Crirc/Network/Client/IrcSocket.html">IrcSocket</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="crirc/Crirc/Network/Network" data-name="crirc::network::network">
+      <a href="../../Crirc/Network/Network.html">Network</a>
+      
+    </li>
+  
+  <li class=" " data-id="crirc/Crirc/Network/Server" data-name="crirc::network::server">
+      <a href="../../Crirc/Network/Server.html">Server</a>
+      
+    </li>
+  
+  <li class=" " data-id="crirc/Crirc/Network/ServerClient" data-name="crirc::network::serverclient">
+      <a href="../../Crirc/Network/ServerClient.html">ServerClient</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class="parent " data-id="crirc/Crirc/Protocol" data-name="crirc::protocol">
+      <a href="../../Crirc/Protocol.html">Protocol</a>
+      
+        <ul>
+  
+  <li class="parent " data-id="crirc/Crirc/Protocol/Chan" data-name="crirc::protocol::chan">
+      <a href="../../Crirc/Protocol/Chan.html">Chan</a>
+      
+        <ul>
+  
+  <li class=" " data-id="crirc/Crirc/Protocol/Chan/Motd" data-name="crirc::protocol::chan::motd">
+      <a href="../../Crirc/Protocol/Chan/Motd.html">Motd</a>
+      
+    </li>
+  
+  <li class=" " data-id="crirc/Crirc/Protocol/Chan/ParsingError" data-name="crirc::protocol::chan::parsingerror">
+      <a href="../../Crirc/Protocol/Chan/ParsingError.html">ParsingError</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class="parent " data-id="crirc/Crirc/Protocol/Message" data-name="crirc::protocol::message">
+      <a href="../../Crirc/Protocol/Message.html">Message</a>
+      
+        <ul>
+  
+  <li class=" " data-id="crirc/Crirc/Protocol/Message/ParsingError" data-name="crirc::protocol::message::parsingerror">
+      <a href="../../Crirc/Protocol/Message/ParsingError.html">ParsingError</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="crirc/Crirc/Protocol/Target" data-name="crirc::protocol::target">
+      <a href="../../Crirc/Protocol/Target.html">Target</a>
+      
+    </li>
+  
+  <li class="parent " data-id="crirc/Crirc/Protocol/User" data-name="crirc::protocol::user">
+      <a href="../../Crirc/Protocol/User.html">User</a>
+      
+        <ul>
+  
+  <li class=" " data-id="crirc/Crirc/Protocol/User/ParsingError" data-name="crirc::protocol::user::parsingerror">
+      <a href="../../Crirc/Protocol/User/ParsingError.html">ParsingError</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="crirc/Crirc/UserList" data-name="crirc::userlist">
+      <a href="../../Crirc/UserList.html">UserList</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<h1 class="type-name">
+
+  <span class="kind">module</span> Crirc::Binding::Handler
+
+</h1>
+
+
+
+
+
+  <h2>
+    <a id="overview" class="anchor" href="#overview">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Overview
+  </h2>
+
+  <p>This class is designed to be able to automaticaly respond to incoming IRC
+messages on a set conditions.
+The flow of this system is the following:</p>
+
+<ol><li>With <code><a href="../../Crirc/Binding/Handler.html#on(command:String=&quot;PRIVMSG&quot;,source:HookRule=nil,arguments:HookRule=nil,message:HookRule=nil,doc:Tuple(String,String)?=nil,&hook:Hook)-instance-method">.on</a>()</code>, defines a Trigger and the associated Hook</li><li>Call <code><a href="../../Crirc/Binding/Handler.html#handle(msg:String)-instance-method">.handle</a>()</code> to process the incoming IRC message.</li></ol>
+
+<pre><code>bot.on(<span class="s">&quot;PRIVMSG&quot;</span>, message: <span class="s">/^(Hello|Hi)$/</span>) { <span class="o">|</span>msg, data<span class="o">|</span> bot.reply(msg, <span class="s">&quot;Hello !&quot;</span>) }
+<span class="k">while</span> (incoming_message <span class="o">=</span> io.gets) <span class="k">do</span>
+  bot.handle(incoming_message)
+<span class="k">end</span></code></pre>
+
+
+
+
+
+
+
+
+
+
+
+  <h2>
+    <a id="direct-including-types" class="anchor" href="#direct-including-types">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Direct including types
+  </h2>
+  <ul class="other-types-list">
+    
+      <li class="other-type"><a href="../../Crirc/Controller/Client.html">Crirc::Controller::Client</a></li>
+    
+  </ul>
+
+
+
+
+  <h2>
+    <a id="defined-in" class="anchor" href="#defined-in">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Defined in:
+  </h2>
+  
+    
+      <a href="https://github.com/Meoowww/Crirc/blob/c21010a9d9d3ef9067b5610ec4cb4ea389fdc508/src/crirc/binding/handler.cr#L15" target="_blank">
+        crirc/binding/handler.cr
+      </a>
+    
+    <br/>
+  
+
+
+
+
+
+  <h2>
+    <a id="constructors" class="anchor" href="#constructors">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Constructors
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#new(**opts)-class-method" class="signature"><strong>.new</strong>(**opts)</a>
+        
+      </li>
+    
+  </ul>
+
+
+
+
+
+  <h2>
+    <a id="instance-method-summary" class="anchor" href="#instance-method-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Summary
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#docs:Hash(String,String)-instance-method" class="signature"><strong>#docs</strong> : Hash(String, String)</a>
+        
+          <div class="summary"><p>Documentation lines for each hook</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#handle(msg:String)-instance-method" class="signature"><strong>#handle</strong>(msg : String)</a>
+        
+          <div class="summary"><p>Sugar for <code><a href="../../Crirc/Binding/Handler.html#handle(msg:String)-instance-method">#handle</a></code> that parse the string as a <code><a href="../../Crirc/Protocol/Message.html">Crirc::Protocol::Message</a></code></p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#handle(msg:Crirc::Protocol::Message)-instance-method" class="signature"><strong>#handle</strong>(msg : Crirc::Protocol::Message)</a>
+        
+          <div class="summary"><p>Handle one <code>Message</code> It goes through the registred hooks, select the one to trigger.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#hooks:Hash(Trigger,Array(Hook))-instance-method" class="signature"><strong>#hooks</strong> : Hash(Trigger, Array(Hook))</a>
+        
+          <div class="summary"><p>Hooks associated with <code><a href="../../Crirc/Binding/Trigger.html">Trigger</a></code></p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#on(command:String=&quot;PRIVMSG&quot;,source:HookRule=nil,arguments:HookRule=nil,message:HookRule=nil,doc:Tuple(String,String)?=nil,&hook:Hook)-instance-method" class="signature"><strong>#on</strong>(command : String = <span class="s">&quot;PRIVMSG&quot;</span>, source : HookRule = <span class="n">nil</span>, arguments : HookRule = <span class="n">nil</span>, message : HookRule = <span class="n">nil</span>, doc : Tuple(String, String)? = <span class="n">nil</span>, &hook : Hook)</a>
+        
+          <div class="summary"><p>Register a news Hook that is called when the incoming messages meet a set of conditions: command name (JOIN, PRIVMSG, ...), source, arguments, message.</p></div>
+        
+      </li>
+    
+  </ul>
+
+
+
+
+
+<div class="methods-inherited">
+  
+</div>
+
+
+  <h2>
+    <a id="constructor-detail" class="anchor" href="#constructor-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Constructor Detail
+  </h2>
+  
+    <div class="entry-detail" id="new(**opts)-class-method">
+      <div class="signature">
+        
+        def self.<strong>new</strong>(**opts)
+
+        <a class="method-permalink" href="#new(**opts)-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Meoowww/Crirc/blob/c21010a9d9d3ef9067b5610ec4cb4ea389fdc508/src/crirc/binding/handler.cr#L25" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+
+
+  <h2>
+    <a id="instance-method-detail" class="anchor" href="#instance-method-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Detail
+  </h2>
+  
+    <div class="entry-detail" id="docs:Hash(String,String)-instance-method">
+      <div class="signature">
+        
+        def <strong>docs</strong> : Hash(String, String)
+
+        <a class="method-permalink" href="#docs:Hash(String,String)-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Documentation lines for each hook</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Meoowww/Crirc/blob/c21010a9d9d3ef9067b5610ec4cb4ea389fdc508/src/crirc/binding/handler.cr#L23" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="handle(msg:String)-instance-method">
+      <div class="signature">
+        
+        def <strong>handle</strong>(msg : String)
+
+        <a class="method-permalink" href="#handle(msg:String)-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Sugar for <code><a href="../../Crirc/Binding/Handler.html#handle(msg:String)-instance-method">#handle</a></code> that parse the string as a <code><a href="../../Crirc/Protocol/Message.html">Crirc::Protocol::Message</a></code></p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Meoowww/Crirc/blob/c21010a9d9d3ef9067b5610ec4cb4ea389fdc508/src/crirc/binding/handler.cr#L70" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="handle(msg:Crirc::Protocol::Message)-instance-method">
+      <div class="signature">
+        
+        def <strong>handle</strong>(msg : <a href="../../Crirc/Protocol/Message.html">Crirc::Protocol::Message</a>)
+
+        <a class="method-permalink" href="#handle(msg:Crirc::Protocol::Message)-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Handle one <code>Message</code>
+It goes through the registred hooks, select the one to trigger.
+Then, it execute every hooks associated, and send as parameters the current message and the regex match if possible</p>
+
+<p><span class="flag orange">TODO</span>  msg should NEVER be modified in the hook. (copy ? readonly ? struct ?)</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Meoowww/Crirc/blob/c21010a9d9d3ef9067b5610ec4cb4ea389fdc508/src/crirc/binding/handler.cr#L53" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="hooks:Hash(Trigger,Array(Hook))-instance-method">
+      <div class="signature">
+        
+        def <strong>hooks</strong> : Hash(<a href="../../Crirc/Binding/Trigger.html">Trigger</a>, Array(<a href="../../Crirc/Binding/Handler/Hook.html">Hook</a>))
+
+        <a class="method-permalink" href="#hooks:Hash(Trigger,Array(Hook))-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Hooks associated with <code><a href="../../Crirc/Binding/Trigger.html">Trigger</a></code></p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Meoowww/Crirc/blob/c21010a9d9d3ef9067b5610ec4cb4ea389fdc508/src/crirc/binding/handler.cr#L20" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="on(command:String=&quot;PRIVMSG&quot;,source:HookRule=nil,arguments:HookRule=nil,message:HookRule=nil,doc:Tuple(String,String)?=nil,&hook:Hook)-instance-method">
+      <div class="signature">
+        
+        def <strong>on</strong>(command : String = <span class="s">&quot;PRIVMSG&quot;</span>, source : <a href="../../Crirc/Binding/Handler/HookRule.html">HookRule</a> = <span class="n">nil</span>, arguments : <a href="../../Crirc/Binding/Handler/HookRule.html">HookRule</a> = <span class="n">nil</span>, message : <a href="../../Crirc/Binding/Handler/HookRule.html">HookRule</a> = <span class="n">nil</span>, doc : Tuple(String, String)? = <span class="n">nil</span>, &hook : <a href="../../Crirc/Binding/Handler/Hook.html">Hook</a>)
+
+        <a class="method-permalink" href="#on(command:String=&quot;PRIVMSG&quot;,source:HookRule=nil,arguments:HookRule=nil,message:HookRule=nil,doc:Tuple(String,String)?=nil,&hook:Hook)-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Register a news Hook that is called when the incoming messages meet a set
+of conditions: command name (JOIN, PRIVMSG, ...), source, arguments, message.</p>
+
+<ul><li>command : Condition that match exactly with the command of the incomming message.</li><li>source : Condition that match with the source of the incomming message.</li><li>arguments : Condition that match with the arguments of the incomming message.</li><li>message : Condition that match with the message of the incomming message.</li><li>doc : Documentation lines (<code>{short, long}</code>)</li><li>hook : function to call if the conditions are met (with the parameters <code>message</code> and <code>match</code>).</li></ul>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Meoowww/Crirc/blob/c21010a9d9d3ef9067b5610ec4cb4ea389fdc508/src/crirc/binding/handler.cr#L40" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+
+</div>
+
+</body>
+</html>
